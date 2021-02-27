@@ -1,0 +1,363 @@
+// =============== Variables ===============
+
+// --------------- Defaults ---------------
+
+$default-color: #bebebe;
+$default-bg: #222;
+$default-dark-bg: #181818;
+$default-header-bg: #202020;
+$default-border: #404040;
+
+$item-color: (
+		"primary": #fff,
+		"secondary": #fff,
+		"success": #fff,
+		"danger": #fff,
+		"warning": #212529,
+		"info": #fff,
+		"light": #212529,
+		"dark": #fff,
+);
+
+$item-bg: (
+		"primary": #007bff,
+		"secondary": #6c757d,
+		"success": #28a745,
+		"danger": #dc3545,
+		"warning": #ffc107,
+		"info": #17a2b8,
+		"light": #6c757d,
+		"dark": #343a40,
+);
+
+$item-hover: (
+		"primary": #0069d9,
+		"secondary": #5a6268,
+		"success": #218838,
+		"danger": #c82333,
+		"warning": #e0a800,
+		"info": #138496,
+		"light": #e2e6ea,
+		"dark": #23272b,
+);
+
+$color-lighten: 10;
+
+// --------------- Customized ---------------
+
+$color: $default-color;
+$bg: $default-bg;
+
+$window-color: $default-color;
+$window-bg: $default-bg;
+$window-header-color: $default-color;
+$window-header-bg: $default-header-bg;
+$window-border: $default-border;
+
+$card-color: $default-color;
+$card-bg: $default-dark-bg;
+$card-header-color: $default-color;
+$card-header-bg: $default-header-bg;
+$card-hover-bg: $default-bg;
+$card-border: $default-border;
+
+$form-color: $default-color;
+$form-placeholder-color: #666;
+$form-bg: #171717;
+$form-hover-bg: #242424;
+$form-border: $default-border;
+
+$form-addon-color: $default-color;
+$form-addon-bg: $default-header-bg;
+
+@mixin darkmode {
+	color: $color;
+	background-color: $bg;
+
+	.bg-darkmode-dark {
+		background-color: #343a40 !important
+	}
+
+	.bg-darkmode-light {
+		background-color: #f8f9fa !important;
+	}
+
+	.bg-darkmode-black {
+		background-color: $bg !important;
+	}
+
+	// --------------- Typography ---------------
+
+	pre {
+		color: $color;
+	}
+
+	hr {
+		border-top-color: $default-border;
+	}
+
+	// --------------- Images ---------------
+
+	img.icon,
+	svg.icon {
+		filter: invert(1);
+	}
+
+	// --------------- Tables ---------------
+
+	.table {
+		color: $color;
+
+		th, td {
+			border-top-color: $default-border;
+		}
+
+		thead th, tbody + tbody {
+			border-bottom-color: $default-border;
+		}
+	}
+
+	.table-hover tbody tr:hover {
+		color: $color;
+	}
+
+	.table-bordered {
+		border-color: $default-border;
+
+		th, td {
+			border-color: $default-border;
+		}
+	}
+
+	// --------------- List Groups ---------------
+
+	.list-group-item {
+		color: $card-color;
+		background-color: $card-bg;
+		border-color: $card-border;
+
+		&.list-group-item-action:focus,
+		&.list-group-item-action:hover {
+			background-color: $card-hover-bg;
+		}
+	}
+
+	.list-group-item.active {
+		&, &:focus, &:hover {
+			color: map_get($item-color, "primary");
+			background-color: map_get($item-bg, "primary");
+			border-color: map_get($item-bg, "primary");
+		}
+	}
+
+	@each $name in map_keys($item-color) {
+		.list-group-item-#{$name} {
+			color: map_get($item-color, $name);
+			background-color: map_get($item-bg, $name);
+			border-color: map_get($item-bg, $name);
+
+			&.list-group-item-action:focus,
+			&.list-group-item-action:hover {
+				color: map_get($item-color, $name);
+				background-color: map_get($item-hover, $name);
+			}
+		}
+	}
+
+	// --------------- Buttons ---------------
+
+	.dropdown-menu {
+		background-color: $form-bg;
+		border-color: $form-border;
+	}
+
+	.dropdown-item:not(:disabled):not(.disabled) {
+		color: $form-color;
+	}
+
+	.dropdown-item:focus,
+	.dropdown-item:hover {
+		background-color: $form-hover-bg;
+	}
+
+	.dropdown-divider {
+		border-top-color: $form-border;
+	}
+
+	// --------------- Jumbotron ---------------
+
+	.jumbotron {
+		color: $card-color;
+		background-color: $card-bg;
+		border-color: $card-border;
+	}
+
+	// --------------- Cards ---------------
+
+	.card {
+		color: $card-color;
+		background-color: $card-bg;
+		border-color: $card-border;
+	}
+
+	.card-header,
+	.card-footer {
+		color: $card-header-color;
+		background-color: $card-header-bg;
+		border-top-color: $card-border;
+		border-bottom-color: $card-border;
+	}
+
+	// --------------- Forms ---------------
+
+	.form-control {
+		color: $form-color;
+		background-color: $form-bg;
+		border-color: $form-border;
+	}
+
+	.form-control-plaintext {
+		color: $form-color;
+	}
+
+	.custom-select {
+		color: $form-color;
+		background-color: $form-bg;
+		border-color: $form-border;
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e");
+	}
+
+	.custom-file-label {
+		color: $form-color;
+		background-color: $form-bg;
+		border-color: $form-border;
+
+		&:after {
+			color: $form-addon-color;
+			background-color: $form-addon-bg;
+		}
+	}
+
+	.input-group-text {
+		color: $form-addon-color;
+		background-color: $form-addon-bg;
+		border-color: $form-border;
+	}
+
+	.page-item .page-link {
+		border-color: $form-border;
+	}
+
+	.page-item.disabled .page-link {
+		background-color: $form-bg;
+		color: $form-color;
+	}
+
+	.page-item:not(.active) .page-link {
+		background-color: $form-bg;
+	}
+
+	.page-item:not(.active) .page-link:hover {
+		background-color: $form-hover-bg;
+	}
+
+	// --------------- Navs ---------------
+
+	.breadcrumb {
+		background-color: $form-bg;
+		border-color: $form-border;
+	}
+
+	.nav-tabs {
+		border-bottom-color: $form-border;
+
+		.nav-link:focus,
+		.nav-link:hover {
+			background-color: $form-hover-bg;
+			border-color: $form-border;
+		}
+
+		.nav-item.show .nav-link,
+		.nav-link.active {
+			color: $color;
+			background-color: $bg;
+			border-color: $form-border;
+			border-bottom-color: $bg;
+		}
+	}
+
+	.nav-tabs.card-header-tabs {
+		.nav-item.show .nav-link,
+		.nav-link.active {
+			background-color: $card-bg;
+			border-bottom-color: $card-bg;
+		}
+	}
+
+	// --------------- Popovers ---------------
+
+	.popover {
+		background-color: $window-bg;
+		border-color: $window-border;
+	}
+
+	.popover-body {
+		color: $color;
+	}
+
+	.popover-header {
+		background-color: $window-header-bg;
+		border-bottom-color: $window-border;
+	}
+
+	@each $pos in (top, right, bottom, left) {
+		.bs-popover-#{$pos},
+		.bs-popover-auto[x-placement^="#{$pos}"] {
+			& > .arrow::before {
+				border-#{$pos}-color: $window-border;
+			}
+
+			& > .arrow::after {
+				border-#{$pos}-color: $window-bg;
+			}
+		}
+	}
+
+	// --------------- Progress Bars --------------- */
+
+	.progress {
+		background-color: $form-bg;
+		border-color: $form-border;
+	}
+
+	// --------------- Modals ---------------
+
+	.close {
+		color: $color;
+		opacity: 1;
+	}
+
+	.modal-header,
+	.modal-footer {
+		color: $window-header-color;
+		background-color: $window-header-bg;
+		border-bottom-color: $window-border;
+		border-top-color: $window-border;
+	}
+
+	.modal-content {
+		color: $window-color;
+		background-color: $window-bg;
+		border-color: $card-border;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	[data-theme=auto] {
+		@include darkmode;
+	}
+}
+
+[data-theme=dark] {
+	@include darkmode;
+}
