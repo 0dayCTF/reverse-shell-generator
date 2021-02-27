@@ -54,11 +54,10 @@
             border: none !important;
             border-radius: 5px;
             box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
-            background-color: rgb(70, 70, 70) !important
+            background-color: rgb(70, 70, 70)
         }
 
         .custom-select {
-            /* background-color: rgb(169, 169, 172); */
             background-color: #646464;
             color: white;
         }
@@ -66,9 +65,9 @@
         .container {
             padding: 10px;
             border-radius: 20px;
-            box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+            box-shadow: 10px 0px 20px 0px rgba(0, 0, 0, 0.75);
+            max-height: 1000px;
         }
-
 
         h1,
         h2 {
@@ -78,12 +77,20 @@
 </head>
 
 <body>
-
+        <!-- TODO: Light/Dark Mode
+        <div class="custom-control custom-switch float-right">
+            <input id="mode-advanced-switch" type="checkbox" class="custom-control-input">
+            <label for="mode-advanced-switch" class="custom-control-label small pr-2 pb-1"
+                style="padding-top:2px" data-toggle="tooltip" title="Toggle Dark Mode">
+                Dark/Light Mode
+            </label>
+        </div> -->
     <div class="container d-flex flex-column vh-100">
 
         <!-- Header -->
         <div class="row justify-content-center mt-3 mb-5">
             <h2>Reverse Shell Generator</h2>
+
         </div>
 
         <div class="row">
@@ -152,7 +159,7 @@
 
                         <!-- Advanced switch -->
                         <div class="custom-control custom-switch float-right">
-                            <input id="step2-advanced-switch" type="checkbox" class="custom-control-input">
+                            <input id="step2-advanced-switch" type="checkbox" class="custom-control-input" checked>
                             <label for="step2-advanced-switch" class="custom-control-label small pr-2 pb-1"
                                 style="padding-top:2px" data-toggle="tooltip" title="Display advanced settings">
                                 Advanced
@@ -203,7 +210,7 @@
 
                 <!-- Advanced switch -->
                 <div class="custom-control custom-switch float-right">
-                    <input id="step3-advanced-switch" type="checkbox" class="custom-control-input">
+                    <input id="step3-advanced-switch" type="checkbox" class="custom-control-input" checked>
                     <label for="step3-advanced-switch" class="custom-control-label small pr-2 pb-1"
                         style="padding-top:2px" data-toggle="tooltip" title="Display advanced settings">
                         Advanced
@@ -376,7 +383,8 @@
                     $('#listener-selection').append($('<option>', {
                         text: type,
                         value: command,
-                        selected: i === 0
+                        selected: i === 0,
+                        class: 'listener-option',
                     }))
                 })
             },
@@ -490,21 +498,14 @@
         }
 
         /*
-         * Init
-         */
-        $('#step2-advanced-switch').prop('checked', true)
-        $('#step3-advanced-switch').prop('checked', true)
-
-        /*
          * Event handlers
          */
-        $('#ip, #port').on('input', rsg.update)
-        $('#listener-selection').on('change', rsg.updateListenerCommand)
-        $('#shell, #encoding').on('change', rsg.updateReverseShellCommand)
+        $('#shell, #encoding').on('change', rsg.updateReverseShellCommand);
 
         $('#inc-port').on('click', function () {
-            $('#port').val(rsg.getPort() + 1)
-            rsg.update()
+            $('#port').val(rsg.getPort() + 1);
+            rsg.update();
+            setLocalStorage(portInput, "port", "value");
         })
 
         $('#step2-advanced-switch, #step3-advanced-switch').on('change', rsg.updateSwitchStates)
@@ -518,6 +519,93 @@
             rsg.copyToClipboard($('#reverse-shell-command').text())
         })
 
+        /*
+         * LocalStorage setting/getting
+         */  
+        const listenerSelect = document.querySelector("#listener-selection");
+        const ipInput = document.querySelector("#ip");
+        const portInput = document.querySelector("#port");
+        const autoCopySwitch = document.querySelector("#auto-copy-switch");
+
+        /**
+         * Sets item to localStorage when user moves focus from element
+         * @param {Object} element - The element to get value from
+         * @param {String} key - Key of localStorage value
+         * @param {String} attribute - Attribute of element to set to localStorage value
+         */
+        const setLocalStorage = (element, key, attribute) => {
+           if (!element || typeof element !== "object") return;
+           localStorage.setItem(key, element[attribute]);
+        }
+
+        /**
+         * Prepopulates element if localStorage value exists
+         * @param {String} key - Key of localStorage value
+         * @param {Object} element - The element to apply value to
+         * @param {String} attribute - Attribute of element to apply localStorage value to
+         */
+        const prepopulateElement = (key, element, attribute, options = null) => {
+            if (localStorage.getItem(key)) {
+                // TODO: Use switch/case instead
+                if (element.type === "text") {
+                    element[attribute] = localStorage.getItem(key);
+                }
+
+                if (element.type === "checkbox") {
+                    const isChecked = (localStorage.getItem(key) !== 'false');
+                    element[attribute] = isChecked;
+                }
+
+                if (element.nodeName === "SELECT") {
+                    const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
+                    selectedItem.selected = true;
+                }
+            }
+        }
+
+        /*
+         * Prepopulating fields on load from localStorage
+         */
+        // TODO: async/await
+        setTimeout(() => {
+            const listenerOptions = listenerSelect.querySelectorAll(".listener-option");
+            prepopulateElement("listener", listenerSelect, "value", [...listenerOptions]);
+
+            rsg.updateListenerCommand();
+        }, 500);
+
+        prepopulateElement("ip", ipInput, "value");
+        prepopulateElement("port", portInput, "value");
+        prepopulateElement("auto-copy", autoCopySwitch, "checked");
+
+        /*
+         * Event listeners for setting localStorage values
+         */
+        ipInput.addEventListener("input", () => {
+            setLocalStorage(ipInput, "ip", "value");
+            rsg.update();
+        });
+
+        portInput.addEventListener("input", () => {
+            setLocalStorage(portInput, "port", "value");
+            rsg.update();
+        });
+
+        listenerSelect.addEventListener("change", () => {     
+            rsg.updateListenerCommand();
+
+            const listenerOptions = listenerSelect.querySelectorAll(".listener-option");
+            const selectedItem = [...listenerOptions].find(option => option.selected);
+            setLocalStorage(selectedItem, "listener", "value");
+        });
+
+        autoCopySwitch.addEventListener("change", () => {
+            setLocalStorage(autoCopySwitch, "auto-copy", "checked");
+        });
+
+        /*
+         * Init
+         */
         $(document).ready(function () {
             rsg.init()
             rsg.update()

