@@ -10,226 +10,18 @@
     <script src="assets/jquery-3.5.1.slim.min.js"></script>
     <script src="assets/popper-1.16.1.min.js"></script>
     <script src="assets/bootstrap-4.5.2.min.js"></script>
-    <link rel="stylesheet" href="css/dark-mode.css">
-
-    <style>
-        @-webkit-keyframes rainbow {
-            0% {
-                color: orange;
-            }
-
-            10% {
-                color: purple;
-            }
-
-            20% {
-                color: red;
-            }
-
-            30% {
-                color: CadetBlue;
-            }
-
-            40% {
-                color: yellow;
-            }
-
-            50% {
-                color: coral;
-            }
-
-            60% {
-                color: green;
-            }
-
-            70% {
-                color: cyan;
-            }
-
-            80% {
-                color: DeepPink;
-            }
-
-            90% {
-                color: DodgerBlue;
-            }
-
-            100% {
-                color: orange;
-            }
-        }
-
-        /* Internet Explorer */
-        @-ms-keyframes rainbow {
-            0% {
-                color: orange;
-            }
-
-            10% {
-                color: purple;
-            }
-
-            20% {
-                color: red;
-            }
-
-            30% {
-                color: CadetBlue;
-            }
-
-            40% {
-                color: yellow;
-            }
-
-            50% {
-                color: coral;
-            }
-
-            60% {
-                color: green;
-            }
-
-            70% {
-                color: cyan;
-            }
-
-            80% {
-                color: DeepPink;
-            }
-
-            90% {
-                color: DodgerBlue;
-            }
-
-            100% {
-                color: orange;
-            }
-        }
-
-        /* Standar Syntax */
-        @keyframes rainbow {
-            0% {
-                color: orange;
-            }
-
-            10% {
-                color: purple;
-            }
-
-            20% {
-                color: red;
-            }
-
-            30% {
-                color: CadetBlue;
-            }
-
-            40% {
-                color: yellow;
-            }
-
-            50% {
-                color: coral;
-            }
-
-            60% {
-                color: green;
-            }
-
-            70% {
-                color: cyan;
-            }
-
-            80% {
-                color: DeepPink;
-            }
-
-            90% {
-                color: DodgerBlue;
-            }
-
-            100% {
-                color: orange;
-            }
-        }
-
-        .prompt-sign {
-            position: absolute;
-            top: 25px;
-            left: 40px;
-            pointer-events: none;
-            font-size: 1em;
-        }
-
-        .highlighted-parameter {
-            color: #c0c0ba;
-            font-weight: bold;
-            font-size: 1em;
-        }
-
-        .highlighted-warning {
-            color: red;
-            font-weight: bold;
-        }
-
-        .custom-switch label {
-            cursor: pointer;
-            user-select: none;
-        }
-
-        _:-ms-fullscreen,
-        :root body {
-            /* IE11 */
-            overflow-y: scroll;
-        }
-
-        #listener-command {
-            border: none !important;
-            border-radius: 5px;
-            box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
-        }
-
-        #reverse-shell-command {
-            border: none !important;
-            border-radius: 5px;
-            box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
-            background-color: rgb(70, 70, 70)
-        }
-
-        .custom-select {
-            background-color: #646464;
-            color: white;
-        }
-
-        .container {
-            padding: 10px;
-            border-radius: 20px;
-            box-shadow: 10px 0px 20px 0px rgba(0, 0, 0, 0.75);
-            max-height: 1000px;
-        }
-
-        h1,
-        h2 {
-            text-align: center;
-        }
-
-        h1 {
-            color: rgba(100, 50, 255, .8);
-            font-family: 'ComicMono';
-            color: #212121;
-        }
-    </style>
+    <link rel="stylesheet" href="css/dark-mode.min.css">
+    <link rel="stylesheet" href="css/light-mode.min.css">
 </head>
 
 <body class="bg-black">
     <div class="container d-flex flex-column vh-100">
         <div class="custom-control custom-switch float-right">
-            <input id="darkSwitch" type="checkbox" class="custom-control-input">
-            <label for="darkSwitch" class="custom-control-label small pr-2 pb-1" style="padding-top:2px"
-                data-toggle="tooltip" title="Toggle Dark Mode">🌓
+            <input id="lightSwitch" type="checkbox" class="custom-control-input">
+            <label for="lightSwitch" class="custom-control-label small pr-2 pb-1" style="padding-top:2px"
+                data-toggle="tooltip" title="Toggle Light Mode">Light Mode 🌓
             </label>
         </div>
-        <script src="js/dark-mode-switch.min.js"></script>
 
         <!-- Header -->
         <div class="mb-auto row justify-content-center mt-3 mb-5">
@@ -239,7 +31,7 @@
 
         <div class="row">
 
-            <!-- Step 1 -->
+            <!-- Configuration -->
             <div class="col-12 col-md-6 mb-4">
                 <div class="card shadow h-100">
                     <div class="card-body">
@@ -294,17 +86,17 @@
                     </div>
                 </div>
             </div>
-            <!-- /Step 1 -->
+            <!-- /Configuration -->
 
-            <!-- Step 2 -->
+            <!-- Listener -->
             <div class="col-12 col-md-6 mb-4">
                 <div class="card shadow h-100">
                     <div class="card-body">
 
                         <!-- Advanced switch -->
                         <div class="custom-control custom-switch float-right">
-                            <input id="step2-advanced-switch" type="checkbox" class="custom-control-input" checked>
-                            <label for="step2-advanced-switch" class="custom-control-label small pr-2 pb-1"
+                            <input id="listener-advanced-switch" type="checkbox" class="custom-control-input" checked>
+                            <label for="listener-advanced-switch" class="custom-control-label small pr-2 pb-1"
                                 style="padding-top:2px" data-toggle="tooltip" title="Display advanced settings">
                                 Advanced
                             </label>
@@ -317,14 +109,14 @@
                             <!-- Command -->
                             <div class="row justify-content-center">
                                 <div class="col-auto position-relative" style="min-width: 300px">
-                                    <pre class="prompt-sign">$</pre>
+                                    <pre class="prompt-sign">🚀</pre>
                                     <pre id="listener-command" class="bg-dark border text-wrap text-break p-4 pl-5 mb-2"
                                         style="outline: none; font-size:1em;" contenteditable="true"></pre>
                                 </div>
                             </div>
 
                             <!-- Advanced section-->
-                            <form class="row justify-content-center collapse" id="step2-advanced">
+                            <form class="row justify-content-center collapse" id="listener-advanced">
                                 <label for="listener-selection" class="col-auto col-form-label">Type</label>
                                 <div class="col-auto">
                                     <select class="custom-select" id="listener-selection">
@@ -348,14 +140,14 @@
 
         </div>
 
-        <!-- Step 3 -->
+        <!-- Reverse Shell -->
         <div class="card shadow mb-5">
             <div class="card-body">
 
                 <!-- Advanced switch -->
                 <div class="custom-control custom-switch float-right">
-                    <input id="step3-advanced-switch" type="checkbox" class="custom-control-input" checked>
-                    <label for="step3-advanced-switch" class="custom-control-label small pr-2 pb-1"
+                    <input id="revshell-advanced-switch" type="checkbox" class="custom-control-input" checked>
+                    <label for="revshell-advanced-switch" class="custom-control-label small pr-2 pb-1"
                         style="padding-top:2px" data-toggle="tooltip" title="Display advanced settings">
                         Advanced
                     </label>
@@ -380,14 +172,14 @@
                             <!-- Command -->
                             <div class="row flex-grow-1">
                                 <div class="col position-relative">
-                                    <pre class="prompt-sign">$</pre>
+                                    <pre class="prompt-sign">🚀</pre>
                                     <pre id="reverse-shell-command" class="bg-dark border text-wrap text-break p-4 pl-5"
                                         style="outline: none; font-size:1em;" contenteditable="true"></pre>
                                 </div>
                             </div>
 
                             <!-- Advanced section -->
-                            <form class="row justify-content-center collapse" id="step3-advanced">
+                            <form class="row justify-content-center collapse" id="revshell-advanced">
 
                                 <!-- Shell -->
                                 <div class="col-auto mr-3">
@@ -443,7 +235,7 @@
 
             </div>
         </div>
-        <!-- /Step 3 -->
+        <!-- /Reverse Shell -->
 
     </div>
 
@@ -636,8 +428,10 @@
             },
 
             updateSwitchStates: function () {
-                $('#step2-advanced').collapse($('#step2-advanced-switch').prop('checked') ? 'show' : 'hide')
-                $('#step3-advanced').collapse($('#step3-advanced-switch').prop('checked') ? 'show' : 'hide')
+                $('#listener-advanced').collapse($('#listener-advanced-switch').prop('checked') ? 'show' :
+                    'hide')
+                $('#revshell-advanced').collapse($('#revshell-advanced-switch').prop('checked') ? 'show' :
+                    'hide')
             }
         }
 
@@ -652,7 +446,7 @@
             setLocalStorage(portInput, "port", "value");
         })
 
-        $('#step2-advanced-switch, #step3-advanced-switch').on('change', rsg.updateSwitchStates)
+        $('#listener-advanced-switch, #revshell-advanced-switch').on('change', rsg.updateSwitchStates)
         setInterval(rsg.updateSwitchStates, 500) // fix switch changes in rapid succession
 
         $('#copy-listener').on('click', function () {
@@ -761,6 +555,8 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
+
+    <script src="js/light-mode-switch.min.js"></script>
 
 </body>
 
