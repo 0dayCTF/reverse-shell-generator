@@ -3,17 +3,156 @@
 
 <head>
     <title>Reverse Shell Generator</title>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="favicon.ico" type="image/ico" sizes="16x16">
-
     <link href="assets/bootstrap.min.css" rel="stylesheet">
     <script src="assets/jquery-3.5.1.slim.min.js"></script>
     <script src="assets/popper-1.16.1.min.js"></script>
     <script src="assets/bootstrap-4.5.2.min.js"></script>
+    <link rel="stylesheet" href="css/dark-mode.css">
 
     <style>
+        @-webkit-keyframes rainbow {
+            0% {
+                color: orange;
+            }
+
+            10% {
+                color: purple;
+            }
+
+            20% {
+                color: red;
+            }
+
+            30% {
+                color: CadetBlue;
+            }
+
+            40% {
+                color: yellow;
+            }
+
+            50% {
+                color: coral;
+            }
+
+            60% {
+                color: green;
+            }
+
+            70% {
+                color: cyan;
+            }
+
+            80% {
+                color: DeepPink;
+            }
+
+            90% {
+                color: DodgerBlue;
+            }
+
+            100% {
+                color: orange;
+            }
+        }
+
+        /* Internet Explorer */
+        @-ms-keyframes rainbow {
+            0% {
+                color: orange;
+            }
+
+            10% {
+                color: purple;
+            }
+
+            20% {
+                color: red;
+            }
+
+            30% {
+                color: CadetBlue;
+            }
+
+            40% {
+                color: yellow;
+            }
+
+            50% {
+                color: coral;
+            }
+
+            60% {
+                color: green;
+            }
+
+            70% {
+                color: cyan;
+            }
+
+            80% {
+                color: DeepPink;
+            }
+
+            90% {
+                color: DodgerBlue;
+            }
+
+            100% {
+                color: orange;
+            }
+        }
+
+        /* Standar Syntax */
+        @keyframes rainbow {
+            0% {
+                color: orange;
+            }
+
+            10% {
+                color: purple;
+            }
+
+            20% {
+                color: red;
+            }
+
+            30% {
+                color: CadetBlue;
+            }
+
+            40% {
+                color: yellow;
+            }
+
+            50% {
+                color: coral;
+            }
+
+            60% {
+                color: green;
+            }
+
+            70% {
+                color: cyan;
+            }
+
+            80% {
+                color: DeepPink;
+            }
+
+            90% {
+                color: DodgerBlue;
+            }
+
+            100% {
+                color: orange;
+            }
+        }
+
         .prompt-sign {
             position: absolute;
             top: 25px;
@@ -73,23 +212,28 @@
         h2 {
             text-align: center;
         }
+
+        h1 {
+            color: rgba(100, 50, 255, .8);
+            font-family: 'ComicMono';
+            color: #212121;
+        }
     </style>
 </head>
 
-<body>
-        <!-- TODO: Light/Dark Mode
-        <div class="custom-control custom-switch float-right">
-            <input id="mode-advanced-switch" type="checkbox" class="custom-control-input">
-            <label for="mode-advanced-switch" class="custom-control-label small pr-2 pb-1"
-                style="padding-top:2px" data-toggle="tooltip" title="Toggle Dark Mode">
-                Dark/Light Mode
-            </label>
-        </div> -->
+<body class="bg-black">
     <div class="container d-flex flex-column vh-100">
+        <div class="custom-control custom-switch float-right">
+            <input id="darkSwitch" type="checkbox" class="custom-control-input">
+            <label for="darkSwitch" class="custom-control-label small pr-2 pb-1" style="padding-top:2px"
+                data-toggle="tooltip" title="Toggle Dark Mode">🌓
+            </label>
+        </div>
+        <script src="js/dark-mode-switch.min.js"></script>
 
         <!-- Header -->
-        <div class="row justify-content-center mt-3 mb-5">
-            <h2>Reverse Shell Generator</h2>
+        <div class="mb-auto row justify-content-center mt-3 mb-5">
+            <h2 class="rainbow">Reverse Shell Generator</h2>
 
         </div>
 
@@ -320,7 +464,7 @@
     </div>
 
     <!-- RSG data -->
-    <script src="data.js"></script>
+    <script src="js/data.js"></script>
 
     <!-- RSG logic -->
     <script>
@@ -521,7 +665,7 @@
 
         /*
          * LocalStorage setting/getting
-         */  
+         */
         const listenerSelect = document.querySelector("#listener-selection");
         const ipInput = document.querySelector("#ip");
         const portInput = document.querySelector("#port");
@@ -534,8 +678,8 @@
          * @param {String} attribute - Attribute of element to set to localStorage value
          */
         const setLocalStorage = (element, key, attribute) => {
-           if (!element || typeof element !== "object") return;
-           localStorage.setItem(key, element[attribute]);
+            if (!element || typeof element !== "object") return;
+            localStorage.setItem(key, element[attribute]);
         }
 
         /**
@@ -591,7 +735,7 @@
             rsg.update();
         });
 
-        listenerSelect.addEventListener("change", () => {     
+        listenerSelect.addEventListener("change", () => {
             rsg.updateListenerCommand();
 
             const listenerOptions = listenerSelect.querySelectorAll(".listener-option");

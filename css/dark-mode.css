@@ -1,0 +1,22 @@
+[data-theme="dark"] {
+    background-color: pink !important;
+}
+
+[data-theme="dark"] .bg-light {
+    background-color: #333 !important;
+}
+
+[data-theme="dark"] .bg-white {
+    background-color: #000 !important;
+}
+
+[data-theme="dark"] .rainbow {
+    font-family: 'Pacifico', cursive;
+    text-shadow: 2px 2px 4px #000000;
+    font-size:40px;
+    -webkit-animation: rainbow 5s infinite;
+    -ms-animation: rainbow 5s infinite;
+    animation: rainbow 5s infinite;
+    font-family: ComicMono;
+    src: url(ComicMono.ttf);
+}
