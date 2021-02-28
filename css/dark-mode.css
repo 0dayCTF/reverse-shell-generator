@@ -1,22 +1,62 @@
-[data-theme="dark"] {
-    background-color: pink !important;
+.prompt-sign {
+    position: absolute;
+    top: 25px;
+    left: 40px;
+    pointer-events: none;
+    font-size: 1em;
 }
 
-[data-theme="dark"] .bg-light {
-    background-color: #333 !important;
+.highlighted-parameter {
+    color: #c0c0ba;
+    font-weight: bold;
+    font-size: 1em;
 }
 
-[data-theme="dark"] .bg-white {
-    background-color: #000 !important;
+.highlighted-warning {
+    color: red;
+    font-weight: bold;
 }
 
-[data-theme="dark"] .rainbow {
-    font-family: 'Pacifico', cursive;
-    text-shadow: 2px 2px 4px #000000;
-    font-size:40px;
-    -webkit-animation: rainbow 5s infinite;
-    -ms-animation: rainbow 5s infinite;
-    animation: rainbow 5s infinite;
-    font-family: ComicMono;
-    src: url(ComicMono.ttf);
+.custom-switch label {
+    cursor: pointer;
+    user-select: none;
+}
+
+_:-ms-fullscreen,
+:root body {
+    /* IE11 */
+    overflow-y: scroll;
+}
+
+#listener-command {
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+}
+
+#reverse-shell-command {
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+    background-color: rgb(70, 70, 70);
+}
+
+.custom-select {
+    background-color: #646464;
+    color: white;
+}
+
+.container {
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 10px 0px 20px 0px rgba(0, 0, 0, 0.75);
+    max-height: 1000px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: white;
 }
