@@ -10,7 +10,8 @@ Hosted Reverse Shell generator with a ton of functionality great for CTFs
 - Dark and Light Modes
 
 ### Screenshot
-![image](https://user-images.githubusercontent.com/44453666/109403860-71d25b80-792e-11eb-81cb-d44b37ed7bbf.png)
+![image](https://user-images.githubusercontent.com/44453666/109582314-ef7f9e00-7acb-11eb-9c84-f8436e0022e9.png)
+
 
 ### Hosted Instance
 https://0day.exposed/reverseshell
