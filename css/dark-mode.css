@@ -39,8 +39,9 @@ _:-ms-fullscreen,
     border-radius: 5px;
     box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
     background-color: rgb(70, 70, 70);
-    white-space: pre-wrap !important;
+    max-height: 20rem;
 }
+
 
 .custom-select {
     background-color: #646464;
@@ -51,14 +52,18 @@ _:-ms-fullscreen,
     padding: 10px;
     border-radius: 20px;
     box-shadow: 10px 0px 20px 0px rgba(0, 0, 0, 0.75);
-    max-height: 1000px;
+    height: 100% !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
+h2 {
     color: white;
     text-align: center;
+}
+
+.pre-wrap {
+    white-space: pre-wrap;
+}
+
+.card-body {
+    max-height: 40rem;
 }

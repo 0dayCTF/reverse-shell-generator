@@ -82,6 +82,7 @@ Ain't got time for using CSS the right way. !important everything!
     box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
     background-color: rgb(45, 139, 135);
     color:#000;
+    max-height: 20rem;
 }
 
 [data-theme="light"] .custom-select {
@@ -129,6 +130,20 @@ color: #000 !important;
 
 [data-theme="light"] .custom-control-label {
 color: black;
+}
+
+[data-theme="light"] h2
+ {
+    color: white;
+    text-align: center;
+}
+
+[data-theme="light"] .pre-wrap {
+    white-space: pre-wrap;
+}
+
+[data-theme="light"] .card-body {
+    max-height: 40rem;
 }
 
 @font-face {
