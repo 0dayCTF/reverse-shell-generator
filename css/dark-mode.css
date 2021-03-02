@@ -39,6 +39,7 @@ _:-ms-fullscreen,
     border-radius: 5px;
     box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
     background-color: rgb(70, 70, 70);
+    white-space: pre-wrap !important;
 }
 
 .custom-select {
@@ -59,4 +60,5 @@ h3,
 h4,
 h5 {
     color: white;
+    text-align: center;
 }

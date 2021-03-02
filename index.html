@@ -208,6 +208,17 @@
                                     </div>
                                 </div>
 
+                               <!-- Upgrader -->
+                               <!-- <div class="col-auto mr-3">
+                                <div class="row">
+                                    <label for="upgrades" class="col-auto col-form-label">Upgrade</label>
+                                    <div class="col-auto">
+                                        <select id="upgrades" class="custom-select">
+                                          </select>
+                                    </div>
+                                </div>
+                            </div> -->
+
                             </form>
                             <!-- /Advanced section -->
 
@@ -310,6 +321,7 @@
                 rsg.initListenerSelection()
                 rsg.initShells()
                 rsg.initReverseShellSelection()
+                // rsg.initUpgrader()
             },
 
             initListenerSelection: function () {
@@ -334,6 +346,15 @@
                 })
             },
 
+            // initUpgrader: function () {
+            //     rsgData.upgrades.forEach(function (upgrades, i) {
+            //         $('#upgrades').append($('<option>', {
+            //             text: upgrades,
+            //             selected: i === 0
+            //         }))
+            //     })
+            // },
+            
             initReverseShellSelection: function () {
                 rsgData.reverseShellsCommands.forEach(function (reverseShellData) {
                     const type = reverseShellData[0]
@@ -426,7 +447,7 @@
 
                 $('#reverse-shell-command').html(command)
             },
-
+            
             updateSwitchStates: function () {
                 $('#listener-advanced').collapse($('#listener-advanced-switch').prop('checked') ? 'show' :
                     'hide')
