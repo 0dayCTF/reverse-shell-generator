@@ -15,3 +15,9 @@ Hosted Reverse Shell generator with a ton of functionality great for CTFs
 
 ### Hosted Instance
 https://0day.exposed/reverseshell
+
+### Credits
+- weibell
+- briskets
+- papadope
+- 0day
