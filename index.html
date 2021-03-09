@@ -522,15 +522,11 @@
                     element[attribute] = isChecked;
                 }
 
-                if (element.class === "SELECT") {
+                if (element.nodeName === "SELECT") {
                     const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
                     selectedItem.selected = true;
                 }
 
-                if (element.id === "shell") {
-                    const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
-                    selectedItem.selected = true;
-                }
             }
         }
 
