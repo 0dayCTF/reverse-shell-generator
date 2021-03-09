@@ -1,5 +1,6 @@
 # reverse-shell-generator 
-Hosted Reverse Shell generator with a ton of functionality great for CTFs [![Netlify Status](https://api.netlify.com/api/v1/badges/46dbabe0-23b7-42e6-b04b-e1769dc455ce/deploy-status)](https://app.netlify.com/sites/brave-swartz-5dcdab/deploys)
+Hosted Reverse Shell generator with a ton of functionality -- (great for CTFs)
+<br> [![Netlify Status](https://api.netlify.com/api/v1/badges/46dbabe0-23b7-42e6-b04b-e1769dc455ce/deploy-status)](https://app.netlify.com/sites/brave-swartz-5dcdab/deploys)
 
 ### Hosted Instance
 https://revshells.com
