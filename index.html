@@ -342,7 +342,8 @@
                 rsgData.shells.forEach(function (shell, i) {
                     $('#shell').append($('<option>', {
                         text: shell,
-                        selected: i === 0
+                        selected: i === 0,
+                        class: 'shell-option',
                     }))
                 })
             },
@@ -460,7 +461,11 @@
         /*
          * Event handlers
          */
-        $('#shell, #encoding').on('change', rsg.updateReverseShellCommand);
+        $('#shell, #encoding').on('change', function()
+        {
+            rsg.updateReverseShellCommand();
+            setLocalStorage(shellSelect, "shell", "value");
+        })
 
         $('#inc-port').on('click', function () {
             $('#port').val(rsg.getPort() + 1);
@@ -485,6 +490,7 @@
         const listenerSelect = document.querySelector("#listener-selection");
         const ipInput = document.querySelector("#ip");
         const portInput = document.querySelector("#port");
+        const shellSelect = document.querySelector("#shell");
         const autoCopySwitch = document.querySelector("#auto-copy-switch");
 
         /**
@@ -516,7 +522,12 @@
                     element[attribute] = isChecked;
                 }
 
-                if (element.nodeName === "SELECT") {
+                if (element.class === "SELECT") {
+                    const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
+                    selectedItem.selected = true;
+                }
+
+                if (element.id === "shell") {
                     const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
                     selectedItem.selected = true;
                 }
@@ -532,6 +543,13 @@
             prepopulateElement("listener", listenerSelect, "value", [...listenerOptions]);
 
             rsg.updateListenerCommand();
+        }, 500);
+
+        setTimeout(() => {
+            const shellOptions = shellSelect.querySelectorAll(".shell-option");
+            prepopulateElement("shell", shellSelect, "value", [...shellOptions]);
+
+            rsg.updateReverseShellCommand();
         }, 500);
 
         prepopulateElement("ip", ipInput, "value");
@@ -557,6 +575,14 @@
             const listenerOptions = listenerSelect.querySelectorAll(".listener-option");
             const selectedItem = [...listenerOptions].find(option => option.selected);
             setLocalStorage(selectedItem, "listener", "value");
+        });
+
+        shellSelect.addEventListener("change", () => {
+            rsg.updateReverseShellSelection();
+
+            const shellOptions = shellSelect.querySelectorAll(".shell-option");
+            const selectedItem = [...shellOptions].find(option => option.selected);
+            setLocalStorage(selectedItem, "shell", "value");
         });
 
         autoCopySwitch.addEventListener("change", () => {
