@@ -12,7 +12,8 @@
     <script src="assets/bootstrap-4.5.2.min.js"></script>
     <link rel="stylesheet" href="css/dark-mode.min.css">
     <link rel="stylesheet" href="css/light-mode.min.css">
-    <meta name="description" content="Hosted Reverse Shell generator with a ton of functionality. -- (Great for CTF's)"/>
+    <meta name="description"
+        content="Hosted Reverse Shell generator with a ton of functionality. -- (Great for CTFs)" />
 </head>
 
 <body class="bg-black">
@@ -32,14 +33,15 @@
 
         <div class="row">
 
-            <!-- Configuration -->
+            <!-- IP & Port Configuration -->
             <div class="col-12 col-md-6 mb-4">
                 <div class="card shadow h-100">
                     <div class="card-body">
                         <h5 class="card-title mb-0">
-                            <b>Configuration</b>
+                            <b>IP & Port</b>
                         </h5>
 
+                        <!-- card-text -->
                         <div class="card-text h-100">
                             <form class="row justify-content-center align-items-center h-100">
 
@@ -50,7 +52,7 @@
                                             <span id="ip-label" class="input-group-text">IP</span>
                                         </div>
                                         <input id="ip" type="text" class="form-control form-control-lg text-center px-1"
-                                            size="11" maxlength="15" placeholder="10.10.10.10" aria-label="IP"
+                                            size="12VW" maxlength="15" placeholder="10.10.10.10" aria-label="IP"
                                             aria-describedby="ip-label">
                                     </div>
                                 </div>
@@ -62,11 +64,11 @@
                                             <span id="port-label" class="input-group-text">Port</span>
                                         </div>
                                         <input id="port" type="text" class="form-control form-control-lg text-center"
-                                            size="4" maxlength="5" placeholder="9001" aria-label="Port"
+                                            size="4vw" maxlength="5" placeholder="9001" aria-label="Port"
                                             aria-describedby="port-label">
                                         <div class="input-group-append">
                                             <button id="inc-port" class="btn btn-secondary btn-sm" type="button"
-                                                style="font-size: 12px" data-toggle="tooltip"
+                                                style="font-size: 1rem" data-toggle="tooltip"
                                                 title="Increase port number by one">
                                                 +1
                                             </button>
@@ -87,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <!-- /Configuration -->
+            <!-- /IP & Port Configuration -->
 
             <!-- Listener -->
             <div class="col-12 col-md-6 mb-4">
@@ -109,7 +111,7 @@
 
                             <!-- Command -->
                             <div class="row justify-content-center">
-                                <div class="col-auto position-relative" style="min-width: 300px">
+                                <div class="col-auto position-relative" style="min-width: 15vw">
                                     <pre class="prompt-sign">🚀</pre>
                                     <pre id="listener-command" class="bg-dark border text-wrap text-break p-4 pl-5 mb-2"
                                         style="outline: none; font-size:1em;" contenteditable="true"></pre>
@@ -141,116 +143,187 @@
 
         </div>
 
-        <!-- Reverse Shell -->
-        <div class="card shadow mb-5">
-            <div class="card-body">
+        <!-- <ul class="nav nav-tabs">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">OS Type</a>
+              <select class="dropdown-menu" id="os-options">
+                <option class="dropdown-item active" value="linux">Linux</option>
+                <option class="dropdown-item" value="windows">Windows</option>
+                <option class="dropdown-item" value="mac">Mac</option>
+              </select>
+            </li>
+          </ul> -->
+        <div class="row">
+            <label for="os-options" class="col-auto col-form-label">OS</label>
+            <div class="col-auto">
+                <select id="os-options" class="custom-select">
+                    <option class="os-item" value="all">All</option>
+                    <option class="os-item" value="linux">Linux</option>
+                    <option class="os-item" value="windows">Windows</option>
+                    <option class="os-item" value="mac">Mac</option>
+                </select>
+            </div>
+        </div>
 
-                <!-- Advanced switch -->
-                <div class="custom-control custom-switch float-right">
-                    <input id="revshell-advanced-switch" type="checkbox" class="custom-control-input" checked>
-                    <label for="revshell-advanced-switch" class="custom-control-label small pr-2 pb-1"
-                        style="padding-top:2px" data-toggle="tooltip" title="Display advanced settings">
-                        Advanced
-                    </label>
-                </div>
+        <!-- NEW -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                    aria-selected="true">Reverse</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                    aria-controls="profile" aria-selected="false">Bind</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab"
+                    aria-controls="messages" aria-selected="false">MSFVenom</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
+                    aria-controls="settings" aria-selected="false">Settings</a>
+            </li>
+        </ul>
 
-                <h5 class="card-title"><b>Reverse shell</b></h5>
+        <div class="tab-content">
+            <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <!-- Reverse Shell -->
+                <div class="card shadow mb-5">
+                    <div class="card-body">
 
-                <div class="card-text mt-4">
-                    <div class="row">
-
-                        <!-- Left column: Reverse shell selection -->
-                        <div class="col-12 col-md-3">
-                            <div id="reverse-shell-selection" class="list-group overflow-auto"
-                                style="max-height: 520px">
-                                <!-- filled by init()-->
-                            </div>
+                        <!-- Show all advanced switch -->
+                        <div class="custom-control custom-switch float-right">
+                            <input id="revshell-advanced-switch" type="checkbox" class="custom-control-input" checked>
+                            <label for="revshell-advanced-switch" class="custom-control-label small pr-2 pb-1"
+                                style="padding-top:2px" data-toggle="tooltip" title="Display all advanced settings">
+                                Show all
+                            </label>
                         </div>
 
-                        <!-- Right column -->
-                        <div class="col-12 col-md-9 d-flex flex-column">
-
-                            <!-- Command -->
-                            <div class="row flex-grow-1">
-                                <div class="col position-relative">
-                                    <pre class="prompt-sign">🚀</pre>
-                                    <pre id="reverse-shell-command" class="bg-dark border pre-wrap text-break p-4 pl-5"
-                                        style="outline: none; font-size:1em;" contenteditable="true"></pre>
-                                </div>
-                            </div>
-
-                            <!-- Advanced section -->
-                            <form class="row justify-content-center collapse" id="revshell-advanced">
-
-                                <!-- Shell -->
-                                <div class="col-auto mr-3">
-                                    <div class="row">
-                                        <label for="shell" class="col-auto col-form-label">Shell</label>
-                                        <div class="col-auto">
-                                            <select id="shell" class="custom-select">
-                                                <!-- filled by init()-->
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Encoding -->
-                                <div class="col-auto ml-3">
-                                    <div class="form-group row">
-                                        <label for="encoding" class="col-auto col-form-label">Encoding</label>
-                                        <div class="col-auto">
-                                            <select id="encoding" class="custom-select">
-                                                <option selected>None</option>
-                                                <option>encodeURI</option>
-                                                <option>encodeURIComponent</option>
-                                                <option>Base64</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                               <!-- Upgrader -->
-                               <!-- <div class="col-auto mr-3">
-                                <div class="row">
-                                    <label for="upgrades" class="col-auto col-form-label">Upgrade</label>
-                                    <div class="col-auto">
-                                        <select id="upgrades" class="custom-select">
-                                          </select>
-                                    </div>
-                                </div>
-                            </div> -->
-
-                            </form>
-                            <!-- /Advanced section -->
-
-                            <div class="row justify-content-end mr-1">
-                                <!-- Auto-copy switch -->
-                                <div class="custom-control custom-switch mt-2 mr-3" data-toggle="tooltip"
-                                    title="Auto-copy to clipboard when selecting a new shell type">
-                                    <input id="auto-copy-switch" class="custom-control-input" type="checkbox" checked>
-                                    <label for="auto-copy-switch" class="custom-control-label small pr-2 pb-1"
-                                        style="padding-top: 2px">Auto-copy</label>
-                                </div>
-                                <!-- Copy button -->
-                                <button id="copy-reverse-shell-command" data-toggle="tooltip" title="Copy to clipboard"
-                                    type="button" class="btn btn-primary float-right">
-                                    Copy
-                                </button>
-                            </div>
-
+                        <!-- Upgrade Switch -->
+                        <div class="custom-control custom-switch float-right">
+                            <input id="upgrade-advanced-switch" type="checkbox"
+                                class="custom-control-input" checked>
+                            <label for="upgrade-advanced-switch"
+                                class="custom-control-label small pr-2 pb-1" style="padding-top:2px"
+                                data-toggle="tooltip" title="Display Upgrade Tips">
+                                Upgrade
+                            </label>
                         </div>
-                        <!-- /Right column -->
+                        <!-- /Upgrade Switch -->
+
+                        <!-- Encoder Switch -->
+                        <div class="custom-control custom-switch float-right">
+                            <input id="encoder-advanced-switch" type="checkbox"
+                                class="custom-control-input" checked>
+                            <label for="encoder-advanced-switch"
+                                class="custom-control-label small pr-2 pb-1" style="padding-top:2px"
+                                data-toggle="tooltip" title="Display Encode Options">
+                                Encode
+                            </label>
+                        </div>
+                        <!-- /Encoder Switch -->
+
+                        <h5 class="card-title float-left"><b>Type</b></h5>
+                        </br>
+
+                        <div class="card-text mt-4">
+                            <div class="row">
+
+                                <!-- Left column: Reverse shell selection -->
+                                <div class="col-12 col-md-3">
+                                    <div id="reverse-shell-selection" class="list-group overflow-auto"
+                                        style="max-height: 520px">
+                                        <!-- filled by init()-->
+                                    </div>
+                                </div>
+
+                                <!-- Right column -->
+                                <div class="col-12 col-md-9 d-flex flex-column">
+
+                                    <!-- Command -->
+                                    <div class="row flex-grow-1">
+                                        <div class="col position-relative">
+                                            <pre class="prompt-sign">🚀</pre>
+                                            <pre id="reverse-shell-command"
+                                                class="bg-dark border pre-wrap text-break p-4 pl-5"
+                                                style="outline: none; font-size:1em;" contenteditable="true"></pre>
+                                        </div>
+                                    </div>
+
+                                    <!-- Advanced section -->
+                                    <form class="row justify-content-center collapse" id="revshell-advanced">
+
+                                        <!-- Shell -->
+                                        <div class="col-auto mr-3">
+                                            <div class="row">
+                                                <label for="shell" class="col-auto col-form-label">Shell</label>
+                                                <div class="col-auto">
+                                                    <select id="shell" class="custom-select">
+                                                        <!-- filled by init()-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Encoding -->
+                                        <div class="col-auto ml-3">
+                                            <div class="form-group row">
+                                                <label for="encoding" class="col-auto col-form-label">Encoding</label>
+                                                <div class="col-auto">
+                                                    <select id="encoding" class="custom-select">
+                                                        <option selected>None</option>
+                                                        <option>encodeURI</option>
+                                                        <option>encodeURIComponent</option>
+                                                        <option>Base64</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                    <!-- /Advanced section -->
+
+                                    <div class="row justify-content-end mr-1">
+                                        <!-- Auto-copy switch -->
+                                        <div class="custom-control custom-switch mt-2 mr-3" data-toggle="tooltip"
+                                            title="Auto-copy to clipboard when selecting a new shell type">
+                                            <input id="auto-copy-switch" class="custom-control-input" type="checkbox"
+                                                checked>
+                                            <label for="auto-copy-switch" class="custom-control-label small pr-2 pb-1"
+                                                style="padding-top: 2px">Auto-copy</label>
+                                        </div>
+                                        <!-- Copy button -->
+                                        <button id="copy-reverse-shell-command" data-toggle="tooltip"
+                                            title="Copy to clipboard" type="button" class="btn btn-primary float-right">
+                                            Copy
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <!-- /Right column -->
+
+                            </div>
+                        </div>
+                        <!-- /card-text -->
 
                     </div>
                 </div>
-                <!-- /card-text -->
-
+                <!-- /Reverse Shell -->
             </div>
+
+            <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+            <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">...</div>
+            <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">...</div>
         </div>
-        <!-- /Reverse Shell -->
 
+        <script>
+            $(function () {
+                $('#myTab li:first-child a').tab('show')
+            })
+        </script>
+        <!-- /NEW -->
     </div>
-
 
     <!-- Toasts -->
     <div id="clipboard-toast" class="toast position-fixed text-white" data-delay="1200"
@@ -272,14 +345,40 @@
 
     <!-- RSG logic -->
     <script>
+        // Element selectors
+        const ipInput = document.querySelector("#ip");
+        const portInput = document.querySelector("#port");
+        const listenerSelect = document.querySelector("#listener-selection");
+        const shellSelect = document.querySelector("#shell");
+        const autoCopySwitch = document.querySelector("#auto-copy-switch");
+        const encodingSelect = document.querySelector('#encoding');
+        const listenerCommand = document.querySelector("#listener-command");
+        const reverseShellCommand = document.querySelector("#reverse-shell-command");
+
+        document.querySelector("#os-options").addEventListener("change", (event) => {
+            const selectedOS = event.target.value;
+            const data = rsgData.commands;
+
+            const filteredItems = data.filter(item => {
+                if (selectedOS !== "all") {
+                    return item.meta.includes(selectedOS)
+                } else {
+                    return data;
+                }
+            });
+
+            document.querySelector("#reverse-shell-selection").innerHTML = "";
+            rsg.initReverseShellSelection(filteredItems);
+        });
+
         const rsg = {
             currentCommandType: 'Bash -i',
 
-            copyToClipboard: function (text) {
-                if (navigator.clipboard && navigator.clipboard.writeText) {
+            copyToClipboard: (text) => {
+                if (navigator?.clipboard?.writeText) {
                     navigator.clipboard.writeText(text)
                     $('#clipboard-toast').toast('show')
-                } else if (window.clipboardData && window.clipboardData.setData) {
+                } else if (window?.clipboardData?.setData) {
                     window.clipboardData.setData('Text', text);
                     $('#clipboard-toast').toast('show')
                 } else {
@@ -287,151 +386,151 @@
                 }
             },
 
-            escapeHTML: function (text) {
-                return String(text).replace(/</, '&lt;').replace(/>/, '&gt;')
-            },
+            escapeHTML: (text) => String(text).replace(/</, '&lt;').replace(/>/, '&gt;'),
 
-            getIP: function () {
-                return $('#ip').val() || $('#ip').attr('placeholder')
-            },
+            getIP: () => ipInput.value || ipInput.getAttribute('placeholder'),
 
-            getPort: function () {
-                return Number($('#port').val() || $('#port').attr('placeholder'))
-            },
+            getPort: () => Number(portInput.value || portInput.getAttribute('placeholder')),
 
-            getReverseShellCommand: function () {
-                const reverseShellData = rsgData.reverseShellsCommands.filter(function (reverseShellData) {
-                    return reverseShellData[0] === rsg.currentCommandType
-                })[0]
+            getReverseShellCommand: () => {
+                const reverseShellData = rsgData.reverseShellsCommands.filter((reverseShellData) => reverseShellData[0] === rsg.currentCommandType)[0];
                 return reverseShellData[1]
             },
 
-            highlightParameters: function (text, encoder) {
-                const parameters = ['{ip}', '{port}', '{shell}', encodeURI('{ip}'), encodeURI('{port}'),
-                    encodeURI('{shell}')
-                ]
-                parameters.forEach(function (param) {
+            highlightParameters: (text, encoder) => {
+                const parameters = ['{ip}', '{port}', '{shell}', encodeURI('{ip}'), encodeURI('{port}'), encodeURI('{shell}')];
+
+                parameters.forEach((param) => {
                     if (encoder) param = encoder(param)
-                    text = text.replace(param, '<span class="highlighted-parameter">' + param +
-                        '</span>')
+                    text = text.replace(param, `<span class="highlighted-parameter">${param}</span>`)
                 })
                 return text
             },
 
-            init: function () {
+            init: () => {
                 rsg.initListenerSelection()
                 rsg.initShells()
                 rsg.initReverseShellSelection()
                 // rsg.initUpgrader()
             },
 
-            initListenerSelection: function () {
-                rsgData.listenerCommands.forEach(function (listenerData, i) {
-                    const type = listenerData[0],
-                        command = listenerData[1]
-                    $('#listener-selection').append($('<option>', {
-                        text: type,
-                        value: command,
-                        selected: i === 0,
-                        class: 'listener-option',
-                    }))
+            initListenerSelection: () => {
+                rsgData.listenerCommands.forEach((listenerData, i) => {
+                    const type = listenerData[0];
+                    const command = listenerData[1];
+
+                    const option = document.createElement("option");
+
+                    option.value = command;
+                    option.selected = i === 0;
+                    option.classList.add("listener-option");
+                    option.innerText = type;
+
+                    listenerSelect.appendChild(option);
                 })
             },
 
-            initShells: function () {
-                rsgData.shells.forEach(function (shell, i) {
-                    $('#shell').append($('<option>', {
-                        text: shell,
-                        selected: i === 0,
-                        class: 'shell-option',
-                    }))
+            initShells: () => {
+                rsgData.shells.forEach((shell, i) => {
+                    const option = document.createElement("option");
+
+                    option.selected = i === 0;
+                    option.classList.add("shell-option");
+                    option.innerText = shell;
+
+                    shellSelect.appendChild(option);
                 })
             },
 
-            // initUpgrader: function () {
-            //     rsgData.upgrades.forEach(function (upgrades, i) {
-            //         $('#upgrades').append($('<option>', {
-            //             text: upgrades,
-            //             selected: i === 0
-            //         }))
+            // initUpgrader: () => {
+            //     rsgData.upgrade.forEach((upgrade, i) => {
+            //         const option = document.createElement("option");
+
+            //         option.selected = i === 0;
+            //         option.innerText = upgrade;
+
+            //         document.querySelector('#upgrade').appendChild(option);
             //     })
             // },
-            
-            initReverseShellSelection: function () {
-                rsgData.reverseShellsCommands.forEach(function (reverseShellData) {
-                    const type = reverseShellData[0]
-                    const selectionEntry = $('<a>', {
-                        href: '#',
-                        text: type,
-                        'class': 'list-group-item',
-                        click: function (event) {
-                            rsg.currentCommandType = type
-                            rsg.updateReverseShellSelection()
-                            rsg.updateReverseShellCommand()
-                            if ($('#auto-copy-switch').prop('checked')) {
-                                rsg.copyToClipboard($('#reverse-shell-command').text())
-                            }
-                            event.preventDefault()
-                        }
-                    })
-                    setTimeout(function () { // fix strange IE behavior
-                        selectionEntry.addClass('list-group-item-action')
-                    }, 0)
 
-                    $('#reverse-shell-selection').append(selectionEntry)
+            initReverseShellSelection: (items = rsgData.commands) => {
+                items.map((item, index) => {
+                    const { name, command } = item;
+
+                    const selectionButton = document.createElement("button");
+
+                    if (index === 0) {
+                        selectionButton.classList.add("active");
+                        rsg.currentCommandType = name;
+                        rsg.updateReverseShellCommand();
+                    }
+
+                    const clickEvent = () => {
+                        rsg.currentCommandType = name;
+                        rsg.updateReverseShellSelection();
+                        rsg.updateReverseShellCommand();
+
+                        if (document.querySelector('#auto-copy-switch').checked) {
+                            rsg.copyToClipboard(reverseShellCommand.innerText)
+                        }
+                    }
+
+                    selectionButton.innerText = name;
+                    selectionButton.classList.add("list-group-item", "list-group-item-action");
+                    selectionButton.addEventListener("click", clickEvent);
+
+                    document.querySelector("#reverse-shell-selection").appendChild(selectionButton);
                 })
             },
 
-            insertParameters: function (command, encoder) {
+            insertParameters: (command, encoder) => {
                 return command
                     .replace(encoder('{ip}'), rsg.escapeHTML(encoder(rsg.getIP())))
                     .replace(encoder('{port}'), encoder(String(rsg.getPort())))
-                    .replace(encoder('{shell}'), encoder($('#shell').val()))
+                    .replace(encoder('{shell}'), encoder(shellSelect.value))
             },
 
-            update: function () {
+            update: () => {
                 rsg.updateListenerCommand()
                 rsg.updateReverseShellSelection()
                 rsg.updateReverseShellCommand()
             },
 
-            updateListenerCommand: function () {
-                let command = $('#listener-selection').val()
+            updateListenerCommand: () => {
+                const privilegeWarning = document.querySelector("#port-privileges-warning");
+                let command = listenerSelect.value;
                 command = rsg.highlightParameters(command)
                 command = command.replace('{port}', rsg.getPort())
 
                 if (rsg.getPort() < 1024) {
-                    $('#port-privileges-warning').css('visibility', 'visible')
-                    command = '<span class="highlighted-warning">sudo</span> ' + command
+                    privilegeWarning.style.visibility = "visible";
+                    command = `<span class="highlighted-warning">sudo</span> ${command}`
                 } else {
-                    $('#port-privileges-warning').css('visibility', 'hidden')
+                    privilegeWarning.style.visibility = "hidden";
                 }
 
-                $('#listener-command').html(command)
+                listenerCommand.innerHTML = command;
             },
 
-            updateReverseShellSelection: function () {
-                console.log(rsg.currentCommandType)
-                $('.list-group-item.active').removeClass('active')
-                $('.list-group-item').filter(function () {
-                    return $(this).text() === rsg.currentCommandType
-                }).addClass('active')
+            updateReverseShellSelection: () => {
+                document.querySelector(".list-group-item.active")?.classList.remove("active");
+                const elements = Array.from(document.querySelectorAll(".list-group-item"));
+                const selectedElement = elements.find((item) => item.innerText === rsg.currentCommandType);
+                selectedElement?.classList.add("active");
             },
 
-            updateReverseShellCommand: function () {
+            updateReverseShellCommand: () => {
                 let command
 
                 if (rsg.currentCommandType === 'PowerShell #3 (Base64)') {
-                    const encoder = function (text) {
-                        return text
-                    }
+                    const encoder = (text) => text;
                     const payload = rsg.insertParameters(rsgData.specialCommands['PowerShell payload'], encoder)
                     command = "powershell -e " + btoa(payload)
                 } else {
                     command = rsg.getReverseShellCommand()
                 }
 
-                const encoding = $('#encoding').val()
+                const encoding = encodingSelect.value;
                 if (encoding === 'Base64') {
                     command = btoa(command)
                 } else {
@@ -447,10 +546,10 @@
                     )
                 }
 
-                $('#reverse-shell-command').html(command)
+                reverseShellCommand.innerHTML = command;
             },
-            
-            updateSwitchStates: function () {
+
+            updateSwitchStates: () => {
                 $('#listener-advanced').collapse($('#listener-advanced-switch').prop('checked') ? 'show' :
                     'hide')
                 $('#revshell-advanced').collapse($('#revshell-advanced-switch').prop('checked') ? 'show' :
@@ -459,39 +558,44 @@
         }
 
         /*
-         * Event handlers
+         * Init
          */
-        $('#shell, #encoding').on('change', function()
-        {
+        rsg.init();
+        rsg.update();
+
+        /*
+         * Event handlers/functions
+         */
+        const dropdownUpdate = () => {
             rsg.updateReverseShellCommand();
             setLocalStorage(shellSelect, "shell", "value");
-        })
+        }
 
-        $('#inc-port').on('click', function () {
-            $('#port').val(rsg.getPort() + 1);
+         shellSelect.addEventListener("change", dropdownUpdate);
+         encodingSelect.addEventListener("change", dropdownUpdate);
+
+        document.querySelector('#inc-port').addEventListener('click', () => {
+            portInput.val(rsg.getPort() + 1);
             rsg.update();
             setLocalStorage(portInput, "port", "value");
         })
 
-        $('#listener-advanced-switch, #revshell-advanced-switch').on('change', rsg.updateSwitchStates)
+        document.querySelector('#listener-advanced-switch').addEventListener('change', rsg.updateSwitchStates);
+        document.querySelector('#revshell-advanced-switch').addEventListener('change', rsg.updateSwitchStates);
+
         setInterval(rsg.updateSwitchStates, 500) // fix switch changes in rapid succession
 
-        $('#copy-listener').on('click', function () {
-            rsg.copyToClipboard($('#listener-command').text())
+        document.querySelector('#copy-listener').addEventListener('click', () => {
+            rsg.copyToClipboard(listenerCommand.innerText)
         })
 
-        $('#copy-reverse-shell-command').on('click', function () {
-            rsg.copyToClipboard($('#reverse-shell-command').text())
+        document.querySelector('#copy-reverse-shell-command').addEventListener('click', () => {
+            rsg.copyToClipboard(reverseShellCommand.innerText)
         })
 
         /*
          * LocalStorage setting/getting
          */
-        const listenerSelect = document.querySelector("#listener-selection");
-        const ipInput = document.querySelector("#ip");
-        const portInput = document.querySelector("#port");
-        const shellSelect = document.querySelector("#shell");
-        const autoCopySwitch = document.querySelector("#auto-copy-switch");
 
         /**
          * Sets item to localStorage when user moves focus from element
@@ -585,19 +689,16 @@
             setLocalStorage(autoCopySwitch, "auto-copy", "checked");
         });
 
-        /*
-         * Init
-         */
-        $(document).ready(function () {
-            rsg.init()
-            rsg.update()
-        })
 
 
         // Popper tooltips
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        })
+        });
+
+
+        // TODO: add a random fifo for netcat mkfifo
+        let randomId = Math.random().toString(36).substring(2,4);
     </script>
 
     <script src="js/light-mode-switch.min.js"></script>

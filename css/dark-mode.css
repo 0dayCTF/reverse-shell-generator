@@ -67,3 +67,9 @@ h2 {
 .card-body {
     max-height: 40rem;
 }
+
+.list-group-item.active,
+.list-group-item-action:focus,
+.list-group-item-action:hover {
+    background-color: #375a7f;
+}
