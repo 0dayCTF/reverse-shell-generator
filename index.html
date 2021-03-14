@@ -374,7 +374,7 @@
 
         document.querySelector("#os-options").addEventListener("change", (event) => {
             const selectedOS = event.target.value;
-            const data = rsgData.commands;
+            const data = rsgData.reverseShellCommands;
 
             const filteredItems = data.filter(item => {
                 if (selectedOS !== "all") {
@@ -410,8 +410,8 @@
             getPort: () => Number(portInput.value || portInput.getAttribute('placeholder')),
 
             getReverseShellCommand: () => {
-                const reverseShellData = rsgData.reverseShellsCommands.filter((reverseShellData) => reverseShellData[0] === rsg.currentCommandType)[0];
-                return reverseShellData[1]
+                const reverseShellData = rsgData.reverseShellCommands.find((item) => item.name === rsg.currentCommandType);
+                return reverseShellData.command;
             },
 
             highlightParameters: (text, encoder) => {
@@ -470,7 +470,7 @@
             //     })
             // },
 
-            initReverseShellSelection: (items = rsgData.commands) => {
+            initReverseShellSelection: (items = rsgData.reverseShellCommands) => {
                 items.map((item, index) => {
                     const { name, command } = item;
 
@@ -592,7 +592,7 @@
          encodingSelect.addEventListener("change", dropdownUpdate);
 
         document.querySelector('#inc-port').addEventListener('click', () => {
-            portInput.val(rsg.getPort() + 1);
+            portInput.value = rsg.getPort() + 1;
             rsg.update();
             setLocalStorage(portInput, "port", "value");
         })
