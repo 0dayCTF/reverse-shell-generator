@@ -208,7 +208,7 @@
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#reverse" role="tab"
+                <a class="nav-link active" id="reverse-tab" data-toggle="tab" href="#reverse" role="tab"
                     aria-controls="reverse" aria-selected="true">Reverse</a>
             </li>
             <li class="nav-item">
@@ -480,46 +480,83 @@
         const bindShellCommand = document.querySelector("#bind-shell-command");
         const msfVenomCommand = document.querySelector("#msfvenom-command");
 
+        const FilterType = {
+            'All': 'all',
+            'Windows': 'windows',
+            'Linux': 'linux',
+            'Mac': 'mac'
+        };
+
         document.querySelector("#os-options").addEventListener("change", (event) => {
             const selectedOS = event.target.value;
-            const data = rsgData.reverseShellCommands;
-
-            const filteredItems = data.filter(item => {
-                if (selectedOS !== "all") {
-                    return item.meta.includes(selectedOS)
-                }
-                else {
-                    return data;
-                }
+            rsg.setState({
+                filter: selectedOS,
             });
-
-            document.querySelector("#reverse-shell-selection").innerHTML = "";
-            rsg.initReverseShellSelection(filteredItems);
         });
+
+        document.querySelector("#reverse-tab").addEventListener("click", () => {
+            rsg.setState({
+                commandType: CommandType.ReverseShell
+            });
+        })
+
+        document.querySelector("#bind-tab").addEventListener("click", () => {
+            rsg.setState({
+                commandType: CommandType.BindShell
+            });
+        })
 
         document.querySelector("#bind-tab").addEventListener("click", () => {
             document.querySelector("#bind-shell-selection").innerHTML = "";
-            rsg.initBindSelection();
+            rsg.setState({
+                commandType: CommandType.BindShell
+            });
         })
 
         document.querySelector("#msfvenom-tab").addEventListener("click", () => {
             document.querySelector("#msfvenom-selection").innerHTML = "";
-            rsg.initMsfVenomSelection();
-        })
+            rsg.setState({
+                commandType: CommandType.MSFVenom
+            });
+        });
+
+        const filterCommandData = function (data, { commandType, filter }) {
+            return data.filter(item => {
+                if (!item.meta.includes(commandType)) {
+                    return false;
+                }
+
+                if (!filter) {
+                    return true;
+                }
+
+                if (filter === FilterType.All) {
+                    return true;
+                }
+
+                return item.meta.includes(filter);
+            });
+        }
 
         const rsg = {
-            currentCommandType: 'Bash -i',
+            selectedValues: {
+                [CommandType.ReverseShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.ReverseShell })[0].name,
+                [CommandType.BindShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.BindShell })[0].name,
+                [CommandType.MSFVenom]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.MSFVenom })[0].name,
+            },
+            commandType: CommandType.ReverseShell,
+            filter: FilterType.All,
 
             copyToClipboard: (text) => {
-                if (navigator ?.clipboard ?.writeText) {
-                    navigator.clipboard.writeText(text)
-                    $('#clipboard-toast').toast('show')
-                } else if (window ?.clipboardData ?.setData) {
-                    window.clipboardData.setData('Text', text);
-                    $('#clipboard-toast').toast('show')
-                } else {
-                    $('#clipboard-failure-toast').toast('show')
-                }
+                // if (navigator ?.clipboard ?.writeText) {
+                //     navigator.clipboard.writeText(text)
+                //     $('#clipboard-toast').toast('show')
+                // } else if (window ?.clipboardData ?.setData) {
+                //     window.clipboardData.setData('Text', text);
+                //     $('#clipboard-toast').toast('show')
+                // } else {
+                //     $('#clipboard-failure-toast').toast('show')
+                // }
             },
 
             escapeHTML: (text) => String(text).replace(/</, '&lt;').replace(/>/, '&gt;'),
@@ -528,21 +565,12 @@
 
             getPort: () => Number(portInput.value || portInput.getAttribute('placeholder')),
 
+            getSelectedCommandName: () => {
+                return rsg.selectedValues[rsg.commandType];
+            },
+
             getReverseShellCommand: () => {
-                const reverseShellData = rsgData.reverseShellCommands.find((item) => item.name === rsg
-                    .currentCommandType);
-                return reverseShellData.command;
-            },
-
-            getbindShellCommand: () => {
-                const reverseShellData = rsgData.bindShellCommands.find((item) => item.name === rsg
-                    .currentCommandType);
-                return reverseShellData.command;
-            },
-
-            getMsfVenomCommand: () => {
-                const reverseShellData = rsgData.msfvenomShellCommands.find((item) => item.name === rsg
-                    .currentCommandType);
+                const reverseShellData = rsgData.reverseShellCommands.find((item) => item.name === rsg.getSelectedCommandName());
                 return reverseShellData.command;
             },
 
@@ -561,7 +589,6 @@
             init: () => {
                 rsg.initListenerSelection()
                 rsg.initShells()
-                rsg.initReverseShellSelection()
             },
 
             initListenerSelection: () => {
@@ -592,103 +619,16 @@
                 })
             },
 
-            initReverseShellSelection: (items = rsgData.reverseShellCommands) => {
-                items.map((item, index) => {
-                    const {
-                        name,
-                        command
-                    } = item;
+            // Updates the rsg state, and forces a re-render
+            setState: ({ filter, commandType } = {}) => {
+                if (filter) {
+                    rsg.filter = filter;
+                }
+                if (commandType) {
+                    rsg.commandType = commandType;
+                }
 
-                    const selectionButton = document.createElement("button");
-
-                    if (index === 0) {
-                        selectionButton.classList.add("active");
-                        rsg.currentCommandType = name;
-                        rsg.updateReverseShellCommand();
-                    }
-
-                    const clickEvent = () => {
-                        rsg.currentCommandType = name;
-                        rsg.updateReverseShellSelection();
-                        rsg.updateReverseShellCommand();
-
-                        if (document.querySelector('#auto-copy-switch').checked) {
-                            rsg.copyToClipboard(reverseShellCommand.innerText)
-                        }
-                    }
-
-                    selectionButton.innerText = name;
-                    selectionButton.classList.add("list-group-item", "list-group-item-action");
-                    selectionButton.addEventListener("click", clickEvent);
-
-                    document.querySelector("#reverse-shell-selection").appendChild(selectionButton);
-                })
-            },
-
-            initBindSelection: (items = rsgData.bindShellCommands) => {
-                items.map((item, index) => {
-                    const {
-                        name,
-                        command
-                    } = item;
-
-                    const selectionButton = document.createElement("button");
-
-                    if (index === 0) {
-                        selectionButton.classList.add("active");
-                        rsg.currentCommandType = name;
-                        rsg.updatebindShellCommand();
-                    }
-
-                    const clickEvent = () => {
-                        rsg.currentCommandType = name;
-                        // rsg.updateReverseShellSelection();
-                        rsg.updatebindShellCommand();
-
-                        if (document.querySelector('#auto-copy-switch').checked) {
-                            rsg.copyToClipboard(bindShellCommand.innerText)
-                        }
-                    }
-
-                    selectionButton.innerText = name;
-                    selectionButton.classList.add("list-group-item", "list-group-item-action");
-                    selectionButton.addEventListener("click", clickEvent);
-
-                    document.querySelector("#bind-shell-selection").appendChild(selectionButton);
-                })
-            },
-
-            initMsfVenomSelection: (items = rsgData.msfvenomShellCommands) => {
-                items.map((item, index) => {
-                    const {
-                        name,
-                        command
-                    } = item;
-
-                    const selectionButton = document.createElement("button");
-
-                    if (index === 0) {
-                        selectionButton.classList.add("active");
-                        rsg.currentCommandType = name;
-                        rsg.updateMsfVenomCommand();
-                    }
-
-                    const clickEvent = () => {
-                        rsg.currentCommandType = name;
-                        // rsg.updateReverseShellSelection();
-                        rsg.updateMsfVenomCommand();
-
-                        if (document.querySelector('#auto-copy-switch').checked) {
-                            rsg.copyToClipboard(msfVenomCommand.innerText)
-                        }
-                    }
-
-                    selectionButton.innerText = name;
-                    selectionButton.classList.add("list-group-item", "list-group-item-action");
-                    selectionButton.addEventListener("click", clickEvent);
-
-                    document.querySelector("#msfvenom-selection").appendChild(selectionButton);
-                })
+                rsg.update();
             },
 
             insertParameters: (command, encoder) => {
@@ -700,8 +640,58 @@
 
             update: () => {
                 rsg.updateListenerCommand()
-                rsg.updateReverseShellSelection()
+                rsg.updateTabList()
                 rsg.updateReverseShellCommand()
+            },
+
+            updateTabList: () => {
+                const data = rsgData.reverseShellCommands;
+                const filteredItems = filterCommandData(
+                    data,
+                    {
+                        filter: rsg.filter,
+                        commandType: rsg.commandType
+                    }
+                );
+
+                debugger;
+
+                const documentFragment = document.createDocumentFragment()
+                filteredItems.forEach((item, index) => {
+                    const {
+                        name,
+                        command
+                    } = item;
+
+                    const selectionButton = document.createElement("button");
+
+                    if (rsg.getSelectedCommandName() === item.name) {
+                        selectionButton.classList.add("active");
+                    }
+
+                    const clickEvent = () => {
+                        rsg.selectedValues[rsg.commandType] = name;
+                        rsg.update();
+
+                        if (document.querySelector('#auto-copy-switch').checked) {
+                            rsg.copyToClipboard(reverseShellCommand.innerText)
+                        }
+                    }
+
+                    selectionButton.innerText = name;
+                    selectionButton.classList.add("list-group-item", "list-group-item-action");
+                    selectionButton.addEventListener("click", clickEvent);
+
+                    documentFragment.appendChild(selectionButton);
+                })
+
+                const listTargets = {
+                    [CommandType.ReverseShell]: '#reverse-shell-selection',
+                    [CommandType.BindShell]: '#bind-shell-selection',
+                    [CommandType.MSFVenom]: '#msfvenom-selection'
+                };
+                const listTarget = listTargets[rsg.commandType];
+                document.querySelector(listTarget).replaceChildren(documentFragment)
             },
 
             updateListenerCommand: () => {
@@ -723,14 +713,14 @@
             updateReverseShellSelection: () => {
                 document.querySelector(".list-group-item.active") ?.classList.remove("active");
                 const elements = Array.from(document.querySelectorAll(".list-group-item"));
-                const selectedElement = elements.find((item) => item.innerText === rsg.currentCommandType);
-                selectedElement ?.classList.add("active");
+                const selectedElement = elements.find((item) => item.innerText === rsg.currentCommandName);
+                selectedElement?.classList.add("active");
             },
 
             updateReverseShellCommand: () => {
                 let command
 
-                if (rsg.currentCommandType === 'PowerShell #3 (Base64)') {
+                if (rsg.getSelectedCommandName() === 'PowerShell #3 (Base64)') {
                     const encoder = (text) => text;
                     const payload = rsg.insertParameters(rsgData.specialCommands['PowerShell payload'], encoder)
                     command = "powershell -e " + btoa(payload)
@@ -738,35 +728,7 @@
                     command = rsg.getReverseShellCommand()
                 }
 
-                const encoding = encodingSelect.value;
-                if (encoding === 'Base64') {
-                    command = btoa(command)
-                } else {
-                    function encoder(string) {
-                        return (encoding === 'encodeURI' || encoding === 'encodeURIComponent') ? window[
-                            encoding](string) : string
-                    }
-
-                    command = rsg.insertParameters(
-                        rsg.highlightParameters(
-                            encoder(command), encoder),
-                        encoder
-                    )
-                }
-
-                reverseShellCommand.innerHTML = command;
-            },
-
-            updatebindShellCommand: () => {
-                let command
-
-                if (rsg.currentCommandType === 'PowerShell #3 (Base64)') {
-                    const encoder = (text) => text;
-                    const payload = rsg.insertParameters(rsgData.specialCommands['PowerShell payload'], encoder)
-                    command = "powershell -e " + btoa(payload)
-                } else {
-                    command = rsg.getbindShellCommand()
-                }
+                command = rsg.getReverseShellCommand()
 
                 const encoding = encodingSelect.value;
                 if (encoding === 'Base64') {
@@ -784,37 +746,14 @@
                     )
                 }
 
-                bindShellCommand.innerHTML = command;
-            },
+                const commandTargets = {
+                    [CommandType.ReverseShell]: '#reverse-shell-command',
+                    [CommandType.BindShell]: '#bind-shell-command',
+                    [CommandType.MSFVenom]: '#msfvenom-command'
+                };
+                const commandTarget = commandTargets[rsg.commandType];
 
-            updateMsfVenomCommand: () => {
-                let command
-
-                if (rsg.currentCommandType === 'PowerShell #3 (Base64)') {
-                    const encoder = (text) => text;
-                    const payload = rsg.insertParameters(rsgData.specialCommands['PowerShell payload'], encoder)
-                    command = "powershell -e " + btoa(payload)
-                } else {
-                    command = rsg.getMsfVenomCommand()
-                }
-
-                const encoding = encodingSelect.value;
-                if (encoding === 'Base64') {
-                    command = btoa(command)
-                } else {
-                    function encoder(string) {
-                        return (encoding === 'encodeURI' || encoding === 'encodeURIComponent') ? window[
-                            encoding](string) : string
-                    }
-
-                    command = rsg.insertParameters(
-                        rsg.highlightParameters(
-                            encoder(command), encoder),
-                        encoder
-                    )
-                }
-
-                msfVenomCommand.innerHTML = command;
+                document.querySelector(commandTarget).innerHTML = command;
             },
 
             updateSwitchStates: () => {
@@ -835,8 +774,8 @@
          * Event handlers/functions
          */
         const dropdownUpdate = () => {
-            rsg.updateReverseShellCommand();
             setLocalStorage(shellSelect, "shell", "value");
+            rsg.update();
         }
 
         shellSelect.addEventListener("change", dropdownUpdate);
@@ -891,23 +830,23 @@
          * @param {String} attribute - Attribute of element to apply localStorage value to
          */
         const prepopulateElement = (key, element, attribute, options = null) => {
-            if (localStorage.getItem(key)) {
-                // TODO: Use switch/case instead
-                if (element.type === "text") {
-                    element[attribute] = localStorage.getItem(key);
-                }
+            // if (localStorage.getItem(key)) {
+            //     // TODO: Use switch/case instead
+            //     if (element.type === "text") {
+            //         element[attribute] = localStorage.getItem(key);
+            //     }
 
-                if (element.type === "checkbox") {
-                    const isChecked = (localStorage.getItem(key) !== 'false');
-                    element[attribute] = isChecked;
-                }
+            //     if (element.type === "checkbox") {
+            //         const isChecked = (localStorage.getItem(key) !== 'false');
+            //         element[attribute] = isChecked;
+            //     }
 
-                if (element.nodeName === "SELECT") {
-                    const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
-                    selectedItem.selected = true;
-                }
+            //     if (element.nodeName === "SELECT") {
+            //         const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
+            //         selectedItem.selected = true;
+            //     }
 
-            }
+            // }
         }
 
         /*
@@ -924,8 +863,6 @@
         setTimeout(() => {
             const shellOptions = shellSelect.querySelectorAll(".shell-option");
             prepopulateElement("shell", shellSelect, "value", [...shellOptions]);
-
-            rsg.updateReverseShellCommand();
         }, 500);
 
         prepopulateElement("ip", ipInput, "value");
