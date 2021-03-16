@@ -471,7 +471,7 @@
         const portInput = document.querySelector("#port");
         const listenerSelect = document.querySelector("#listener-selection");
         const shellSelect = document.querySelector("#shell");
-        const autoCopySwitch = document.querySelector("#auto-copy-switch");
+        // const autoCopySwitch = document.querySelector("#auto-copy-switch");
         const encodingSelect = document.querySelector('#encoding');
         const listenerCommand = document.querySelector("#listener-command");
         const reverseShellCommand = document.querySelector("#reverse-shell-command");
@@ -792,7 +792,7 @@
         document.querySelector('#listener-advanced-switch').addEventListener('change', rsg.updateSwitchStates);
         document.querySelector('#revshell-advanced-switch').addEventListener('change', rsg.updateSwitchStates);
 
-        setInterval(rsg.updateSwitchStates, 200) // fix switch changes in rapid succession
+        setInterval(rsg.updateSwitchStates, 500) // fix switch changes in rapid succession
 
         document.querySelector('#copy-listener').addEventListener('click', () => {
             rsg.copyToClipboard(listenerCommand.innerText)
@@ -869,7 +869,7 @@
 
         prepopulateElement("ip", ipInput, "value");
         prepopulateElement("port", portInput, "value");
-        prepopulateElement("auto-copy", autoCopySwitch, "checked");
+        // prepopulateElement("auto-copy", autoCopySwitch, "checked");
 
         /*
          * Event listeners for setting localStorage values
