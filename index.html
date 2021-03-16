@@ -14,23 +14,20 @@
     <link rel="stylesheet" href="css/light-mode.min.css">
     <meta name="description" content="Reverse Shell generator with a ton of functionality." />
     <meta name="title" content="Online - Reverse Shell Generator">
-    <meta name="description" content="Reverse Shell generator with a ton of functionality.">
-
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.revshells.com/">
     <meta property="og:title" content="Online - Reverse Shell Generator">
     <meta property="og:description" content="Reverse Shell generator with a ton of functionality.">
     <meta property="og:image"
-        content="https://user-images.githubusercontent.com/44453666/109582314-ef7f9e00-7acb-11eb-9c84-f8436e0022e9.png">
-
+        content="https://user-images.githubusercontent.com/58673953/111243529-9d646f80-85d7-11eb-986c-9842747dc2e7.png">
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://www.revshells.com/">
     <meta property="twitter:title" content="Online - Reverse Shell Generator">
     <meta property="twitter:description" content="Reverse Shell generator with a ton of functionality.">
     <meta property="twitter:image"
-        content="https://user-images.githubusercontent.com/44453666/109582314-ef7f9e00-7acb-11eb-9c84-f8436e0022e9.png">
+        content="https://user-images.githubusercontent.com/58673953/111243529-9d646f80-85d7-11eb-986c-9842747dc2e7.png">
 
     <!-- GitHub Ribbon -->
     <a href="https://github.com/0dayCTF/reverse-shell-generator" class="github-corner"
@@ -219,10 +216,10 @@
                 <a class="nav-link" id="msfvenom-tab" data-toggle="tab" href="#msfvenom" role="tab"
                     aria-controls="msfvenom" aria-selected="false">MSFVenom</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link disabled" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
                     aria-controls="settings" aria-selected="false" aria-disabled="true">Settings</a>
-            </li>
+            </li> -->
         </ul>
 
         <div class="tab-content">
@@ -314,14 +311,28 @@
                                     <!-- /Advanced section -->
 
                                     <div class="row justify-content-end mr-1">
-                                        <!-- Auto-copy switch -->
-                                        <div class="custom-control custom-switch mt-2 mr-3" data-toggle="tooltip"
+                                            <!-- Toasts for Reverse Shell Auto Copy -->
+                                    <div id="clipboard-toast" class="toast position-fixed text-white" data-delay="1200"
+                                    style="bottom: 16px; left: 50%; transform: translateX(-50%); background: rgba(32, 32, 32, .85)">
+                                    <div class="toast-body">
+                                        Copied to clipboard
+                                    </div>
+                                    </div>
+
+                                    <div id="clipboard-failure-toast" class="toast position-fixed text-white" data-delay="1200"
+                                    style="bottom: 16px; left: 50%; transform: translateX(-50%); background: rgba(255, 0, 0, .85)">
+                                    <div class="toast-body">
+                                        Error copying to clipboard
+                                    </div>
+                                    </div>
+                                    <!-- Auto-copy switch -->
+                                        <!-- <div class="custom-control custom-switch mt-2 mr-3" data-toggle="tooltip"
                                             title="Auto-copy to clipboard when selecting a new shell type">
                                             <input id="auto-copy-switch" class="custom-control-input" type="checkbox"
                                                 checked>
                                             <label for="auto-copy-switch" class="custom-control-label small pr-2 pb-1"
                                                 style="padding-top: 2px">Auto-copy</label>
-                                        </div>
+                                        </div> -->
                                         <!-- Copy button -->
                                         <button id="copy-reverse-shell-command" data-toggle="tooltip"
                                             title="Copy to clipboard" type="button" class="btn btn-primary float-right">
@@ -448,20 +459,7 @@
         <!-- /NEW -->
     </div>
 
-    <!-- Toasts -->
-    <div id="clipboard-toast" class="toast position-fixed text-white" data-delay="1200"
-        style="bottom: 16px; left: 50%; transform: translateX(-50%); background: rgba(32, 32, 32, .85)">
-        <div class="toast-body">
-            Copied to clipboard
-        </div>
-    </div>
 
-    <div id="clipboard-failure-toast" class="toast position-fixed text-white" data-delay="1200"
-        style="bottom: 16px; left: 50%; transform: translateX(-50%); background: rgba(255, 0, 0, .85)">
-        <div class="toast-body">
-            Error copying to clipboard
-        </div>
-    </div>
 
     <!-- RSG data -->
     <script src="js/data.js"></script>
@@ -648,9 +646,9 @@
 
             insertParameters: (command, encoder) => {
                 return command
-                    .replace(encoder('{ip}'), rsg.escapeHTML(encoder(rsg.getIP())))
-                    .replace(encoder('{port}'), encoder(String(rsg.getPort())))
-                    .replace(encoder('{shell}'), encoder(shellSelect.value))
+                    .replaceAll(encoder('{ip}'), rsg.escapeHTML(encoder(rsg.getIP())))
+                    .replaceAll(encoder('{port}'), encoder(String(rsg.getPort())))
+                    .replaceAll(encoder('{shell}'), encoder(shellSelect.value))
             },
 
             update: () => {
@@ -669,7 +667,7 @@
                     }
                 );
 
-                debugger;
+                //debugger;
 
                 const documentFragment = document.createDocumentFragment()
                 filteredItems.forEach((item, index) => {
@@ -688,9 +686,9 @@
                         rsg.selectedValues[rsg.commandType] = name;
                         rsg.update();
 
-                        if (document.querySelector('#auto-copy-switch').checked) {
-                            rsg.copyToClipboard(reverseShellCommand.innerText)
-                        }
+                        // if (document.querySelector('#auto-copy-switch').checked) {
+                        //     rsg.copyToClipboard(reverseShellCommand.innerText)
+                        // }
                     }
 
                     selectionButton.innerText = name;
@@ -794,7 +792,7 @@
         document.querySelector('#listener-advanced-switch').addEventListener('change', rsg.updateSwitchStates);
         document.querySelector('#revshell-advanced-switch').addEventListener('change', rsg.updateSwitchStates);
 
-        setInterval(rsg.updateSwitchStates, 500) // fix switch changes in rapid succession
+        setInterval(rsg.updateSwitchStates, 200) // fix switch changes in rapid succession
 
         document.querySelector('#copy-listener').addEventListener('click', () => {
             rsg.copyToClipboard(listenerCommand.innerText)
@@ -834,23 +832,23 @@
          * @param {String} attribute - Attribute of element to apply localStorage value to
          */
         const prepopulateElement = (key, element, attribute, options = null) => {
-            // if (localStorage.getItem(key)) {
-            //     // TODO: Use switch/case instead
-            //     if (element.type === "text") {
-            //         element[attribute] = localStorage.getItem(key);
-            //     }
+            if (localStorage.getItem(key)) {
+                // TODO: Use switch/case instead
+                if (element.type === "text") {
+                    element[attribute] = localStorage.getItem(key);
+                }
 
-            //     if (element.type === "checkbox") {
-            //         const isChecked = (localStorage.getItem(key) !== 'false');
-            //         element[attribute] = isChecked;
-            //     }
+                if (element.type === "checkbox") {
+                    const isChecked = (localStorage.getItem(key) !== 'false');
+                    element[attribute] = isChecked;
+                }
 
-            //     if (element.nodeName === "SELECT") {
-            //         const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
-            //         selectedItem.selected = true;
-            //     }
+                if (element.nodeName === "SELECT") {
+                    const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
+                    selectedItem.selected = true;
+                }
 
-            // }
+            }
         }
 
         /*
@@ -902,20 +900,17 @@
             setLocalStorage(selectedItem, "shell", "value");
         });
 
-        autoCopySwitch.addEventListener("change", () => {
-            setLocalStorage(autoCopySwitch, "auto-copy", "checked");
-        });
-
-
+        // autoCopySwitch.addEventListener("change", () => {
+        //     setLocalStorage(autoCopySwitch, "auto-copy", "checked");
+        // });
 
         // Popper tooltips
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         });
 
-
         // TODO: add a random fifo for netcat mkfifo
-        let randomId = Math.random().toString(36).substring(2, 4);
+        //let randomId = Math.random().toString(36).substring(2, 4);
     </script>
 
     <script src="js/light-mode-switch.min.js"></script>

