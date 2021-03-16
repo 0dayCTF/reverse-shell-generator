@@ -538,6 +538,21 @@
             });
         }
 
+        const uiElements = {
+            [CommandType.ReverseShell]: {
+                listSelection: '#reverse-shell-selection',
+                command: '#reverse-shell-command'
+            },
+            [CommandType.BindShell]: {
+                listSelection: '#bind-shell-selection',
+                command: '#bind-shell-command',
+            },
+            [CommandType.MSFVenom]: {
+                listSelection: '#msfvenom-selection',
+                command: '#msfvenom-command'
+            }
+        };
+
         const rsg = {
             selectedValues: {
                 [CommandType.ReverseShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.ReverseShell })[0].name,
@@ -548,15 +563,15 @@
             filter: FilterType.All,
 
             copyToClipboard: (text) => {
-                // if (navigator ?.clipboard ?.writeText) {
-                //     navigator.clipboard.writeText(text)
-                //     $('#clipboard-toast').toast('show')
-                // } else if (window ?.clipboardData ?.setData) {
-                //     window.clipboardData.setData('Text', text);
-                //     $('#clipboard-toast').toast('show')
-                // } else {
-                //     $('#clipboard-failure-toast').toast('show')
-                // }
+                if (navigator ?.clipboard ?.writeText) {
+                    navigator.clipboard.writeText(text)
+                    $('#clipboard-toast').toast('show')
+                } else if (window ?.clipboardData ?.setData) {
+                    window.clipboardData.setData('Text', text);
+                    $('#clipboard-toast').toast('show')
+                } else {
+                    $('#clipboard-failure-toast').toast('show')
+                }
             },
 
             escapeHTML: (text) => String(text).replace(/</, '&lt;').replace(/>/, '&gt;'),
@@ -685,13 +700,8 @@
                     documentFragment.appendChild(selectionButton);
                 })
 
-                const listTargets = {
-                    [CommandType.ReverseShell]: '#reverse-shell-selection',
-                    [CommandType.BindShell]: '#bind-shell-selection',
-                    [CommandType.MSFVenom]: '#msfvenom-selection'
-                };
-                const listTarget = listTargets[rsg.commandType];
-                document.querySelector(listTarget).replaceChildren(documentFragment)
+                const listSelectionElement = uiElements[rsg.commandType].listSelection;
+                document.querySelector(listSelectionElement).replaceChildren(documentFragment)
             },
 
             updateListenerCommand: () => {
@@ -746,14 +756,8 @@
                     )
                 }
 
-                const commandTargets = {
-                    [CommandType.ReverseShell]: '#reverse-shell-command',
-                    [CommandType.BindShell]: '#bind-shell-command',
-                    [CommandType.MSFVenom]: '#msfvenom-command'
-                };
-                const commandTarget = commandTargets[rsg.commandType];
-
-                document.querySelector(commandTarget).innerHTML = command;
+                const commandElement = uiElements[rsg.commandType].command;
+                document.querySelector(commandElement).innerHTML = command;
             },
 
             updateSwitchStates: () => {
