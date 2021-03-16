@@ -17,7 +17,7 @@ https://revshells.com
 - Dark and Light Modes
 
 ### Screenshot
-![image](https://user-images.githubusercontent.com/44453666/109582314-ef7f9e00-7acb-11eb-9c84-f8436e0022e9.png)
+![image](https://user-images.githubusercontent.com/58673953/111243529-9d646f80-85d7-11eb-986c-9842747dc2e7.png)
 
 ### Credits
 - weibell
