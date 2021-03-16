@@ -7,7 +7,7 @@
 }
 
 .highlighted-parameter {
-    color: #c0c0ba;
+    color: #426992;
     font-weight: bold;
     font-size: 1em;
 }
@@ -21,6 +21,18 @@
     cursor: pointer;
     user-select: none;
 }
+.nav-tabs {
+    border-bottom: none !important;
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: #375a7f;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #375a7f;
+}
+
 
 _:-ms-fullscreen,
 :root body {
@@ -42,6 +54,21 @@ _:-ms-fullscreen,
     max-height: 20rem;
 }
 
+#bind-shell-command {
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+    background-color: rgb(70, 70, 70);
+    max-height: 20rem;
+}
+
+#msfvenom-command {
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+    background-color: rgb(70, 70, 70);
+    max-height: 20rem;
+}
 
 .custom-select {
     background-color: #646464;
@@ -66,4 +93,10 @@ h2 {
 
 .card-body {
     max-height: 40rem;
+}
+
+.list-group-item.active,
+.list-group-item-action:focus,
+.list-group-item-action:hover {
+    background-color: #375a7f;
 }

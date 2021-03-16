@@ -8,7 +8,7 @@ Ain't got time for using CSS the right way. !important everything!
 
 [data-theme="light"] .card {
     background-color: rgb(175, 139, 173) !important;
-    color:#000;
+    color: #000;
 }
 
 [data-theme="light"] .bg-white {
@@ -38,14 +38,14 @@ Ain't got time for using CSS the right way. !important everything!
 }
 
 [data-theme="light"] .input-group-text {
-    background-color:#f1c6ce;
-    color:#000;
+    background-color: #f1c6ce;
+    color: #000;
 }
 
 [data-theme="light"] .btn {
     background-color: #a56096;
-    color:#000;
-    border-color:#a56096;
+    color: #000;
+    border-color: #a56096;
 }
 
 [data-theme="light"] .highlighted-parameter {
@@ -64,16 +64,16 @@ Ain't got time for using CSS the right way. !important everything!
     user-select: none;
 }
 
-[data-theme="light"] .custom-control-input:checked~.custom-control-label::before{
-    background-color:#7223b5;
-  }
+[data-theme="light"] .custom-control-input:checked~.custom-control-label::before {
+    background-color: #7223b5;
+}
 
 [data-theme="light"] #listener-command {
     border: none !important;
     border-radius: 5px;
     box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
     background-color: rgb(45, 139, 135);
-    color:#000;
+    color: #000;
 }
 
 [data-theme="light"] #reverse-shell-command {
@@ -81,32 +81,66 @@ Ain't got time for using CSS the right way. !important everything!
     border-radius: 5px;
     box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
     background-color: rgb(45, 139, 135);
-    color:#000;
+    color: #000;
+    max-height: 20rem;
+}
+
+[data-theme="light"] #bind-shell-command {
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
+    background-color: rgb(45, 139, 135);
+    color: #000;
+    max-height: 20rem;
+}
+
+[data-theme="light"] #msfvenom-command {
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
+    background-color: rgb(45, 139, 135);
+    color: #000;
     max-height: 20rem;
 }
 
 [data-theme="light"] .custom-select {
     background-color: #f1c6ce;
+    color: #000;
+    border-color: #a56096;
+}
+
+[data-theme="light"] .nav-link {
+    color: #000;
+    background: transparent;
+    box-shadow: 5px 5px 5px 0px rgba(153, 28, 143, 0.75);
+}
+
+[data-theme="light"] .nav-link:hover {
+    background-color: #7223b5;
+}
+
+[data-theme="light"] .nav-link.active {
+    background-color: #a56096;
     color:#000;
-    border-color:#a56096;
 }
 
 [data-theme="light"] .custom-control-input:checked {
-    color:#000;
+    color: #000;
 }
 
 [data-theme="light"] a {
-    background-color:#f1c6ce;
-    color:#000;
+    background-color: #f1c6ce;
+    color: #000;
 }
 
-[data-theme="light"] .list-group-item{
-    color:#000;
+[data-theme="light"] .list-group-item {
+    background-color: #f1c6ce;
+    color: #000;
 }
 
 [data-theme="light"] .list-group-item.active {
-background-color:#a56096;
-border-color: #000;
+    background-color: #a56096;
+    border-color: #000;
 }
 
 [data-theme="light"] .list-group-item:hover {
@@ -114,7 +148,7 @@ border-color: #000;
 }
 
 [data-theme="light"] .list-group-item.hover {
-    background-color:rgba(153, 28, 143, 0.75);
+    background-color: rgba(153, 28, 143, 0.75);
 }
 
 [data-theme="light"] .container {
@@ -125,15 +159,14 @@ border-color: #000;
 }
 
 [data-theme="light"] .card-title {
-color: #000 !important;
+    color: #000 !important;
 }
 
 [data-theme="light"] .custom-control-label {
-color: black;
+    color: black;
 }
 
-[data-theme="light"] h2
- {
+[data-theme="light"] h2 {
     color: white;
     text-align: center;
 }
