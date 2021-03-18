@@ -345,3 +345,10 @@ const rsgData = {
         ...msfvenomCommands
     ]
 }
+
+function onLoad() {
+    const spans = document.getElementsByTagName('span');
+    spans[5].innerHTML = document.getElementById("ip").value;
+}
+
+setTimeout(onLoad)
