@@ -478,6 +478,10 @@
         const bindShellCommand = document.querySelector("#bind-shell-command");
         const msfVenomCommand = document.querySelector("#msfvenom-command");
 
+		if(localStorage.getItem("ip") == null || localStorage.getItem("ip").length == 0){
+			localStorage.setItem("ip", ipInput.placeholder);
+		}
+
         const FilterType = {
             'All': 'all',
             'Windows': 'windows',
@@ -574,7 +578,7 @@
 
             escapeHTML: (text) => String(text).replace(/</, '&lt;').replace(/>/, '&gt;'),
 
-            getIP: () => ipInput.value || ipInput.getAttribute('placeholder'),
+            getIP: () => localStorage.getItem("ip"),
 
             getPort: () => Number(portInput.value || portInput.getAttribute('placeholder')),
 
@@ -591,10 +595,9 @@
                 const parameters = ['{ip}', '{port}', '{shell}', encodeURI('{ip}'), encodeURI('{port}'),
                     encodeURI('{shell}')
                 ];
-
                 parameters.forEach((param) => {
                     if (encoder) param = encoder(param)
-                    text = text.replace(param, `<span class="highlighted-parameter">${param}</span>`)
+					text = text.replace(param, `<span class="highlighted-parameter">${param}</span>`)
                 })
                 return text
             },
