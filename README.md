@@ -25,3 +25,4 @@ https://revshells.com
 - papadope
 - 0day
 - 0x03f3
+- MuirlandOracle
