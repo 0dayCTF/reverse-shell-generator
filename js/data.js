@@ -345,3 +345,8 @@ const rsgData = {
         ...msfvenomCommands
     ]
 }
+
+// Export the data for use within netlify functions / node
+if (typeof exports !== 'undefined') {
+    exports.rsgData = rsgData;
+}

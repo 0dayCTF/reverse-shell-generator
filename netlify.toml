@@ -1,0 +1,7 @@
+[build]
+    functions = "server_functions"
+
+[[redirects]]
+    from = "/*"
+    to = "/.netlify/functions/raw"
+    status = 200
