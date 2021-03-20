@@ -16,7 +16,7 @@ https://revshells.com
 
 ### Screenshot
 
-![image](https://user-images.githubusercontent.com/58673953/111243529-9d646f80-85d7-11eb-986c-9842747dc2e7.png)
+![image](https://user-images.githubusercontent.com/44453666/111888563-02430f80-89b4-11eb-9e17-ea3de014cf69.png)
 
 ## Dev
 
