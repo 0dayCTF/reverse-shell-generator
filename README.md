@@ -8,7 +8,7 @@ https://revshells.com
 ### Features
 
 - Generate common listeners and reverse shells
-- Automatically copy to clipboard
+- Raw mode to cURL shells to your machine.
 - Button to increment the listening port number by 1
 - URI and Base64 encoding
 - LocalStorage to persist your configuration
