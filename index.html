@@ -112,7 +112,7 @@
                                             <span id="ip-label" class="input-group-text">IP</span>
                                         </div>
                                         <input id="ip" type="text" class="form-control form-control-lg text-center px-1"
-                                            size="12VW" maxlength="15" placeholder="10.10.10.10" aria-label="IP"
+                                            size="12VW" maxlength="15" aria-label="IP"
                                             aria-describedby="ip-label">
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                             <span id="port-label" class="input-group-text">Port</span>
                                         </div>
                                         <input id="port" type="text" class="form-control form-control-lg text-center"
-                                            size="4vw" maxlength="5" placeholder="9001" aria-label="Port"
+                                            size="4vw" maxlength="5" aria-label="Port"
                                             aria-describedby="port-label">
                                         <div class="input-group-append">
                                             <button id="inc-port" class="btn btn-secondary btn-sm" type="button"
@@ -298,10 +298,10 @@
                                                 <label for="encoding" class="col-auto col-form-label">Encoding</label>
                                                 <div class="col-auto">
                                                     <select id="encoding" class="custom-select">
-                                                        <option selected>None</option>
-                                                        <option>encodeURI</option>
-                                                        <option>encodeURIComponent</option>
-                                                        <option>Base64</option>
+                                                        <option value="None">None</option>
+                                                        <option value="encodingURI">encodeURI</option>
+                                                        <option value="encodeURIComponent">encodeURIComponent</option>
+                                                        <option value="Base64">Base64</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -333,6 +333,12 @@
                                             <label for="auto-copy-switch" class="custom-control-label small pr-2 pb-1"
                                                 style="padding-top: 2px">Auto-copy</label>
                                         </div> -->
+                                        <!-- Raw button -->
+                                        <button type="button" class="raw-listener btn btn-primary float-right mr-3"
+                                                data-toggle="tooltip" title="View raw">
+                                            Raw
+                                        </button>
+
                                         <!-- Copy button -->
                                         <button id="copy-reverse-shell-command" data-toggle="tooltip"
                                             title="Copy to clipboard" type="button" class="btn btn-primary float-right">
@@ -383,6 +389,12 @@
                                             <label for="auto-copy-switch" class="custom-control-label small pr-2 pb-1"
                                                 style="padding-top: 2px">Auto-copy</label>
                                         </div> -->
+                                        <!-- Raw button -->
+                                        <button type="button" class="raw-listener btn btn-primary float-right mr-3"
+                                                data-toggle="tooltip" title="View raw">
+                                            Raw
+                                        </button>
+
                                         <!-- Copy button -->
                                         <button id="copy-bind-shell-command" data-toggle="tooltip" title="Copy to clipboard"
                                             type="button" class="btn btn-primary float-right">
@@ -435,6 +447,13 @@
                                                     class="custom-control-label small pr-2 pb-1"
                                                     style="padding-top: 2px">Auto-copy</label>
                                             </div> -->
+
+                                            <!-- Raw button -->
+                                            <button type="button" class="raw-listener btn btn-primary float-right mr-3"
+                                                    data-toggle="tooltip" title="View raw">
+                                                Raw
+                                            </button>
+
                                             <!-- Copy button -->
                                             <button id="copy-msfvenom-command" data-toggle="tooltip"
                                                 title="Copy to clipboard" type="button"
@@ -442,7 +461,6 @@
                                                 Copy
                                             </button>
                                         </div>
-
                                     </div>
                                     <!-- /Right column -->
                             </div>
@@ -464,6 +482,9 @@
     <!-- RSG data -->
     <script src="js/data.js"></script>
 
+    <!-- RSG raw link generator -->
+    <script src="js/raw-link.js"></script>
+
     <!-- RSG logic -->
     <script>
         // Element selectors
@@ -477,10 +498,6 @@
         const reverseShellCommand = document.querySelector("#reverse-shell-command");
         const bindShellCommand = document.querySelector("#bind-shell-command");
         const msfVenomCommand = document.querySelector("#msfvenom-command");
-
-		if(localStorage.getItem("ip") == null || localStorage.getItem("ip").length == 0){
-			localStorage.setItem("ip", ipInput.placeholder);
-		}
 
         const FilterType = {
             'All': 'all',
@@ -522,6 +539,14 @@
             });
         });
 
+        var rawLinkButtons = document.querySelectorAll('.raw-listener');
+        for (const button of rawLinkButtons) {
+            button.addEventListener("click", () => {
+                const rawLink = RawLink.generate(rsg);
+                window.location = rawLink;
+            });
+        }
+
         const filterCommandData = function (data, { commandType, filter }) {
             return data.filter(item => {
                 if (!item.meta.includes(commandType)) {
@@ -540,22 +565,12 @@
             });
         }
 
-        const uiElements = {
-            [CommandType.ReverseShell]: {
-                listSelection: '#reverse-shell-selection',
-                command: '#reverse-shell-command'
-            },
-            [CommandType.BindShell]: {
-                listSelection: '#bind-shell-selection',
-                command: '#bind-shell-command',
-            },
-            [CommandType.MSFVenom]: {
-                listSelection: '#msfvenom-selection',
-                command: '#msfvenom-command'
-            }
-        };
-
         const rsg = {
+            ip: localStorage.getItem('ip') || '10.10.10.10',
+            port: localStorage.getItem('port') || 9001,
+            shell: localStorage.getItem('shell') || rsgData.shells[0],
+            listener: localStorage.getItem('listener') || rsgData.listenerCommands[0][1],
+            encoding: localStorage.getItem('encoding') || 'None',
             selectedValues: {
                 [CommandType.ReverseShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.ReverseShell })[0].name,
                 [CommandType.BindShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.BindShell })[0].name,
@@ -563,6 +578,21 @@
             },
             commandType: CommandType.ReverseShell,
             filter: FilterType.All,
+
+            uiElements: {
+                [CommandType.ReverseShell]: {
+                    listSelection: '#reverse-shell-selection',
+                    command: '#reverse-shell-command'
+                },
+                [CommandType.BindShell]: {
+                    listSelection: '#bind-shell-selection',
+                    command: '#bind-shell-command',
+                },
+                [CommandType.MSFVenom]: {
+                    listSelection: '#msfvenom-selection',
+                    command: '#msfvenom-command'
+                }
+            },
 
             copyToClipboard: (text) => {
                 if (navigator ?.clipboard ?.writeText) {
@@ -578,9 +608,13 @@
 
             escapeHTML: (text) => String(text).replace(/</, '&lt;').replace(/>/, '&gt;'),
 
-            getIP: () => localStorage.getItem("ip"),
+            getIP: () => rsg.ip,
 
-            getPort: () => Number(portInput.value || portInput.getAttribute('placeholder')),
+            getPort: () => Number(rsg.port),
+
+            getShell: () => rsg.shell,
+
+            getEncoding: () => rsg.encoding,
 
             getSelectedCommandName: () => {
                 return rsg.selectedValues[rsg.commandType];
@@ -591,13 +625,44 @@
                 return reverseShellData.command;
             },
 
+            generateReverseShellCommand: () => {
+                let command
+
+                if (rsg.getSelectedCommandName() === 'PowerShell #3 (Base64)') {
+                    const encoder = (text) => text;
+                    const payload = rsg.insertParameters(rsgData.specialCommands['PowerShell payload'], encoder)
+                    command = "powershell -e " + btoa(payload)
+                } else {
+                    command = rsg.getReverseShellCommand()
+                }
+
+                const encoding = rsg.getEncoding();
+                if (encoding === 'Base64') {
+                    command = btoa(command)
+                } else {
+                    function encoder(string) {
+                        return (encoding === 'encodeURI' || encoding === 'encodeURIComponent') ? window[
+                            encoding](string) : string
+                    }
+
+                    command = rsg.insertParameters(
+                        rsg.highlightParameters(
+                            encoder(command), encoder),
+                        encoder
+                    )
+                }
+
+                return command;
+            },
+
             highlightParameters: (text, encoder) => {
                 const parameters = ['{ip}', '{port}', '{shell}', encodeURI('{ip}'), encodeURI('{port}'),
                     encodeURI('{shell}')
                 ];
+
                 parameters.forEach((param) => {
                     if (encoder) param = encoder(param)
-					text = text.replace(param, `<span class="highlighted-parameter">${param}</span>`)
+                    text = text.replace(param, `<span class="highlighted-parameter">${param}</span>`)
                 })
                 return text
             },
@@ -615,7 +680,7 @@
                     const option = document.createElement("option");
 
                     option.value = command;
-                    option.selected = i === 0;
+                    option.selected = rsg.listener === option.value;
                     option.classList.add("listener-option");
                     option.innerText = type;
 
@@ -627,7 +692,7 @@
                 rsgData.shells.forEach((shell, i) => {
                     const option = document.createElement("option");
 
-                    option.selected = i === 0;
+                    option.selected = rsg.shell === shell;
                     option.classList.add("shell-option");
                     option.innerText = shell;
 
@@ -636,13 +701,13 @@
             },
 
             // Updates the rsg state, and forces a re-render
-            setState: ({ filter, commandType } = {}) => {
-                if (filter) {
-                    rsg.filter = filter;
-                }
-                if (commandType) {
-                    rsg.commandType = commandType;
-                }
+            setState: (newState = {}) => {
+                Object.keys(newState).forEach((key) => {
+                    const value = newState[key];
+                    rsg[key] = value;
+                    localStorage.setItem(key, value)
+                });
+                Object.assign(rsg, newState);
 
                 rsg.update();
             },
@@ -651,13 +716,34 @@
                 return command
                     .replaceAll(encoder('{ip}'), rsg.escapeHTML(encoder(rsg.getIP())))
                     .replaceAll(encoder('{port}'), encoder(String(rsg.getPort())))
-                    .replaceAll(encoder('{shell}'), encoder(shellSelect.value))
+                    .replaceAll(encoder('{shell}'), encoder(rsg.getShell()))
             },
 
             update: () => {
                 rsg.updateListenerCommand()
                 rsg.updateTabList()
                 rsg.updateReverseShellCommand()
+                rsg.updateValues()
+            },
+
+            updateValues: () => {
+                const listenerOptions = listenerSelect.querySelectorAll(".listener-option");
+                listenerOptions.forEach((option)  => {
+                    option.selected = rsg.listener === option.value;
+                });
+
+                const shellOptions = shellSelect.querySelectorAll(".shell-option");
+                shellOptions.forEach((option) => {
+                    option.selected = rsg.shell === option.value;
+                });
+
+                const encodingOptions = encodingSelect.querySelectorAll("option");
+                encodingOptions.forEach((option) => {
+                    option.selected = rsg.encoding === option.value;
+                });
+
+                ipInput.value = rsg.ip;
+                portInput.value = rsg.port;
             },
 
             updateTabList: () => {
@@ -669,8 +755,6 @@
                         commandType: rsg.commandType
                     }
                 );
-
-                //debugger;
 
                 const documentFragment = document.createDocumentFragment()
                 filteredItems.forEach((item, index) => {
@@ -701,8 +785,8 @@
                     documentFragment.appendChild(selectionButton);
                 })
 
-                const listSelectionElement = uiElements[rsg.commandType].listSelection;
-                document.querySelector(listSelectionElement).replaceChildren(documentFragment)
+                const listSelectionSelector = rsg.uiElements[rsg.commandType].listSelection;
+                document.querySelector(listSelectionSelector).replaceChildren(documentFragment)
             },
 
             updateListenerCommand: () => {
@@ -729,34 +813,9 @@
             },
 
             updateReverseShellCommand: () => {
-                let command
-
-                if (rsg.getSelectedCommandName() === 'PowerShell #3 (Base64)') {
-                    const encoder = (text) => text;
-                    const payload = rsg.insertParameters(rsgData.specialCommands['PowerShell payload'], encoder)
-                    command = "powershell -e " + btoa(payload)
-                } else {
-                    command = rsg.getReverseShellCommand()
-                }
-
-                const encoding = encodingSelect.value;
-                if (encoding === 'Base64') {
-                    command = btoa(command)
-                } else {
-                    function encoder(string) {
-                        return (encoding === 'encodeURI' || encoding === 'encodeURIComponent') ? window[
-                            encoding](string) : string
-                    }
-
-                    command = rsg.insertParameters(
-                        rsg.highlightParameters(
-                            encoder(command), encoder),
-                        encoder
-                    )
-                }
-
-                const commandElement = uiElements[rsg.commandType].command;
-                document.querySelector(commandElement).innerHTML = command;
+                const command = rsg.generateReverseShellCommand();
+                const commandSelector = rsg.uiElements[rsg.commandType].command;
+                document.querySelector(commandSelector).innerHTML = command;
             },
 
             updateSwitchStates: () => {
@@ -776,18 +835,40 @@
         /*
          * Event handlers/functions
          */
-        const dropdownUpdate = () => {
-            setLocalStorage(shellSelect, "shell", "value");
-            rsg.update();
-        }
+        ipInput.addEventListener("input", (e) => {
+            rsg.setState({
+                ip: e.target.value
+             })
+        });
 
-        shellSelect.addEventListener("change", dropdownUpdate);
-        encodingSelect.addEventListener("change", dropdownUpdate);
+        portInput.addEventListener("input", (e) => {
+            rsg.setState({
+                port: Number(e.target.value)
+            })
+        });
+
+        listenerSelect.addEventListener("change", (e) => {
+            rsg.setState({
+                listener: e.target.value
+            })
+        });
+
+        shellSelect.addEventListener("change", (e) => {
+            rsg.setState({
+                shell: e.target.value
+            })
+        });
+
+        encodingSelect.addEventListener("change", (e) => {
+            rsg.setState({
+                encoding: e.target.value
+            })
+        });
 
         document.querySelector('#inc-port').addEventListener('click', () => {
-            portInput.value = rsg.getPort() + 1;
-            rsg.update();
-            setLocalStorage(portInput, "port", "value");
+            rsg.setState({
+                port: rsg.getPort() + 1
+            })
         })
 
         document.querySelector('#listener-advanced-switch').addEventListener('change', rsg.updateSwitchStates);
@@ -810,96 +891,6 @@
         document.querySelector('#copy-msfvenom-command').addEventListener('click', () => {
             rsg.copyToClipboard(msfVenomCommand.innerText)
         })
-
-        /*
-         * LocalStorage setting/getting
-         */
-
-        /**
-         * Sets item to localStorage when user moves focus from element
-         * @param {Object} element - The element to get value from
-         * @param {String} key - Key of localStorage value
-         * @param {String} attribute - Attribute of element to set to localStorage value
-         */
-        const setLocalStorage = (element, key, attribute) => {
-            if (!element || typeof element !== "object") return;
-            localStorage.setItem(key, element[attribute]);
-        }
-
-        /**
-         * Prepopulates element if localStorage value exists
-         * @param {String} key - Key of localStorage value
-         * @param {Object} element - The element to apply value to
-         * @param {String} attribute - Attribute of element to apply localStorage value to
-         */
-        const prepopulateElement = (key, element, attribute, options = null) => {
-            if (localStorage.getItem(key)) {
-                // TODO: Use switch/case instead
-                if (element.type === "text") {
-                    element[attribute] = localStorage.getItem(key);
-                }
-
-                if (element.type === "checkbox") {
-                    const isChecked = (localStorage.getItem(key) !== 'false');
-                    element[attribute] = isChecked;
-                }
-
-                if (element.nodeName === "SELECT") {
-                    const selectedItem = options.find(option => option[attribute] === localStorage.getItem(key));
-                    selectedItem.selected = true;
-                }
-
-            }
-        }
-
-        /*
-         * Prepopulating fields on load from localStorage
-         */
-        // TODO: async/await
-        setTimeout(() => {
-            const listenerOptions = listenerSelect.querySelectorAll(".listener-option");
-            prepopulateElement("listener", listenerSelect, "value", [...listenerOptions]);
-
-            rsg.updateListenerCommand();
-        }, 500);
-
-        setTimeout(() => {
-            const shellOptions = shellSelect.querySelectorAll(".shell-option");
-            prepopulateElement("shell", shellSelect, "value", [...shellOptions]);
-        }, 500);
-
-        prepopulateElement("ip", ipInput, "value");
-        prepopulateElement("port", portInput, "value");
-        // prepopulateElement("auto-copy", autoCopySwitch, "checked");
-
-        /*
-         * Event listeners for setting localStorage values
-         */
-        ipInput.addEventListener("input", () => {
-            setLocalStorage(ipInput, "ip", "value");
-            rsg.update();
-        });
-
-        portInput.addEventListener("input", () => {
-            setLocalStorage(portInput, "port", "value");
-            rsg.update();
-        });
-
-        listenerSelect.addEventListener("change", () => {
-            rsg.updateListenerCommand();
-
-            const listenerOptions = listenerSelect.querySelectorAll(".listener-option");
-            const selectedItem = [...listenerOptions].find(option => option.selected);
-            setLocalStorage(selectedItem, "listener", "value");
-        });
-
-        shellSelect.addEventListener("change", () => {
-            rsg.updateReverseShellSelection();
-
-            const shellOptions = shellSelect.querySelectorAll(".shell-option");
-            const selectedItem = [...shellOptions].find(option => option.selected);
-            setLocalStorage(selectedItem, "shell", "value");
-        });
 
         // autoCopySwitch.addEventListener("change", () => {
         //     setLocalStorage(autoCopySwitch, "auto-copy", "checked");
