@@ -31,6 +31,15 @@
       "contributions": [
         "projectManagement"
       ]
+    },
+    {
+      "login": "0x03f3",
+      "name": "Joseph Rose",
+      "avatar_url": "https://avatars.githubusercontent.com/u/24409121?v=4",
+      "profile": "https://github.com/0x03f3",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
