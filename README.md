@@ -29,14 +29,6 @@ It's recommended to use the netlify dev command if you're wanting to modify any 
 npx netlify dev
 ```
 
-### Credits
-- weibell
-- briskets
-- papadope
-- 0day
-- 0x03f3
-- MuirlandOracle
-
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
