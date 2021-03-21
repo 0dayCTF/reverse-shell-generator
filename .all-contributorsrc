@@ -76,6 +76,15 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "H0j3n",
+      "name": "Muhammad Ali",
+      "avatar_url": "https://avatars.githubusercontent.com/u/51261763?v=4",
+      "profile": "https://h0j3n.github.io/",
+      "contributions": [
+        "tool"
+      ]
     }
   ],
   "contributorsPerLine": 7,
