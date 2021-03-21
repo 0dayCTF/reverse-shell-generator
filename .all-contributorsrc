@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "AlanFoster",
+      "name": "Alan Foster",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1271782?v=4",
+      "profile": "https://www.alanfoster.me/",
+      "contributions": [
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "reverse-shell-generator",
+  "projectOwner": "0dayCTF",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
