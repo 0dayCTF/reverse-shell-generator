@@ -1,6 +1,6 @@
 # reverse-shell-generator
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 Hosted Reverse Shell generator with a ton of functionality -- (great for CTFs)
 <br> [![Netlify Status](https://api.netlify.com/api/v1/badges/46dbabe0-23b7-42e6-b04b-e1769dc455ce/deploy-status)](https://app.netlify.com/sites/brave-swartz-5dcdab/deploys)
@@ -48,6 +48,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://www.alanfoster.me/"><img src="https://avatars.githubusercontent.com/u/1271782?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alan Foster</b></sub></a><br /><a href="#infra-AlanFoster" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     <td align="center"><a href="https://muir.land"><img src="https://avatars.githubusercontent.com/u/58998623?v=4?s=100" width="100px;" alt=""/><br /><sub><b>AG</b></sub></a><br /><a href="#maintenance-MuirlandOracle" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://briskets.io"><img src="https://avatars.githubusercontent.com/u/58673953?v=4?s=100" width="100px;" alt=""/><br /><sub><b>briskets</b></sub></a><br /><a href="#projectManagement-briskets" title="Project Management">📆</a></td>
   </tr>
 </table>
 
