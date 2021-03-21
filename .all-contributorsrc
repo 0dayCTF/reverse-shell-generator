@@ -40,6 +40,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "JabbaCS",
+      "name": "Jabba",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68778279?v=4",
+      "profile": "https://github.com/JabbaCS",
+      "contributions": [
+        "data"
+      ]
     }
   ],
   "contributorsPerLine": 7,
