@@ -49,6 +49,15 @@
       "contributions": [
         "data"
       ]
+    },
+    {
+      "login": "Jake-Ruston",
+      "name": "Jake Ruston",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22551835?v=4",
+      "profile": "http://www.jake-ruston.com",
+      "contributions": [
+        "data"
+      ]
     }
   ],
   "contributorsPerLine": 7,
