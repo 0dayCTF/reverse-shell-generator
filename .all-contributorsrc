@@ -58,6 +58,15 @@
       "contributions": [
         "data"
       ]
+    },
+    {
+      "login": "Papadope",
+      "name": "Chris Papadopoulos",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28659477?v=4",
+      "profile": "https://papadope.net/",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
