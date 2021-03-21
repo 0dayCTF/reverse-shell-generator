@@ -1,6 +1,6 @@
 # reverse-shell-generator
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 Hosted Reverse Shell generator with a ton of functionality -- (great for CTFs)
 <br> [![Netlify Status](https://api.netlify.com/api/v1/badges/46dbabe0-23b7-42e6-b04b-e1769dc455ce/deploy-status)](https://app.netlify.com/sites/brave-swartz-5dcdab/deploys)
@@ -53,6 +53,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/JabbaCS"><img src="https://avatars.githubusercontent.com/u/68778279?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jabba</b></sub></a><br /><a href="#data-JabbaCS" title="Data">🔣</a></td>
     <td align="center"><a href="http://www.jake-ruston.com"><img src="https://avatars.githubusercontent.com/u/22551835?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jake Ruston</b></sub></a><br /><a href="#data-Jake-Ruston" title="Data">🔣</a></td>
     <td align="center"><a href="https://papadope.net/"><img src="https://avatars.githubusercontent.com/u/28659477?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Chris Papadopoulos</b></sub></a><br /><a href="#design-Papadope" title="Design">🎨</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://ryanmontgomery.me"><img src="https://avatars.githubusercontent.com/u/44453666?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ryan Montgomery</b></sub></a><br /><a href="https://github.com/0dayCTF/reverse-shell-generator/pulls?q=is%3Apr+reviewed-by%3A0dayCTF" title="Reviewed Pull Requests">👀</a></td>
   </tr>
 </table>
 
