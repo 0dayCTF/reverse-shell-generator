@@ -85,6 +85,15 @@
       "contributions": [
         "tool"
       ]
+    },
+    {
+      "login": "edrapac",
+      "name": "edrapac",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33971688?v=4",
+      "profile": "http://sprucelab.site",
+      "contributions": [
+        "tool"
+      ]
     }
   ],
   "contributorsPerLine": 7,
