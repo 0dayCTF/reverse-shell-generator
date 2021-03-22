@@ -19,7 +19,10 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/58673953?v=4",
 			"profile": "https://briskets.io",
 			"contributions": [
-				"projectManagement"
+				"projectManagement",
+				"tool",
+				"infra",
+				"design"
 			]
 		},
 		{
@@ -28,10 +31,7 @@
 			"avatar_url": "https://avatars.githubusercontent.com/u/28659477?v=4",
 			"profile": "https://papadope.net/",
 			"contributions": [
-				"design",
-				"projectManagement",
-				"tool",
-				"infra"
+				"design"
 			]
 		},
 		{
