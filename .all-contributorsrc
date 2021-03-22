@@ -1,105 +1,107 @@
 {
-  "files": [
-    "README.md"
-  ],
-  "imageSize": 100,
-  "commit": false,
-  "contributors": [
-    {
-      "login": "AlanFoster",
-      "name": "Alan Foster",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1271782?v=4",
-      "profile": "https://www.alanfoster.me/",
-      "contributions": [
-        "infra"
-      ]
-    },
-    {
-      "login": "MuirlandOracle",
-      "name": "AG",
-      "avatar_url": "https://avatars.githubusercontent.com/u/58998623?v=4",
-      "profile": "https://muir.land",
-      "contributions": [
-        "maintenance"
-      ]
-    },
-    {
-      "login": "briskets",
-      "name": "briskets",
-      "avatar_url": "https://avatars.githubusercontent.com/u/58673953?v=4",
-      "profile": "https://briskets.io",
-      "contributions": [
-        "projectManagement"
-      ]
-    },
-    {
-      "login": "0x03f3",
-      "name": "Joseph Rose",
-      "avatar_url": "https://avatars.githubusercontent.com/u/24409121?v=4",
-      "profile": "https://github.com/0x03f3",
-      "contributions": [
-        "ideas"
-      ]
-    },
-    {
-      "login": "JabbaCS",
-      "name": "Jabba",
-      "avatar_url": "https://avatars.githubusercontent.com/u/68778279?v=4",
-      "profile": "https://github.com/JabbaCS",
-      "contributions": [
-        "data"
-      ]
-    },
-    {
-      "login": "Jake-Ruston",
-      "name": "Jake Ruston",
-      "avatar_url": "https://avatars.githubusercontent.com/u/22551835?v=4",
-      "profile": "http://www.jake-ruston.com",
-      "contributions": [
-        "data"
-      ]
-    },
-    {
-      "login": "Papadope",
-      "name": "Chris Papadopoulos",
-      "avatar_url": "https://avatars.githubusercontent.com/u/28659477?v=4",
-      "profile": "https://papadope.net/",
-      "contributions": [
-        "design"
-      ]
-    },
-    {
-      "login": "0dayCTF",
-      "name": "Ryan Montgomery",
-      "avatar_url": "https://avatars.githubusercontent.com/u/44453666?v=4",
-      "profile": "http://ryanmontgomery.me",
-      "contributions": [
-        "review"
-      ]
-    },
-    {
-      "login": "H0j3n",
-      "name": "Muhammad Ali",
-      "avatar_url": "https://avatars.githubusercontent.com/u/51261763?v=4",
-      "profile": "https://h0j3n.github.io/",
-      "contributions": [
-        "tool"
-      ]
-    },
-    {
-      "login": "edrapac",
-      "name": "edrapac",
-      "avatar_url": "https://avatars.githubusercontent.com/u/33971688?v=4",
-      "profile": "http://sprucelab.site",
-      "contributions": [
-        "tool"
-      ]
-    }
-  ],
-  "contributorsPerLine": 7,
-  "projectName": "reverse-shell-generator",
-  "projectOwner": "0dayCTF",
-  "repoType": "github",
-  "repoHost": "https://github.com",
-  "skipCi": true
+	"files": [
+		"README.md"
+	],
+	"imageSize": 100,
+	"commit": false,
+	"contributors": [{
+			"login": "0dayCTF",
+			"name": "Ryan Montgomery",
+			"avatar_url": "https://avatars.githubusercontent.com/u/44453666?v=4",
+			"profile": "http://ryanmontgomery.me",
+			"contributions": [
+				"review"
+			]
+		},
+		{
+			"login": "briskets",
+			"name": "briskets",
+			"avatar_url": "https://avatars.githubusercontent.com/u/58673953?v=4",
+			"profile": "https://briskets.io",
+			"contributions": [
+				"projectManagement"
+			]
+		},
+		{
+			"login": "Papadope",
+			"name": "Chris Papadopoulos",
+			"avatar_url": "https://avatars.githubusercontent.com/u/28659477?v=4",
+			"profile": "https://papadope.net/",
+			"contributions": [
+				"design",
+				"projectManagement",
+				"tool",
+				"infra"
+			]
+		},
+		{
+			"login": "AlanFoster",
+			"name": "Alan Foster",
+			"avatar_url": "https://avatars.githubusercontent.com/u/1271782?v=4",
+			"profile": "https://www.alanfoster.me/",
+			"contributions": [
+				"infra"
+			]
+		},
+		{
+			"login": "MuirlandOracle",
+			"name": "AG",
+			"avatar_url": "https://avatars.githubusercontent.com/u/58998623?v=4",
+			"profile": "https://muir.land",
+			"contributions": [
+				"maintenance"
+			]
+		},
+		{
+			"login": "0x03f3",
+			"name": "Joseph Rose",
+			"avatar_url": "https://avatars.githubusercontent.com/u/24409121?v=4",
+			"profile": "https://github.com/0x03f3",
+			"contributions": [
+				"ideas"
+			]
+		},
+		{
+			"login": "JabbaCS",
+			"name": "Jabba",
+			"avatar_url": "https://avatars.githubusercontent.com/u/68778279?v=4",
+			"profile": "https://github.com/JabbaCS",
+			"contributions": [
+				"data"
+			]
+		},
+		{
+			"login": "Jake-Ruston",
+			"name": "Jake Ruston",
+			"avatar_url": "https://avatars.githubusercontent.com/u/22551835?v=4",
+			"profile": "http://www.jake-ruston.com",
+			"contributions": [
+				"data"
+			]
+		},
+		{
+			"login": "H0j3n",
+			"name": "Muhammad Ali",
+			"avatar_url": "https://avatars.githubusercontent.com/u/51261763?v=4",
+			"profile": "https://h0j3n.github.io/",
+			"contributions": [
+				"tool"
+			]
+		},
+		{
+			"login": "edrapac",
+			"name": "edrapac",
+			"avatar_url": "https://avatars.githubusercontent.com/u/33971688?v=4",
+			"profile": "http://sprucelab.site",
+			"contributions": [
+				"tool"
+			]
+		}
+	],
+	"contributorsPerLine": 7,
+	"projectName": "reverse-shell-generator",
+	"projectOwner": "0dayCTF",
+	"repoType": "github",
+	"repoHost": "https://github.com",
+	"skipCi": true
 }
