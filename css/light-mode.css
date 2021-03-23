@@ -155,7 +155,7 @@ Ain't got time for using CSS the right way. !important everything!
     padding: 10px;
     border-radius: 20px;
     box-shadow: 10px 0px 20px 0px rgba(153, 28, 143, 0.75);
-    max-height: 1000px;
+    height: 100% !important;
 }
 
 [data-theme="light"] .card-title {
@@ -321,5 +321,36 @@ Ain't got time for using CSS the right way. !important everything!
 
     100% {
         color: orange;
+    }
+}
+.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+
+@keyframes octocat-wave {
+
+    0%,
+    100% {
+        transform: rotate(0)
+    }
+
+    20%,
+    60% {
+        transform: rotate(-25deg)
+    }
+
+    40%,
+    80% {
+        transform: rotate(10deg)
+    }
+}
+
+@media (max-width:500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
     }
 }
