@@ -166,6 +166,7 @@
 
                 const encoding = rsg.getEncoding();
                 if (encoding === 'Base64') {
+                    command = rsg.insertParameters(command, (text) => text)
                     command = btoa(command)
                 } else {
                     function encoder(string) {
