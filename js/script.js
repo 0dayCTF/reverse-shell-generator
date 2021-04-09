@@ -2,6 +2,16 @@
         // Element selectors
         const ipInput = document.querySelector("#ip");
         const portInput = document.querySelector("#port");
+        document.cookie = "ip="+ipInput.value+"; path=/; Secure; ";
+        document.cookie = "port="+portInput.value+"; path=/; Secure; ";
+        const ipCookie = document.cookie.split('; ').find(row => row.startsWith('ip=')).split('=')[1];
+        const portCookie = document.cookie.split('; ').find(row => row.startsWith('port=')).split('=')[1];
+        if(ipCookie){
+            document.querySelector("#ip").innerHTML=ipCookie;
+        }
+        if(portCookie){
+            document.querySelector("#port").innerHTML=portCookie;
+        }
         const listenerSelect = document.querySelector("#listener-selection");
         const shellSelect = document.querySelector("#shell");
         // const autoCopySwitch = document.querySelector("#auto-copy-switch");
