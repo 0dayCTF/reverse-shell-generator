@@ -357,6 +357,7 @@ const rsgData = {
 
     listenerCommands: [
         ['nc', 'nc -lvnp {port}'],
+        ['ncat', 'ncat -lvnp {port}'],
         ['rlwrap + nc', 'rlwrap -cAr nc -lvnp {port}'],
         ['pwncat', 'python3 -m pwncat -lp {port}'],
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
