@@ -77,13 +77,15 @@
             });
         }
 
+        const query = new URLSearchParams(location.hash.substring(1));
+
         const rsg = {
-            ip: localStorage.getItem('ip') || '10.10.10.10',
-            port: localStorage.getItem('port') || 9001,
-            payload: localStorage.getItem('payload') || 'windows/x64/meterpreter/reverse_tcp',
-            shell: localStorage.getItem('shell') || rsgData.shells[0],
-            listener: localStorage.getItem('listener') || rsgData.listenerCommands[0][1],
-            encoding: localStorage.getItem('encoding') || 'None',
+            ip: query.get('ip') || localStorage.getItem('ip') || '10.10.10.10',
+            port: query.get('port') || localStorage.getItem('port') || 9001,
+            payload: query.get('payload') || localStorage.getItem('payload') || 'windows/x64/meterpreter/reverse_tcp',
+            shell: query.get('shell') || localStorage.getItem('shell') || rsgData.shells[0],
+            listener: query.get('listener') || localStorage.getItem('listener') || rsgData.listenerCommands[0][1],
+            encoding: query.get('encoding') || localStorage.getItem('encoding') || 'None',
             selectedValues: {
                 [CommandType.ReverseShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.ReverseShell })[0].name,
                 [CommandType.BindShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.BindShell })[0].name,
