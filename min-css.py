@@ -2,13 +2,13 @@
 Use this when you modified any css in the css/ folder.
 '''
 
-import os,sys
+import os
 
 try:
     from csscompressor import compress
 except ModuleNotFoundError:
     os.system("python -m pip install csscompressor")
-    os.execv(sys.argv[0], sys.argv)
+    from csscompressor import compress
 
 def main():
     not_minified =  [f"./css/{f}" for f in os.listdir("./css") if not f.endswith(".min.css")]
