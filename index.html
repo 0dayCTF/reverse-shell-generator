@@ -12,6 +12,7 @@
     <script src="assets/bootstrap-4.5.2.min.js"></script>
     <link rel="stylesheet" href="css/dark-mode.min.css">
     <link rel="stylesheet" href="css/light-mode.min.css">
+    <link rel="stylesheet" href="css/meme-mode.min.css">
     <meta name="description" content="Online Reverse Shell generator with Local Storage functionality, URI & Base64 Encoding, MSFVenom Generator, and Raw Mode. Great for CTFs." />
     <meta name="title" content="Online - Reverse Shell Generator">
     <!-- Open Graph / Facebook -->
@@ -49,17 +50,20 @@
 
 <body class="bg-black">
     <div class="container d-flex flex-column vh-100">
-        <div class="custom-control custom-switch float-right">
-            <input id="lightSwitch" type="checkbox" class="custom-control-input">
-            <label for="lightSwitch" class="custom-control-label small pr-2 pb-1" style="padding-top:2px"
-                data-toggle="tooltip" title="Toggle Light Mode">Light Mode 🌓
-            </label>
+        <div class="custom-control float-right" style="margin-left: -25px;">
+            <label for="theme-selector" class="card-title col-auto col-form-label float-left"
+                style="font-size:1rem">Theme</label>
+
+            <select class="custom-select" id="theme-selector">
+                <option class="os-item" value="dark">Dark</option>
+                <option class="os-item" value="light">Light</option>
+                <option class="os-item" value="meme">Meme</option>
+            </select>
         </div>
 
         <!-- Header -->
         <div class="mb-auto row justify-content-center mt-3 mb-5">
             <h2 class="rainbow">Reverse Shell Generator</h2>
-
         </div>
 
         <div class="row">
@@ -448,7 +452,7 @@
     <script src="js/raw-link.js"></script>
 
     <!-- Light switch -->
-    <script src="js/light-mode-switch.min.js"></script>
+    <script src="js/light-mode-switch.js"></script>
 
     <!-- Main js -->
     <script src="js/script.js"></script>

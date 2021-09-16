@@ -69,6 +69,13 @@ _:-ms-fullscreen, :root body {
     max-height: 20rem;
 }
 
+#theme-selector {
+    width: 100px;
+    height: 30px;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
 .custom-select {
     background-color: #646464;
     color: white;
