@@ -115,6 +115,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "robiot",
+      "name": "Robiot",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68228472?v=4",
+      "profile": "https://robiot.github.io/",
+      "contributions": [
+        "content",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
