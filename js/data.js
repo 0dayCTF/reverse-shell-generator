@@ -412,7 +412,6 @@ const rsgData = {
         ['rlwrap + nc', 'rlwrap -cAr nc -lvnp {port}'],
 	['rc', 'rc -lp {port}'],
 	['rc + Command History', 'rc -lHp {port}'],
-	['stty + rc', 'stty cbreak -echo && rc -lp {port}'],
         ['pwncat', 'python3 -m pwncat -lp {port}'],
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
