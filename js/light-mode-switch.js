@@ -22,11 +22,12 @@ window.addEventListener("load", function () {
 function initTheme() {
   var currentTheme = localStorage.getItem("currentTheme");
 
-  if (currentTheme === null) {
-    console.log("null")
+  if (currentTheme == null) {
     document.body.removeAttribute("data-theme")
   } else {
+    console.log("there")
     document.body.setAttribute("data-theme", currentTheme)
+    $("#theme-selector").val(currentTheme).change();
   }
 }
 
