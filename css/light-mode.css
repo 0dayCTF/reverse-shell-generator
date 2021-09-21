@@ -132,11 +132,12 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="light"] .list-group-item {
     background-color: #ecefff;
     color: #000;
+    border-color: #AAA;
 }
 
 [data-theme="light"] .list-group-item.active {
     background-color: #586edd;
-    border-color: #000;
+    border-color: #444;
 }
 
 [data-theme="light"] .list-group-item:hover {
