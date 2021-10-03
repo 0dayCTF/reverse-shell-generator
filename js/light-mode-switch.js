@@ -25,7 +25,6 @@ function initTheme() {
   if (currentTheme == null) {
     document.body.removeAttribute("data-theme")
   } else {
-    console.log("there")
     document.body.setAttribute("data-theme", currentTheme)
     $("#theme-selector").val(currentTheme).change();
   }
@@ -38,7 +37,6 @@ function initTheme() {
  * @return {void}
  */
 function resetTheme(currentTheme) {
-  console.log(currentTheme)
   if (currentTheme !== "dark") {
     document.body.setAttribute("data-theme", currentTheme);
     localStorage.setItem("currentTheme", currentTheme);
