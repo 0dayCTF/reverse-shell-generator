@@ -1,3 +1,4 @@
+
 const CommandType = {
     'ReverseShell': 'ReverseShell',
     'BindShell': 'BindShell',
@@ -305,6 +306,8 @@ const reverseShellCommands = withCommandType(
         }
     ]
 );
+
+//    https://twitter.com/MuirlandOracle -- #Muiri Was Here :D
 
 const bindShellCommands =  withCommandType(
     CommandType.BindShell,
