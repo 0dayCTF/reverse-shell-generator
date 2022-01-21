@@ -27,27 +27,30 @@
 
         document.querySelector("#reverse-tab").addEventListener("click", () => {
             rsg.setState({
-                commandType: CommandType.ReverseShell
+                commandType: CommandType.ReverseShell,
             });
         })
 
         document.querySelector("#bind-tab").addEventListener("click", () => {
             rsg.setState({
-                commandType: CommandType.BindShell
-            });
+                commandType: CommandType.BindShell,
+            	encoding: "None"
+	    });
         })
 
         document.querySelector("#bind-tab").addEventListener("click", () => {
             document.querySelector("#bind-shell-selection").innerHTML = "";
             rsg.setState({
                 commandType: CommandType.BindShell
+
             });
         })
 
         document.querySelector("#msfvenom-tab").addEventListener("click", () => {
             document.querySelector("#msfvenom-selection").innerHTML = "";
             rsg.setState({
-                commandType: CommandType.MSFVenom
+                commandType: CommandType.MSFVenom,
+		encoding: "None"
             });
         });
 
