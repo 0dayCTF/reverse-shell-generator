@@ -66,7 +66,7 @@ document.querySelector(".download-listener").addEventListener("click", () => {
     var element = document.createElement('a');
     const rawLink = RawLink.generate(rsg);
     element.setAttribute('href', rawLink);
-    element.setAttribute('download', rsg.getSelectedCommandName() + '.txt');
+    element.setAttribute('download', rsg.getSelectedCommandName());
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
