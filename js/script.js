@@ -61,6 +61,16 @@
                 window.location = rawLink;
             });
         }
+        
+        document.querySelector(".download-listener").addEventListener("click", () => {
+            var element = document.createElement('a');
+            const rawLink = RawLink.generate(rsg);
+            element.setAttribute('href', rawLink);
+            element.setAttribute('download', rsg.getSelectedCommandName() + '.txt');
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        })
 
         const filterCommandData = function (data, { commandType, filter }) {
             return data.filter(item => {
