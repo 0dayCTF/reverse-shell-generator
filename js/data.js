@@ -434,14 +434,14 @@ const msfvenomCommands =  withCommandType(
 const rsgData = {
 
     listenerCommands: [
-        ['nc', 'nc -lvnp {port}'],
-        ['ncat', 'ncat -lvnp {port}'],
-        ['ncat (TLS)', 'ncat --ssl -lvnp {port}'],
-        ['rlwrap + nc', 'rlwrap -cAr nc -lvnp {port}'],
+        ['nc', 'nc -lvn {port}'],
+        ['ncat', 'ncat -lvn {port}'],
+        ['ncat (TLS)', 'ncat --ssl -lvn {port}'],
+        ['rlwrap + nc', 'rlwrap -cAr nc -lvn {port}'],
 	['rustcat', 'rcat -lp {port}'],
 	['rustcat + Command History', 'rcat -lHp {port}'],
         ['pwncat', 'python3 -m pwncat -lp {port}'],
-        ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
+        ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvn {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
         ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
         ['powercat', 'powercat -l -p {port}'],
