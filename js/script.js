@@ -62,16 +62,6 @@ for (const button of rawLinkButtons) {
     });
 }
 
-document.querySelector(".download-listener").addEventListener("click", () => {
-    var element = document.createElement('a');
-    const rawLink = RawLink.generate(rsg);
-    element.setAttribute('href', rawLink);
-    element.setAttribute('download', rsg.getSelectedCommandName());
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-})
-
 const filterCommandData = function (data, { commandType, filter }) {
     return data.filter(item => {
         if (!item.meta.includes(commandType)) {
@@ -450,6 +440,19 @@ document.querySelector('#copy-bind-shell-command').addEventListener('click', () 
 document.querySelector('#copy-msfvenom-command').addEventListener('click', () => {
     rsg.copyToClipboard(msfVenomCommand.innerText)
 })
+
+var downloadButton = document.querySelectorAll(".download-listener");
+for (const Dbutton of downloadButton) {
+    Dbutton.addEventListener("click", () => {
+        var element = document.createElement('a');
+        const rawLink = RawLink.generate(rsg);
+        element.setAttribute('href', rawLink);
+        element.setAttribute('download', rsg.getSelectedCommandName());
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    });
+}
 
 // autoCopySwitch.addEventListener("change", () => {
 //     setLocalStorage(autoCopySwitch, "auto-copy", "checked");
