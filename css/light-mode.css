@@ -175,7 +175,12 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="light"] .card-body {
     max-height: 40rem;
 }
-
+[data-theme="light"] .download-svg {
+    filter: none;
+}
+[data-theme="light"] .download-svg:hover {
+    filter: opacity(50%);
+}
 @font-face {
     font-family: "Comic Mono";
     src: url(../assets/ComicMono.ttf);

@@ -441,7 +441,7 @@ document.querySelector('#copy-msfvenom-command').addEventListener('click', () =>
     rsg.copyToClipboard(msfVenomCommand.innerText)
 })
 
-var downloadButton = document.querySelectorAll(".download-listener");
+var downloadButton = document.querySelectorAll(".download-svg");
 for (const Dbutton of downloadButton) {
     Dbutton.addEventListener("click", () => {
         var element = document.createElement('a');
