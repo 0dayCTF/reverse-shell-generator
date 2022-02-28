@@ -179,6 +179,9 @@ Ain't got time for using CSS the right way. !important everything!
     max-height: 40rem;
 }
 
+[data-theme="meme"] .download-svg:hover {
+    filter: opacity(70%);
+}
 @font-face {
     font-family: "Comic Mono";
     src: url(../assets/ComicMono.ttf);
