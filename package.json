@@ -1,0 +1,15 @@
+{
+  "source": "index.html",
+  "scripts": {
+    "build": "rm -rf ./dist && ./node_modules/.bin/parcel build"
+  },
+  "targets": {
+    "default": {
+      "sourceMap": false
+    }
+  },
+  "devDependencies": {
+    "parcel": "2.3.2",
+    "parcel-transformer-obfuscation": "file:parcel-transformer-obfuscation"
+  }
+}
