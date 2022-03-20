@@ -1,6 +1,15 @@
 [build]
     functions = "server_functions"
 
+[dev]
+    publish = "."
+    port = 8888
+    framework = "#static"
+
+[context.production]
+    command = "npm run build"
+    publish = "./dist"
+
 [[redirects]]
     from = "/*"
     to = "/.netlify/functions/raw"

@@ -1,0 +1,14 @@
+{
+  "extends": "@parcel/config-default",
+  "transformers": {
+    // Leave jQuery/Bootstrap assets as-is, as they're already minified
+    "*jquery-3.5.1.slim.min.js": [],
+    "*bootstrap-4.5.2.min.js": [],
+
+    // Additionally 'obfuscate' files which may contain shell references
+    "*data.js": [
+        "...",
+        "parcel-transformer-obfuscation"
+    ]
+  }
+}
