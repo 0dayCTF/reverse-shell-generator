@@ -82,6 +82,13 @@ const filterCommandData = function (data, { commandType, filter }) {
 
 const query = new URLSearchParams(location.hash.substring(1));
 
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+const fixedEncodeURIComponent = function (str) {
+    return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+        return '%' + c.charCodeAt(0).toString(16).toUpperCase();
+    });
+}
+
 const rsg = {
     ip: query.get('ip') || localStorage.getItem('ip') || '10.10.10.10',
     port: query.get('port') || localStorage.getItem('port') || 9001,
@@ -124,7 +131,11 @@ const rsg = {
         }
     },
 
-    escapeHTML: (text) => String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+    escapeHTML: (text) => {
+        let element = document.createElement('p');
+        element.textContent = text;
+        return element.innerHTML;
+    },
 
     getIP: () => rsg.ip,
 
@@ -187,16 +198,20 @@ const rsg = {
             command = btoa(command)
         } else {
             function encoder(string) {
-                return (encoding === 'encodeURI' || encoding === 'encodeURIComponent') ? window[
-                    encoding](string) : string
+                let result = string;
+                switch (encoding) {
+                    case 'encodeURLDouble':
+                        result = fixedEncodeURIComponent(result);
+                        // fall-through
+                    case 'encodeURL':
+                        result = fixedEncodeURIComponent(result);
+                        break;
+                }
+                return result;
             }
-
-            command = rsg.escapeHTML(command);
-            command = rsg.insertParameters(
-                rsg.highlightParameters(
-                    encoder(command), encoder),
-                encoder
-            )
+            command = rsg.escapeHTML(encoder(command));
+            // NOTE: Assumes encoder doesn't produce HTML-escaped characters in parameters
+            command = rsg.insertParameters(rsg.highlightParameters(command, encoder), encoder);
         }
 
         return command;
