@@ -68,7 +68,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Hydragyrum"><img src="https://avatars.githubusercontent.com/u/4928181?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Adam Bertrand</b></sub></a><br /><a href="#content-Hydragyrum" title="Content">🖋</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="http://rohitkumarankam.com"><img src="https://avatars.githubusercontent.com/u/70012972?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rohit Kumar Ankam</b></sub></a><br /><a href="#tool-rohitkumarankam" title="Tools">🔧</a> <a href="#design-rohitkumarankam" title="Design">🎨</a></td>
+    <td align="center"><a href="http://rohitkumarankam.com"><img src="https://avatars.githubusercontent.com/u/70012972?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rohit Kumar Ankam</b></sub></a><br /><a href="#tool-rohitkumarankam" title="Tools">🔧</a></a></td>
   </tr>
 </table>
 
