@@ -459,13 +459,23 @@ document.querySelector('#copy-msfvenom-command').addEventListener('click', () =>
 var downloadButton = document.querySelectorAll(".download-svg");
 for (const Dbutton of downloadButton) {
     Dbutton.addEventListener("click", () => {
-        var element = document.createElement('a');
+        const filename = prompt('Enter a filename', 'payload.sh')
+        if(filename===null)return;
         const rawLink = RawLink.generate(rsg);
-        element.setAttribute('href', rawLink);
-        element.setAttribute('download', rsg.getSelectedCommandName());
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
+        axios({
+            url: rawLink,
+            method: 'GET',
+            responseType: 'arraybuffer',
+        })
+        .then((response)=>{
+            const url = window.URL.createObjectURL(new File([response.data], filename ));
+            const downloadElement = document.createElement("a");
+            downloadElement.href = url;
+            downloadElement.setAttribute('download', filename);
+            document.body.appendChild(downloadElement);
+            downloadElement.click();
+            document.body.removeChild(downloadElement);
+        });
     });
 }
 
