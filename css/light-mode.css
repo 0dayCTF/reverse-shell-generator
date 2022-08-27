@@ -19,6 +19,11 @@ Ain't got time for using CSS the right way. !important everything!
     background-color: #ecefff !important;
 }
 
+[data-theme="light"] .github-corner > svg{
+    fill: #151513 !important;
+    color: #fff !important;
+}
+
 [data-theme="light"] .rainbow {
     color: #000;
 }

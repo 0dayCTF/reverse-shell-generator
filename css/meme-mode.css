@@ -19,6 +19,11 @@ Ain't got time for using CSS the right way. !important everything!
     background-color: rgb(231, 212, 224) !important;
 }
 
+[data-theme="meme"] .github-corner > svg{
+    fill: #151513 !important;
+    color: #fff !important;
+}
+
 [data-theme="meme"] .rainbow {
     text-shadow: 2px 2px 4px #000;
     font-size: 40px;
