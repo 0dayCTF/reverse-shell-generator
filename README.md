@@ -56,7 +56,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://www.alanfoster.me/"><img src="https://avatars.githubusercontent.com/u/1271782?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alan Foster</b></sub></a><br /><a href="#infra-AlanFoster" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     <td align="center"><a href="https://muir.land"><img src="https://avatars.githubusercontent.com/u/58998623?v=4?s=100" width="100px;" alt=""/><br /><sub><b>AG</b></sub></a><br /><a href="#maintenance-MuirlandOracle" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/0x03f3"><img src="https://avatars.githubusercontent.com/u/24409121?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joseph Rose</b></sub></a><br /><a href="#ideas-0x03f3" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/JabbaCS"><img src="https://avatars.githubusercontent.com/u/68778279?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jabba</b></sub></a><br /><a href="#data-JabbaCS" title="Data">🔣</a></td>
+    <td align="center"><a href="https://github.com/JabbaSec"><img src="https://avatars.githubusercontent.com/u/68778279?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jabba</b></sub></a><br /><a href="#data-JabbaSec" title="Data">🔣</a></td>
   </tr>
   <tr>
     <td align="center"><a href="http://www.jake-ruston.com"><img src="https://avatars.githubusercontent.com/u/22551835?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jake Ruston</b></sub></a><br /><a href="#data-Jake-Ruston" title="Data">🔣</a></td>
