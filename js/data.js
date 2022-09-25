@@ -451,6 +451,7 @@ const rsgData = {
     listenerCommands: [
         ['nc', 'nc -lvnp {port}'],
         ['ncat', 'ncat -lvnp {port}'],
+        ['ncat.exe', 'ncat.exe -lvnp {port}'],
         ['ncat (TLS)', 'ncat --ssl -lvnp {port}'],
         ['rlwrap + nc', 'rlwrap -cAr nc -lvnp {port}'],
 	['rustcat', 'rcat -lp {port}'],
