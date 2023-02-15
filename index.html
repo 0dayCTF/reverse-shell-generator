@@ -192,6 +192,10 @@
                 <a class="nav-link" id="msfvenom-tab" data-toggle="tab" href="#msfvenom" role="tab"
                     aria-controls="msfvenom" aria-selected="false">MSFVenom</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="hoaxshell-tab" data-toggle="tab" href="#msfvenom" role="tab"
+                    aria-controls="false" aria-selected="false">HoaxShell</a>
+            </li>
             <!-- <li class="nav-item">
                 <a class="nav-link disabled" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
                     aria-controls="settings" aria-selected="false" aria-disabled="true">Settings</a>
@@ -448,6 +452,66 @@
                     </div>
                 </div>
                 <!-- /MSFVenom Tab -->
+
+            <!-- HoaxShell Tab -->
+            <div class="tab-pane" id="hoaxshell" role="tabpanel" aria-labelledby="hoaxshell-tab">
+                <div class="card shadow mb-5">
+                    <div class="card-body">
+                        <img src="assets/floppy-disk-solid.svg" class="download-svg float-right" data-toggle="tooltip" title="Download Payload">
+                        <div class="card-text mt-4">
+                            <div class="row">
+                                    <!-- Left column: MSFVenom selection -->
+                                    <div class="col-12 col-md-3">
+                                        <div id="hoaxshell-selection" class="list-group overflow-auto"
+                                            style="max-height: 520px">
+                                            <!-- filled by init()-->
+                                        </div>
+                                    </div>
+
+                                    <!-- Right column -->
+                                    <div class="col-12 col-md-9 d-flex flex-column">
+
+                                        <!-- Command -->
+                                        <div class="row flex-grow-1">
+                                            <div class="col position-relative">
+                                                <pre class="prompt-sign">🚀</pre>
+                                                <pre id="hoaxshell-command"
+                                                    class="bg-dark border pre-wrap text-break p-4 pl-5" spellcheck="false"
+                                                    style="outline: none; font-size:1em;" contenteditable="true"></pre>
+                                            </div>
+                                        </div>
+
+                                        <div class="row justify-content-end mr-1">
+                                            <!-- Auto-copy switch -->
+                                            <!-- <div class="custom-control custom-switch mt-2 mr-3" data-toggle="tooltip"
+                                                title="Auto-copy to clipboard when selecting a new shell type">
+                                                <input id="auto-copy-switch" class="custom-control-input"
+                                                    type="checkbox" checked>
+                                                <label for="auto-copy-switch"
+                                                    class="custom-control-label small pr-2 pb-1"
+                                                    style="padding-top: 2px">Auto-copy</label>
+                                            </div> -->
+
+                                            <!-- Raw button -->
+                                            <button type="button" class="raw-listener btn btn-primary float-right mr-3"
+                                                    data-toggle="tooltip" title="View raw">
+                                                Raw
+                                            </button>
+
+                                            <!-- Copy button -->
+                                            <button id="copy-hoaxshell-command" data-toggle="tooltip"
+                                                title="Copy to clipboard" type="button"
+                                                class="btn btn-primary float-right">
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /Right column -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /HoaxShell Tab -->
     </div>
 
     <!-- RSG data -->
