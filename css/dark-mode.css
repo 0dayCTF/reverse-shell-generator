@@ -69,6 +69,14 @@ _:-ms-fullscreen, :root body {
     max-height: 20rem;
 }
 
+#hoaxshell-command {
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+    background-color: rgb(70, 70, 70);
+    max-height: 20rem;
+}
+
 #theme-selector {
     width: 100px;
     height: 30px;
