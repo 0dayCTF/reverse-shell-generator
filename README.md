@@ -17,6 +17,11 @@ https://revshells.com
 - URI and Base64 encoding
 - LocalStorage to persist your configuration
 - Dark, Light and Meme Modes
+- HoaxShell integration with custom listener (see link below for more information) | Credit: https://github.com/t3l3machus
+
+### HoaxShell Listener Docs
+
+[https://github.com/t3l3machus/hoaxshell/tree/main/revshells](https://github.com/t3l3machus/hoaxshell/tree/main/revshells)
 
 ### Screenshot
 
