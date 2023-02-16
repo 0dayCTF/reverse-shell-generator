@@ -193,8 +193,8 @@
                     aria-controls="msfvenom" aria-selected="false">MSFVenom</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="hoaxshell-tab" data-toggle="tab" href="#msfvenom" role="tab"
-                    aria-controls="false" aria-selected="false">HoaxShell</a>
+                <a class="nav-link" id="hoaxshell-tab" data-toggle="tab" href="#hoaxshell" role="tab"
+                    aria-controls="msfvenom" aria-selected="false">HoaxShell</a>
             </li>
             <!-- <li class="nav-item">
                 <a class="nav-link disabled" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
@@ -451,7 +451,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- /MSFVenom Tab -->
+            </div>
+            <!-- /MSFVenom Tab -->
 
             <!-- HoaxShell Tab -->
             <div class="tab-pane" id="hoaxshell" role="tabpanel" aria-labelledby="hoaxshell-tab">
@@ -460,7 +461,7 @@
                         <img src="assets/floppy-disk-solid.svg" class="download-svg float-right" data-toggle="tooltip" title="Download Payload">
                         <div class="card-text mt-4">
                             <div class="row">
-                                    <!-- Left column: MSFVenom selection -->
+                                    <!-- Left column: HoaxShell selection -->
                                     <div class="col-12 col-md-3">
                                         <div id="hoaxshell-selection" class="list-group overflow-auto"
                                             style="max-height: 520px">
@@ -482,21 +483,12 @@
                                         </div>
 
                                         <div class="row justify-content-end mr-1">
-                                            <!-- Auto-copy switch -->
-                                            <!-- <div class="custom-control custom-switch mt-2 mr-3" data-toggle="tooltip"
-                                                title="Auto-copy to clipboard when selecting a new shell type">
-                                                <input id="auto-copy-switch" class="custom-control-input"
-                                                    type="checkbox" checked>
-                                                <label for="auto-copy-switch"
-                                                    class="custom-control-label small pr-2 pb-1"
-                                                    style="padding-top: 2px">Auto-copy</label>
-                                            </div> -->
 
-                                            <!-- Raw button -->
-                                            <button type="button" class="raw-listener btn btn-primary float-right mr-3"
-                                                    data-toggle="tooltip" title="View raw">
-                                                Raw
-                                            </button>
+                                            <!-- Download button -->
+                                            <a href="https://github.com/t3l3machus/hoaxshell/tree/main/revshells" target="_blank"><button type="button" class="btn btn-primary float-right mr-3"
+                                                    data-toggle="tooltip" title="Download Listener">
+                                                Download Listener
+                                            </button></a>
 
                                             <!-- Copy button -->
                                             <button id="copy-hoaxshell-command" data-toggle="tooltip"
@@ -511,7 +503,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- /HoaxShell Tab -->
+            </div>
+            <!-- /hoaxshell Tab -->
     </div>
 
     <!-- RSG data -->
