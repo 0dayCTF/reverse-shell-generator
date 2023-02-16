@@ -143,6 +143,16 @@
       "contributions": [
         "tool"
       ]
+    },
+    {
+      "login": "t3l3machus",
+      "name": "Panagiotis Chartas",
+      "avatar_url": "https://avatars.githubusercontent.com/u/75489922?v=4",
+      "profile": "https://github.com/t3l3machus",
+      "contributions": [
+        "infra",
+        "tool"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -150,5 +160,6 @@
   "projectOwner": "0dayCTF",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
