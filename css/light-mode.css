@@ -103,6 +103,15 @@ Ain't got time for using CSS the right way. !important everything!
     max-height: 20rem;
 }
 
+[data-theme="light"] #hoaxshell-command {
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75);
+    background-color: rgb(45, 139, 135);
+    color: #000;
+    max-height: 20rem;
+}
+
 [data-theme="light"] .custom-select {
     background-color: #f2f2f2;
     color: #000;
