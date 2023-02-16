@@ -565,21 +565,6 @@ const rsgData = {
     ]
 };
 
-const hoaxshell_listener_types = {
-	
-	"Windows CMD cURL" : "cmd-curl",
-	"PowerShell IEX" : "ps-iex",
-	"PowerShell IEX Constr Lang Mode" : "ps-iex-cm",
-	"PowerShell Outfile" : "ps-outfile",
-	"PowerShell Outfile Constr Lang Mode" : "ps-outfile-cm",
-	"Windows CMD cURL https" : "cmd-curl -c /your/cert.pem -k /your/key.pem",
-	"PowerShell IEX https" : "ps-iex -c /your/cert.pem -k /your/key.pem",
-	"PowerShell IEX Constr Lang Mode https" : "ps-iex-cm -c /your/cert.pem -k /your/key.pem",
-	"PowerShell Outfile https" : "ps-outfile -c /your/cert.pem -k /your/key.pem",
-	"PowerShell Outfile Constr Lang Mode https" : "ps-outfile-cm -c /your/cert.pem -k /your/key.pem"	
-	
-};
-
 // Export the data for use within netlify functions / node
 if (typeof exports !== 'undefined') {
     exports.rsgData = rsgData;
