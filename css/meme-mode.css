@@ -108,6 +108,15 @@ Ain't got time for using CSS the right way. !important everything!
     max-height: 20rem;
 }
 
+[data-theme="meme"] #hoaxshell-command {
+    border: none !important;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
+    background-color: rgb(45, 139, 135);
+    color: #000;
+    max-height: 20rem;
+}
+
 [data-theme="meme"] .custom-select {
     background-color: #f1c6ce;
     color: #000;
