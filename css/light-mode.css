@@ -3,7 +3,7 @@ Ain't got time for using CSS the right way. !important everything!
 */
 
 [data-theme="light"] {
-    background-color: #F6F6F6 !important;
+    background-color: #E1E1E1 !important;
 }
 
 [data-theme="light"] .card {
@@ -71,7 +71,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="light"] #listener-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75); original*/
+    box-shadow: rgba(153, 153, 153, 0.16) 0px 3px 6px, rgba(123, 122, 122, 0.23) 0px 3px 6px;
     background-color: rgb(45, 139, 135);
     color: #000;
 }
@@ -79,7 +80,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="light"] #reverse-shell-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75); original*/
+    box-shadow: rgba(153, 153, 153, 0.16) 0px 3px 6px, rgba(123, 122, 122, 0.23) 0px 3px 6px;
     background-color: rgb(45, 139, 135);
     color: #000;
     max-height: 20rem;
@@ -88,7 +90,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="light"] #bind-shell-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75); original*/
+    box-shadow: rgba(153, 153, 153, 0.16) 0px 3px 6px, rgba(123, 122, 122, 0.23) 0px 3px 6px;
     background-color: rgb(45, 139, 135);
     color: #000;
     max-height: 20rem;
@@ -97,7 +100,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="light"] #msfvenom-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75); original*/
+    box-shadow: rgba(153, 153, 153, 0.16) 0px 3px 6px, rgba(123, 122, 122, 0.23) 0px 3px 6px;
     background-color: rgb(45, 139, 135);
     color: #000;
     max-height: 20rem;
@@ -106,7 +110,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="light"] #hoaxshell-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(209, 209, 209, 0.75); original*/
+    box-shadow: rgba(153, 153, 153, 0.16) 0px 3px 6px, rgba(123, 122, 122, 0.23) 0px 3px 6px;
     background-color: rgb(45, 139, 135);
     color: #000;
     max-height: 20rem;
@@ -163,10 +168,12 @@ Ain't got time for using CSS the right way. !important everything!
 }
 
 [data-theme="light"] .container {
-    padding: 10px;
+    padding: 20px;
     border-radius: 20px;
-    box-shadow: 10px 0px 20px 5px rgba(209, 209, 209, 0.75);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     height: 100% !important;
+    background: #fff;
+    margin: 20px auto;
 }
 
 [data-theme="light"] .card-title {
@@ -198,4 +205,13 @@ Ain't got time for using CSS the right way. !important everything!
 @font-face {
     font-family: "Comic Mono";
     src: url(../assets/ComicMono.ttf);
+}
+
+.shadow {
+	margin-bottom: 0px !important;
+}
+
+a[href*="t3l3machus"] {
+/* Fixes a minor style bug of the "Download Listener" button */
+  background: none;
 }
