@@ -176,7 +176,7 @@ Ain't got time for using CSS the right way. !important everything!
     /*box-shadow: 10px 0px 20px 0px rgba(153, 28, 143, 0.75); original */
     box-shadow: 3px 0 20px 0 rgba(153,28,143,.75);
     height: 100% !important;
-	background-image: url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700018781.jpg);
+	background-image: url(../assets/meme_doge.jpg);
 	margin: 20px auto;
 	background-position: 45% 24%;
 }
