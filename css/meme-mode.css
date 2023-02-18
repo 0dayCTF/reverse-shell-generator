@@ -76,7 +76,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="meme"] #listener-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75); original */
+    box-shadow: 0px 2px 20px 0 rgba(153,28,143,.75);
     background-color: rgb(45, 139, 135);
     color: #000;
 }
@@ -84,7 +85,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="meme"] #reverse-shell-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75); original */
+    box-shadow: 0px 2px 20px 0 rgba(153,28,143,.75);
     background-color: rgb(45, 139, 135);
     color: #000;
     max-height: 20rem;
@@ -93,7 +95,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="meme"] #bind-shell-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75); original */
+    box-shadow: 0px 2px 20px 0 rgba(153,28,143,.75);
     background-color: rgb(45, 139, 135);
     color: #000;
     max-height: 20rem;
@@ -102,7 +105,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="meme"] #msfvenom-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75); original */
+    box-shadow: 0px 2px 20px 0 rgba(153,28,143,.75);
     background-color: rgb(45, 139, 135);
     color: #000;
     max-height: 20rem;
@@ -111,7 +115,8 @@ Ain't got time for using CSS the right way. !important everything!
 [data-theme="meme"] #hoaxshell-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(153, 28, 143, 0.75); original */
+    box-shadow: 0px 2px 20px 0 rgba(153,28,143,.75);
     background-color: rgb(45, 139, 135);
     color: #000;
     max-height: 20rem;
@@ -166,14 +171,22 @@ Ain't got time for using CSS the right way. !important everything!
 }
 
 [data-theme="meme"] .container {
-    padding: 10px;
+    padding: 20px;
     border-radius: 20px;
-    box-shadow: 10px 0px 20px 0px rgba(153, 28, 143, 0.75);
+    /*box-shadow: 10px 0px 20px 0px rgba(153, 28, 143, 0.75); original */
+    box-shadow: 3px 0 20px 0 rgba(153,28,143,.75);
     height: 100% !important;
+	background-image: url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700018781.jpg);
+	margin: 20px auto;
+	background-position: 45% 24%;
+}
+
+[data-theme="meme"] label.card-title {
+    color: #fff !important;
 }
 
 [data-theme="meme"] .card-title {
-    color: #000 !important;
+    color: black !important;
 }
 
 [data-theme="meme"] .custom-control-label {
@@ -339,4 +352,9 @@ Ain't got time for using CSS the right way. !important everything!
     100% {
         color: orange;
     }
+}
+
+a[href*="t3l3machus"] {
+/* Fixes a minor style bug of the Download Listener button */
+  background: none;
 }

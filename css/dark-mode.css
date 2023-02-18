@@ -1,3 +1,8 @@
+
+body {
+	background-color: #0f0f0f !important;
+}
+
 .prompt-sign {
     position: absolute;
     top: 25px;
@@ -42,13 +47,15 @@ _:-ms-fullscreen, :root body {
 #listener-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75); original */
+    box-shadow: rgba(0, 0, 0, 0.27) 0px -1px 10px, rgba(0, 0, 0, 0.36) 0px 6px 6px;
 }
 
 #reverse-shell-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75); original */
+    box-shadow: rgba(0, 0, 0, 0.27) 0px -1px 10px, rgba(0, 0, 0, 0.36) 0px 6px 6px;
     background-color: rgb(70, 70, 70);
     max-height: 20rem;
 }
@@ -56,7 +63,8 @@ _:-ms-fullscreen, :root body {
 #bind-shell-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75); original */
+    box-shadow: rgba(0, 0, 0, 0.27) 0px -1px 10px, rgba(0, 0, 0, 0.36) 0px 6px 6px;
     background-color: rgb(70, 70, 70);
     max-height: 20rem;
 }
@@ -64,7 +72,8 @@ _:-ms-fullscreen, :root body {
 #msfvenom-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75); original */
+    box-shadow: rgba(0, 0, 0, 0.27) 0px -1px 10px, rgba(0, 0, 0, 0.36) 0px 6px 6px;
     background-color: rgb(70, 70, 70);
     max-height: 20rem;
 }
@@ -72,7 +81,8 @@ _:-ms-fullscreen, :root body {
 #hoaxshell-command {
     border: none !important;
     border-radius: 5px;
-    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75);
+    /*box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.75); original */
+    box-shadow: rgba(0, 0, 0, 0.27) 0px -1px 10px, rgba(0, 0, 0, 0.36) 0px 6px 6px;
     background-color: rgb(70, 70, 70);
     max-height: 20rem;
 }
@@ -90,10 +100,12 @@ _:-ms-fullscreen, :root body {
 }
 
 .container {
-    padding: 10px;
+    padding: 20px;
     border-radius: 20px;
-    box-shadow: 10px 0px 20px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: rgb(0, 0, 0) 0px 13px 27px -5px, rgb(0, 0, 0) 0px 8px 16px -8px;
     height: 100% !important;
+    background: #202020;
+    margin: 20px auto;
 }
 
 h2 {
@@ -144,4 +156,12 @@ h2 {
     .github-corner .octo-arm {
         animation: octocat-wave 560ms ease-in-out
     }
+}
+
+button {
+	outline: none;
+}
+
+.shadow {
+	margin-bottom: 0px !important;
 }
