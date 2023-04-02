@@ -115,7 +115,7 @@ const fixedEncodeURIComponent = function (str) {
 }
 
 const rsg = {
-    ip: query.get('ip') || localStorage.getItem('ip') || '10.10.10.10',
+    ip: (query.get('ip') || localStorage.getItem('ip') || '10.10.10.10').replace(/[^a-zA-Z0-9.\-]/g, ''),
     port: query.get('port') || localStorage.getItem('port') || 9001,
     payload: query.get('payload') || localStorage.getItem('payload') || 'windows/x64/meterpreter/reverse_tcp',
     payload: query.get('type') || localStorage.getItem('type') || 'cmd-curl',
