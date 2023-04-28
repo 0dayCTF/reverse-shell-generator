@@ -548,6 +548,7 @@ const rsgData = {
 
     listenerCommands: [
         ['nc', 'nc -lvnp {port}'],
+        ['nc freebsd', 'nc -lvn {port}'],
 	['busybox nc', 'busybox nc -lp {port}'],
         ['ncat', 'ncat -lvnp {port}'],
         ['ncat.exe', 'ncat.exe -lvnp {port}'],
