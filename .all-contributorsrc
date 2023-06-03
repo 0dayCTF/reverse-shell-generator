@@ -154,6 +154,15 @@
         "tool"
       ]
     }
+    {
+      "login": "P1YUSH",
+      "name": "Piyush Sharma",
+      "avatar_url": "https://avatars.githubusercontent.com/u/98208035?v=4",
+      "profile": "https://github.com/piyush-security",
+      "contributions": [
+        "tool"
+      ]
+    }
   ],
   "contributorsPerLine": 7,
   "projectName": "reverse-shell-generator",

