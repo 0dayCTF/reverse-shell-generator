@@ -153,6 +153,15 @@
         "infra",
         "tool"
       ]
+    },
+    {
+      "login": "StarNumber12046",
+      "name": "StarNumber",
+      "avatar_url": "https://avatars.githubusercontent.com/u/64470722?v=4",
+      "profile": "https://github.com/StarNumber12046",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -161,5 +170,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "commitConvention": "angular"
+  "commitConvention": "angular",
+  "commitType": "docs"
 }
