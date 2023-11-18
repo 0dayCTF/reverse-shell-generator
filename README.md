@@ -1,6 +1,6 @@
 # reverse-shell-generator
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 Hosted Reverse Shell generator with a ton of functionality -- (great for CTFs)
 <br> [![Netlify Status](https://api.netlify.com/api/v1/badges/46dbabe0-23b7-42e6-b04b-e1769dc455ce/deploy-status)](https://app.netlify.com/sites/brave-swartz-5dcdab/deploys)
@@ -76,6 +76,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="http://rohitkumarankam.com"><img src="https://avatars.githubusercontent.com/u/70012972?v=4?s=100" width="100px;" alt="Rohit Kumar Ankam"/><br /><sub><b>Rohit Kumar Ankam</b></sub></a><br /><a href="#tool-rohitkumarankam" title="Tools">🔧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/t3l3machus"><img src="https://avatars.githubusercontent.com/u/75489922?v=4?s=100" width="100px;" alt="Panagiotis Chartas"/><br /><sub><b>Panagiotis Chartas</b></sub></a><br /><a href="#infra-t3l3machus" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#tool-t3l3machus" title="Tools">🔧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/StarNumber12046"><img src="https://avatars.githubusercontent.com/u/64470722?v=4?s=100" width="100px;" alt="StarNumber"/><br /><sub><b>StarNumber</b></sub></a><br /><a href="https://github.com/0dayCTF/reverse-shell-generator/issues?q=author%3AStarNumber12046" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
