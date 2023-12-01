@@ -536,3 +536,23 @@ $(function () {
 
 // TODO: add a random fifo for netcat mkfifo
 //let randomId = Math.random().toString(36).substring(2, 4);
+
+// Search functionality
+document.getElementById('searchBox').addEventListener('keyup', function() {
+    var searchTerm = this.value.toLowerCase();
+    var listItems = document.querySelectorAll('#reverse-shell-selection .list-group-item');
+    var count = 0;
+
+    listItems.forEach(function(item) {
+        var text = item.textContent.toLowerCase();
+        var match = text.indexOf(searchTerm) !== -1;
+        if (match) {
+            item.style.display = '';
+            count++;
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    document.getElementById('noResults').style.display = count === 0 ? '' : 'none';
+});

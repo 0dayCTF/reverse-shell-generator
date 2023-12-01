@@ -358,3 +358,10 @@ a[href*="t3l3machus"] {
 /* Fixes a minor style bug of the Download Listener button */
   background: none;
 }
+
+.middle-card {
+    min-height: 500px; 
+    max-height: 100%; 
+    overflow-y: auto; 
+    padding: 1.5rem; 
+}
