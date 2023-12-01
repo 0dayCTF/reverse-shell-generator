@@ -556,3 +556,12 @@ document.getElementById('searchBox').addEventListener('keyup', function() {
 
     document.getElementById('noResults').style.display = count === 0 ? '' : 'none';
 });
+
+// Event listener for search results
+document.querySelectorAll('#reverse-shell-selection .list-group-item').forEach(function(item) {
+    item.addEventListener('click', function(event) {
+        event.preventDefault();
+        console.log(item.textContent);
+        document.getElementById('searchBox').dispatchEvent(new Event('keyup'));
+    });
+});
