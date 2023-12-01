@@ -537,31 +537,67 @@ $(function () {
 // TODO: add a random fifo for netcat mkfifo
 //let randomId = Math.random().toString(36).substring(2, 4);
 
-// Search functionality
-document.getElementById('searchBox').addEventListener('keyup', function() {
-    var searchTerm = this.value.toLowerCase();
+// Global variable to keep track of the last search term
+// This variable will hold the last search term
+// This function will apply the search filter to the list
+// Utility function to save the search term
+function saveSearchTerm(term) {
+    localStorage.setItem('searchTerm', term);
+}
+
+// Utility function to get the saved search term
+function getSavedSearchTerm() {
+    return localStorage.getItem('searchTerm');
+}
+
+// Function to apply the search filter
+function applySearchFilter(term) {
     var listItems = document.querySelectorAll('#reverse-shell-selection .list-group-item');
     var count = 0;
-
+    
     listItems.forEach(function(item) {
         var text = item.textContent.toLowerCase();
-        var match = text.indexOf(searchTerm) !== -1;
-        if (match) {
-            item.style.display = '';
-            count++;
-        } else {
-            item.style.display = 'none';
-        }
+        var match = text.indexOf(term) !== -1;
+        item.style.display = match ? '' : 'none';
+        if (match) count++;
     });
 
-    document.getElementById('noResults').style.display = count === 0 ? '' : 'none';
-});
+    // Show or hide the 'no results' message
+    var noResultsEl = document.getElementById('noResults');
+    if (noResultsEl) {
+        noResultsEl.style.display = count === 0 ? 'block' : 'none';
+    }
 
-// Event listener for search results
-document.querySelectorAll('#reverse-shell-selection .list-group-item').forEach(function(item) {
-    item.addEventListener('click', function(event) {
-        event.preventDefault();
-        console.log(item.textContent);
-        document.getElementById('searchBox').dispatchEvent(new Event('keyup'));
+    // Reattach event listeners to the filtered items
+    attachClickListenersToItems();
+}
+
+// Attach click event listeners to search result items
+function attachClickListenersToItems() {
+    document.querySelectorAll('#reverse-shell-selection .list-group-item').forEach(function(item) {
+        item.addEventListener('click', function(event) {
+            event.preventDefault();
+            event.stopPropagation(); 
+
+            var searchTerm = getSavedSearchTerm();
+            if (searchTerm) {
+                applySearchFilter(searchTerm);
+            }
+        });
     });
+}
+
+// Set up the initial event listener for the search box
+document.addEventListener('DOMContentLoaded', function() {
+    var searchBox = document.getElementById('searchBox');
+    if (searchBox) {
+        searchBox.value = getSavedSearchTerm() || ''; 
+        applySearchFilter(searchBox.value.toLowerCase()); 
+
+        searchBox.addEventListener('keyup', function() {
+            var searchTerm = this.value.toLowerCase();
+            saveSearchTerm(searchTerm); 
+            applySearchFilter(searchTerm); 
+        });
+    }
 });
