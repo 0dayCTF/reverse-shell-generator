@@ -358,7 +358,14 @@ const rsg = {
             }
         );
 
-        const documentFragment = document.createDocumentFragment()
+        const documentFragment = document.createDocumentFragment();
+        if (filteredItems.length === 0) {
+            const emptyMessage = document.createElement("button");
+            emptyMessage.innerText = "No results found";
+            emptyMessage.classList.add("list-group-item", "list-group-item-action", "disabled");
+
+            documentFragment.appendChild(emptyMessage);
+        }
         filteredItems.forEach((item, index) => {
             const {
                 name,
