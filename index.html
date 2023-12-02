@@ -207,27 +207,10 @@
             <div class="tab-pane active" id="reverse" role="tabpanel" aria-labelledby="reverse-tab">
                 <div class="card shadow mb-5">
                     <div class="card-body">
-
-                        <!-- Show all advanced switch -->
-                        <div class="custom-control custom-switch float-right">
-                            <input id="revshell-advanced-switch" type="checkbox" class="custom-control-input" checked>
-                            <label for="revshell-advanced-switch" class="custom-control-label small pr-2 pb-1"
-                                style="padding-top:2px" data-toggle="tooltip" title="Display all advanced settings">
-                                Show Advanced
-                            </label>
-                            <img src="assets/floppy-disk-solid.svg" class="download-svg" data-toggle="tooltip" title="Download Payload">
-                        </div>
-                        <!-- /Show all advanced switch -->
-                        <!-- Search Box -->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input type="text" id="searchBox" placeholder="Search..." class="form-control mb-3">
-                            </div>
-                        </div>
-						<!-- /Search Box -->
-                        <!---Filter OS-->
-                        <div class="row">
-                            <label for="os-options" class="col-auto col-form-label float-left"
+                        <!-- Top configuration bar -->
+                        <div class="d-md-flex">
+                            <!---Filters-->
+                            <label for="os-options" class="col-auto col-form-label"
                                 style="font-size:1rem">OS</label>
                             <div class="col-auto">
                                 <select id="os-options" class="custom-select">
@@ -237,8 +220,25 @@
                                     <option class="os-item" value="mac">Mac</option>
                                 </select>
                             </div>
+
+                            <label for="os-options" class="col-auto col-form-label"
+                                style="font-size:1rem">Name</label>
+                            <div class="col-auto flex-grow-1">
+                                <input type="text" id="searchBox" placeholder="Search..." class="form-control form-control-md text-left">
+                            </div>
+                            <!---/Filters-->
+
+                            <!-- Show all advanced switch -->
+                            <div class="custom-control custom-switch text-right d-flex justify-content-center align-self-center">
+                                <input id="revshell-advanced-switch" type="checkbox" class="custom-control-input" checked>
+                                <label for="revshell-advanced-switch" class="custom-control-label small pr-2 pb-1"
+                                    style="padding-top:2px" data-toggle="tooltip" title="Display all advanced settings">
+                                    Show Advanced
+                                </label>
+                                <img src="assets/floppy-disk-solid.svg" class="download-svg" data-toggle="tooltip" title="Download Payload">
+                            </div>
+                            <!-- /Show all advanced switch -->
                         </div>
-                        <!---/Filter OS-->
 
                         <div class="card-text mt-4">
                             <div class="row">
@@ -351,7 +351,6 @@
             <div class="tab-pane" id="bind" role="tabpanel" aria-labelledby="bind-tab">
                 <div class="card shadow mb-5">
                     <div class="card-body">
-                        <img src="assets/floppy-disk-solid.svg" class="download-svg float-right" data-toggle="tooltip" title="Download Payload">
                         <div class="card-text mt-4">
                             <div class="row">
                                 <!-- Left column: Bind selection -->
@@ -465,7 +464,6 @@
             <div class="tab-pane" id="hoaxshell" role="tabpanel" aria-labelledby="hoaxshell-tab">
                 <div class="card shadow mb-5">
                     <div class="card-body">
-                        <img src="assets/floppy-disk-solid.svg" class="download-svg float-right" data-toggle="tooltip" title="Download Payload">
                         <div class="card-text mt-4">
                             <div class="row">
                                     <!-- Left column: HoaxShell selection -->

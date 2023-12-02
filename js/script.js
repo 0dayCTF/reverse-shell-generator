@@ -5,14 +5,16 @@ const portInput = document.querySelector("#port");
 const listenerSelect = document.querySelector("#listener-selection");
 const shellSelect = document.querySelector("#shell");
 // const autoCopySwitch = document.querySelector("#auto-copy-switch");
+const operatingSystemSelect = document.querySelector("#os-options");
 const encodingSelect = document.querySelector('#encoding');
+const searchBox = document.querySelector('#searchBox');
 const listenerCommand = document.querySelector("#listener-command");
 const reverseShellCommand = document.querySelector("#reverse-shell-command");
 const bindShellCommand = document.querySelector("#bind-shell-command");
 const msfVenomCommand = document.querySelector("#msfvenom-command");
 const hoaxShellCommand = document.querySelector("#hoaxshell-command");
 
-const FilterType = {
+const FilterOperatingSystemType = {
     'All': 'all',
     'Windows': 'windows',
     'Linux': 'linux',
@@ -20,7 +22,6 @@ const FilterType = {
 };
 
 const hoaxshell_listener_types = {
-	
 	"Windows CMD cURL" : "cmd-curl",
 	"PowerShell IEX" : "ps-iex",
 	"PowerShell IEX Constr Lang Mode" : "ps-iex-cm",
@@ -30,14 +31,13 @@ const hoaxshell_listener_types = {
 	"PowerShell IEX https" : "ps-iex -c /your/cert.pem -k /your/key.pem",
 	"PowerShell IEX Constr Lang Mode https" : "ps-iex-cm -c /your/cert.pem -k /your/key.pem",
 	"PowerShell Outfile https" : "ps-outfile -c /your/cert.pem -k /your/key.pem",
-	"PowerShell Outfile Constr Lang Mode https" : "ps-outfile-cm -c /your/cert.pem -k /your/key.pem"	
-	
+	"PowerShell Outfile Constr Lang Mode https" : "ps-outfile-cm -c /your/cert.pem -k /your/key.pem"
 };
 
-document.querySelector("#os-options").addEventListener("change", (event) => {
+operatingSystemSelect.addEventListener("change", (event) => {
     const selectedOS = event.target.value;
     rsg.setState({
-        filter: selectedOS,
+        filterOperatingSystem: selectedOS,
     });
 });
 
@@ -87,21 +87,16 @@ for (const button of rawLinkButtons) {
     });
 }
 
-const filterCommandData = function (data, { commandType, filter }) {
+const filterCommandData = function (data, { commandType, filterOperatingSystem = FilterOperatingSystemType.All, filterText = '' }) {
     return data.filter(item => {
+
         if (!item.meta.includes(commandType)) {
             return false;
         }
 
-        if (!filter) {
-            return true;
-        }
-
-        if (filter === FilterType.All) {
-            return true;
-        }
-
-        return item.meta.includes(filter);
+        var hasOperatingSystemMatch = (filterOperatingSystem === FilterOperatingSystemType.All) || item.meta.includes(filterOperatingSystem);
+        var hasTextMatch = item.name.toLowerCase().indexOf(filterText.toLowerCase()) >= 0;
+        return hasOperatingSystemMatch && hasTextMatch;
     });
 }
 
@@ -129,7 +124,8 @@ const rsg = {
         [CommandType.HoaxShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.HoaxShell })[0].name,
     },
     commandType: CommandType.ReverseShell,
-    filter: FilterType.All,
+    filterOperatingSystem: query.get('filterOperatingSystem') || localStorage.getItem('filterOperatingSystem') || FilterOperatingSystemType.All,
+    filterText: query.get('filterText') || localStorage.getItem('filterText') || '',
 
     uiElements: {
         [CommandType.ReverseShell]: {
@@ -347,6 +343,8 @@ const rsg = {
 
         ipInput.value = rsg.ip;
         portInput.value = rsg.port;
+        operatingSystemSelect.value = rsg.filterOperatingSystem;
+        searchBox.value = rsg.filterText;
     },
 
     updateTabList: () => {
@@ -354,7 +352,8 @@ const rsg = {
         const filteredItems = filterCommandData(
             data,
             {
-                filter: rsg.filter,
+                filterOperatingSystem:  rsg.filterOperatingSystem,
+                filterText: rsg.filterText,
                 commandType: rsg.commandType
             }
         );
@@ -471,6 +470,12 @@ encodingSelect.addEventListener("change", (e) => {
     })
 });
 
+searchBox.addEventListener("input", (e) => {
+    rsg.setState({
+        filterText: e.target.value
+    })
+});
+
 document.querySelector('#inc-port').addEventListener('click', () => {
     rsg.setState({
         port: rsg.getPort() + 1
@@ -537,67 +542,3 @@ $(function () {
 // TODO: add a random fifo for netcat mkfifo
 //let randomId = Math.random().toString(36).substring(2, 4);
 
-// Global variable to keep track of the last search term
-// This variable will hold the last search term
-// This function will apply the search filter to the list
-// Utility function to save the search term
-function saveSearchTerm(term) {
-    localStorage.setItem('searchTerm', term);
-}
-
-// Utility function to get the saved search term
-function getSavedSearchTerm() {
-    return localStorage.getItem('searchTerm');
-}
-
-// Function to apply the search filter
-function applySearchFilter(term) {
-    var listItems = document.querySelectorAll('#reverse-shell-selection .list-group-item');
-    var count = 0;
-    
-    listItems.forEach(function(item) {
-        var text = item.textContent.toLowerCase();
-        var match = text.indexOf(term) !== -1;
-        item.style.display = match ? '' : 'none';
-        if (match) count++;
-    });
-
-    // Show or hide the 'no results' message
-    var noResultsEl = document.getElementById('noResults');
-    if (noResultsEl) {
-        noResultsEl.style.display = count === 0 ? 'block' : 'none';
-    }
-
-    // Reattach event listeners to the filtered items
-    attachClickListenersToItems();
-}
-
-// Attach click event listeners to search result items
-function attachClickListenersToItems() {
-    document.querySelectorAll('#reverse-shell-selection .list-group-item').forEach(function(item) {
-        item.addEventListener('click', function(event) {
-            event.preventDefault();
-            event.stopPropagation(); 
-
-            var searchTerm = getSavedSearchTerm();
-            if (searchTerm) {
-                applySearchFilter(searchTerm);
-            }
-        });
-    });
-}
-
-// Set up the initial event listener for the search box
-document.addEventListener('DOMContentLoaded', function() {
-    var searchBox = document.getElementById('searchBox');
-    if (searchBox) {
-        searchBox.value = getSavedSearchTerm() || ''; 
-        applySearchFilter(searchBox.value.toLowerCase()); 
-
-        searchBox.addEventListener('keyup', function() {
-            var searchTerm = this.value.toLowerCase();
-            saveSearchTerm(searchTerm); 
-            applySearchFilter(searchTerm); 
-        });
-    }
-});
