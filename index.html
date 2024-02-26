@@ -46,6 +46,17 @@
                 fill="currentColor" class="octo-body"></path>
         </svg></a>
     <style>
+        @media (max-width: 767px) {
+            #reverse-shell-selection {
+                max-height: 290px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            #reverse-shell-selection {
+                max-height: 520px;
+            }
+        }
     </style>
 </head>
 
@@ -245,8 +256,7 @@
 
                                 <!-- Left column: Reverse shell selection -->
                                 <div class="col-12 col-md-3">
-                                    <div id="reverse-shell-selection" class="list-group overflow-auto"
-                                        style="max-height: 490px">
+                                    <div id="reverse-shell-selection" class="list-group overflow-auto">
                                         <!-- filled by init()-->
                                     </div>
                                 </div>
