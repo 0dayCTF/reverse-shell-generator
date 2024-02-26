@@ -586,6 +586,7 @@ const rsgData = {
         ['rlwrap + nc', 'rlwrap -cAr nc -lvnp {port}'],
 		['rustcat', 'rcat listen {port}'],
         ['pwncat', 'python3 -m pwncat -lp {port}'],
+        ['pwncat (windows)', 'python3 -m pwncat -m windows -lp {port}'],
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
         ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
