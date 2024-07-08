@@ -149,7 +149,7 @@ Ain't got time for using CSS the right way. !important everything!
 
 [data-theme="meme"] a {
     background-color: #f1c6ce;
-    color: #000000;
+    color: #000;
 }
 
 [data-theme="meme"] .list-group-item {
