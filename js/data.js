@@ -602,6 +602,7 @@ const rsgData = {
 		['rustcat', 'rcat listen {port}'],
         ['openssl', 'openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 30 -nodes; openssl s_server -quiet -key key.pem -cert cert.pem -port {port}'],
         ['pwncat', 'python3 -m pwncat -lp {port}'],
+        ['pwncat (windows)', 'python3 -m pwncat -m windows -lp {port}'],
         ['windows ConPty', 'stty raw -echo; (stty size; cat) | nc -lvnp {port}'],
         ['socat', 'socat -d -d TCP-LISTEN:{port} STDOUT'],
         ['socat (TTY)', 'socat -d -d file:`tty`,raw,echo=0 TCP-LISTEN:{port}'],
