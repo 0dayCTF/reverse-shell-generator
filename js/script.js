@@ -109,9 +109,17 @@ const fixedEncodeURIComponent = function (str) {
     });
 }
 
+const parsePortOrDefault = function (value, defaultPort = 9001) {
+    if (value === null || value === undefined) return defaultPort;
+
+    const number = Number(value);
+    const isValidPort = (Number.isSafeInteger(number) && number >= 0 && number <= 65535);
+    return isValidPort ? number : defaultPort;
+};
+
 const rsg = {
     ip: (query.get('ip') || localStorage.getItem('ip') || '10.10.10.10').replace(/[^a-zA-Z0-9.\-]/g, ''),
-    port: query.get('port') || localStorage.getItem('port') || 9001,
+    port: parsePortOrDefault(query.get('port') || localStorage.getItem('port')),
     payload: query.get('payload') || localStorage.getItem('payload') || 'windows/x64/meterpreter/reverse_tcp',
     payload: query.get('type') || localStorage.getItem('type') || 'cmd-curl',
     shell: query.get('shell') || localStorage.getItem('shell') || rsgData.shells[0],
@@ -166,7 +174,7 @@ const rsg = {
 
     getIP: () => rsg.ip,
 
-    getPort: () => Number(rsg.port),
+    getPort: () => parsePortOrDefault(rsg.port),
 
     getShell: () => rsg.shell,
 
@@ -454,8 +462,9 @@ ipInput.addEventListener("input", (e) => {
 });
 
 portInput.addEventListener("input", (e) => {
+    const value = e.target.value.length === 0 ? '0' : e.target.value;
     rsg.setState({
-        port: Number(e.target.value)
+        port: parsePortOrDefault(value, rsg.getPort())
     })
 });
 
