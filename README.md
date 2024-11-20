@@ -46,6 +46,23 @@ docker run -d -p 80:80 reverse_shell_generator
 
 Browse to http://localhost:80
 
+## Use python3 
+
+Alternatively you can youse use python and launch your own server to host this site with:
+
+    cd /path/to/reverse-shell-generator
+    
+    python3 -m http.server 8080 &
+
+Now with a python server running, you can go to http://localhost:8080
+
+I have automated this with a script that starts the server and opens Firefox to the correct location labeled launch-with-python.sh as i had issues trying to use docker.
+
+If you change the port chosen with python, the address will need to be updated accordingly. 
+
+
+
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
