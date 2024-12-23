@@ -233,6 +233,7 @@ const reverseShellCommands = withCommandType(
         },
         {
             "name": "PowerShell #3 (Base64)",
+            "command": "PowerShell #3 (Base64)",
             "meta": ["windows"]
         },
         {
