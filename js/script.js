@@ -1,4 +1,3 @@
-
 // Element selectors
 const ipInput = document.querySelector("#ip");
 const portInput = document.querySelector("#port");
@@ -443,7 +442,35 @@ const rsg = {
             'hide')
         $('#revshell-advanced').collapse($('#revshell-advanced-switch').prop('checked') ? 'show' :
             'hide')
-    }
+    },
+
+    exportPayloadsToTxt: () => {
+        // Generate reverse shell payloads in .txt
+        // Can be used with Burp Intrudeer
+        const payloads = [];
+        const reverseShellItems = document.querySelectorAll("#reverse-shell-selection .list-group-item");
+    
+        reverseShellItems.forEach(item => {
+            const commandName = item.innerText;
+            const commandData = rsgData.reverseShellCommands.find(cmd => cmd.name === commandName);
+            if (commandData && commandData.command) {
+                const command = rsg.insertParameters(commandData.command, (text) => text);
+                // skip multi-row commands or scripts
+                if (!command.includes('\n')) {
+                    payloads.push(command);
+                }
+            }
+        });
+    
+        const fileContent = payloads.join('\n');
+        const blob = new Blob([fileContent], { type: 'text/plain' });
+    
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'reverse_shell_payloads.txt';
+        link.click();
+        URL.revokeObjectURL(link.href);
+    },
 }
 
 /*
@@ -522,6 +549,8 @@ document.querySelector('#copy-msfvenom-command').addEventListener('click', () =>
 document.querySelector('#copy-hoaxshell-command').addEventListener('click', () => {
     rsg.copyToClipboard(hoaxShellCommand.innerText)
 })
+
+document.querySelector('#download-reverse-shell-btn').addEventListener('click', rsg.exportPayloadsToTxt);
 
 var downloadButton = document.querySelectorAll(".download-svg");
 for (const Dbutton of downloadButton) {
