@@ -14,7 +14,6 @@ const RawLink = {
 
         if (isUserProvidedCommand) {
             return RawLink.withCustomValue(currentCommandElement.innerText)
-
         }
         return RawLink.withDefaultPayload(rsg);
     },

