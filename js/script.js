@@ -22,16 +22,16 @@ const FilterOperatingSystemType = {
 };
 
 const hoaxshell_listener_types = {
-	"Windows CMD cURL" : "cmd-curl",
-	"PowerShell IEX" : "ps-iex",
-	"PowerShell IEX Constr Lang Mode" : "ps-iex-cm",
-	"PowerShell Outfile" : "ps-outfile",
-	"PowerShell Outfile Constr Lang Mode" : "ps-outfile-cm",
-	"Windows CMD cURL https" : "cmd-curl -c /your/cert.pem -k /your/key.pem",
-	"PowerShell IEX https" : "ps-iex -c /your/cert.pem -k /your/key.pem",
-	"PowerShell IEX Constr Lang Mode https" : "ps-iex-cm -c /your/cert.pem -k /your/key.pem",
-	"PowerShell Outfile https" : "ps-outfile -c /your/cert.pem -k /your/key.pem",
-	"PowerShell Outfile Constr Lang Mode https" : "ps-outfile-cm -c /your/cert.pem -k /your/key.pem"
+    "Windows CMD cURL" : "cmd-curl",
+    "PowerShell IEX" : "ps-iex",
+    "PowerShell IEX Constr Lang Mode" : "ps-iex-cm",
+    "PowerShell Outfile" : "ps-outfile",
+    "PowerShell Outfile Constr Lang Mode" : "ps-outfile-cm",
+    "Windows CMD cURL https" : "cmd-curl -c /your/cert.pem -k /your/key.pem",
+    "PowerShell IEX https" : "ps-iex -c /your/cert.pem -k /your/key.pem",
+    "PowerShell IEX Constr Lang Mode https" : "ps-iex-cm -c /your/cert.pem -k /your/key.pem",
+    "PowerShell Outfile https" : "ps-outfile -c /your/cert.pem -k /your/key.pem",
+    "PowerShell Outfile Constr Lang Mode https" : "ps-outfile-cm -c /your/cert.pem -k /your/key.pem"
 };
 
 operatingSystemSelect.addEventListener("change", (event) => {
@@ -75,7 +75,7 @@ document.querySelector("#hoaxshell-tab").addEventListener("click", () => {
     document.querySelector("#hoaxshell-selection").innerHTML = "";
     rsg.setState({
         commandType: CommandType.HoaxShell,
-		encoding: "None"
+        encoding: "None"
     });
 });
 
@@ -428,6 +428,61 @@ const rsg = {
     updateListenerCommand: () => {
         const privilegeWarning = document.querySelector("#port-privileges-warning");
         let command = listenerSelect.value;
+
+        const selectedCommandName = rsg.getSelectedCommandName();
+        const udpPayloads = [
+            'Bash udp',
+            'ncat udp',
+        ];
+        let isUDP = false;
+        if (udpPayloads.includes(selectedCommandName)) {
+            isUDP = true;
+        }
+
+        if (isUDP) {
+            let udpSupported = true;
+            if (/^nc\s/.test(command) && !/\s-u(\s|$)/.test(command)) {
+                command = command.replace(/^(nc)(\s+)/, '$1 -u$2');
+            } else if (/^ncat(\s|\.|\s--ssl)/.test(command) && !/\s-u(\s|$)/.test(command)) {
+                if (/--ssl/.test(command)) {
+                    udpSupported = false;
+                    command = '<span class="highlighted-warning">Warning: SSL/TLS (--ssl) is not supported over UDP with ncat.</span>';
+                } else {
+                    command = command.replace(/^(ncat(\.exe)?( --ssl)?)(\s+)/, '$1 -u$4');
+                }
+            } else if (/^busybox nc\s/.test(command) && !/\s-u(\s|$)/.test(command)) {
+                command = command.replace(/^(busybox nc)(\s+)/, '$1 -u$2');
+            } else if (/^rlwrap -cAr nc\s/.test(command) && !/\s-u(\s|$)/.test(command)) {
+                command = command.replace(/^(rlwrap -cAr nc)(\s+)/, '$1 -u$2');
+            } else if (/^nc freebsd\s/.test(command)) {
+                command = command.replace(/^nc freebsd\s+-lvn(\s+){port}/, 'nc freebsd -lun {port}');
+            } else if (/^rcat listen/.test(command) && !/\s-u(\s|$)/.test(command)) {
+                command = command.replace(/^(rcat listen)(\s+)/, '$1 -u$2');
+            } else if (/^python3 -m pwncat( -m windows)?(\s+)/.test(command) && !/\s-u(\s|$)/.test(command)) {
+                command = command.replace(/^(python3 -m pwncat( -m windows)?)(\s+)/, '$1 -u$3');
+            } else if (/^socat\b/.test(command)) {
+                command = command.replace(/TCP-LISTEN:/g, 'UDP-LISTEN:').replace(/TCP:/g, 'UDP:');
+            } else if (/^openssl\b/.test(command)) {
+                const dtlsCmd = 'openssl s_server -dtls -accept {port} -cert server-cert.pem -key server-key.pem';
+                command = '<code>' + dtlsCmd + '</code>';
+            } else if (/^msfconsole\b/.test(command)) {
+                udpSupported = false;
+                command = '<span class="highlighted-warning">Warning: UDP payloads are not currently supported in msfconsole by this generator.</span>';
+            } else if (/^powercat\b/.test(command)) {
+                udpSupported = false;
+                command = '<span class="highlighted-warning">Warning: powercat does not support UDP listeners.</span>';
+            } else if (/hoaxshell-listener\.py/.test(command)) {
+                udpSupported = false;
+                command = '<span class="highlighted-warning">Warning: hoaxshell does not support UDP listeners.</span>';
+            } else if (/stty raw -echo; \(stty size; cat\) \| nc /.test(command)) {
+                udpSupported = false;
+                command = '<span class="highlighted-warning">Warning: UDP is not natively supported for Windows ConPty listeners.</span>';
+            }
+            if (!udpSupported && !/highlighted-warning/.test(command)) {
+                command = '<span class="highlighted-warning">Warning: This listener may not support UDP. Please verify manually.</span>';
+            }
+        }
+
         command = rsg.highlightParameters(command)
         command = command.replace('{port}', rsg.getPort())
         command = command.replace('{ip}', rsg.getIP())
@@ -441,6 +496,13 @@ const rsg = {
             privilegeWarning.style.visibility = "hidden";
         }
 
+        let icon = '🚀';
+        if (/<span class=\"highlighted-warning\">|Warning:|Error:|💥/.test(command)) {
+            icon = '💥';
+        }
+        // Set the icon in the .prompt-sign element (do not change HTML or styles)
+        const promptSign = listenerCommand.parentElement.querySelector('.prompt-sign');
+        if (promptSign) promptSign.textContent = icon;
         listenerCommand.innerHTML = command;
     },
 
@@ -454,6 +516,17 @@ const rsg = {
     updateReverseShellCommand: () => {
         const command = rsg.generateReverseShellCommand();
         const commandSelector = rsg.uiElements[rsg.commandType].command;
+        // Set dynamic icon (🚀 for normal, 💥 for error/warning)
+        let icon = '🚀';
+        if (/<span class=\"highlighted-warning\">|Warning:|Error:|💥/.test(command)) {
+            icon = '💥';
+        }
+        // Set the icon in the .prompt-sign element for the current command area
+        const commandPre = document.querySelector(commandSelector);
+        if (commandPre && commandPre.parentElement) {
+            const promptSign = commandPre.parentElement.querySelector('.prompt-sign');
+            if (promptSign) promptSign.textContent = icon;
+        }
         document.querySelector(commandSelector).innerHTML = command;
     },
 
