@@ -384,7 +384,9 @@ const rsg = {
                 commandType: rsg.commandType
             }
         );
-
+        const listSelectionSelector = rsg.uiElements[rsg.commandType].listSelection;
+        const listSelectionElement = document.querySelector(listSelectionSelector);
+        const previousScrollTop = listSelectionElement?.scrollTop || 0;
         const documentFragment = document.createDocumentFragment();
         if (filteredItems.length === 0) {
             const emptyMessage = document.createElement("button");
@@ -421,8 +423,8 @@ const rsg = {
             documentFragment.appendChild(selectionButton);
         })
 
-        const listSelectionSelector = rsg.uiElements[rsg.commandType].listSelection;
-        document.querySelector(listSelectionSelector).replaceChildren(documentFragment)
+        listSelectionElement.replaceChildren(documentFragment);
+        listSelectionElement.scrollTop = previousScrollTop;
     },
 
     updateListenerCommand: () => {
