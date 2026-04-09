@@ -130,16 +130,19 @@ const toBytes = function (ip, port) {
 
     if (ip.split('.').length == 4) {
         ip = ip.split('.').map(x => {
-            if (!isNaN(octet = parseInt(x)) && ((octet >= 0) && (octet <= 0xFF)))
+            let octet = parseInt(x);
+            if (!isNaN(octet) && ((octet >= 0) && (octet <= 0xFF)))
                 return `\\x${octet.toString(16).padStart(2, 0)}`;
             return "\\x..";
         }).join('');
     }
+    else ip = "\\x..\\x..\\x..\\x..";
 
     if (!isNaN(port = parseInt(port))) {
         port = port.toString(16).padStart(4, 0);
         port = port.match(/.{2}/g).map(b => `\\x${b}`).join('');
     }
+    else port = "\\x..\\x..";
 
     return {ip, port};
 }
@@ -373,7 +376,7 @@ const rsg = {
         let port  = rsg.getPort();
         let shell = rsg.getShell();
 
-        if (rsg.commandType === "Assembled") {  
+        if (rsg.commandType === CommandType.Assembled) {  
             const {ip: _ip, port: _port} = toBytes(ip, port)
             ip = _ip; port = _port
         }

