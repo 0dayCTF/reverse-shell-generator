@@ -373,8 +373,7 @@ const rsg = {
         let port  = rsg.getPort();
         let shell = rsg.getShell();
 
-        if (rsg.commandType === "Assembled")
-        {  
+        if (rsg.commandType === "Assembled") {  
             const {ip: _ip, port: _port} = toBytes(ip, port)
             ip = _ip; port = _port
         }
