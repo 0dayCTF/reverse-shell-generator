@@ -13,6 +13,7 @@ const reverseShellCommand = document.querySelector("#reverse-shell-command");
 const bindShellCommand = document.querySelector("#bind-shell-command");
 const msfVenomCommand = document.querySelector("#msfvenom-command");
 const hoaxShellCommand = document.querySelector("#hoaxshell-command");
+const assembledCommand = document.querySelector("#assembled-command");
 
 const FilterOperatingSystemType = {
     'All': 'all',
@@ -79,6 +80,14 @@ document.querySelector("#hoaxshell-tab").addEventListener("click", () => {
     });
 });
 
+document.querySelector("#assembled-tab").addEventListener("click", () => {
+    document.querySelector("#assembled-selection").innerHTML = "";
+    rsg.setState({
+        commandType: CommandType.Assembled,
+        encoding: "None"
+    });
+});
+
 var rawLinkButtons = document.querySelectorAll('.raw-listener');
 for (const button of rawLinkButtons) {
     button.addEventListener("click", () => {
@@ -117,6 +126,27 @@ const parsePortOrDefault = function (value, defaultPort = 9001) {
     return isValidPort ? number : defaultPort;
 };
 
+const toBytes = function (ip, port) {
+
+    if (ip.split('.').length == 4) {
+        ip = ip.split('.').map(x => {
+            let octet = parseInt(x);
+            if (!isNaN(octet) && ((octet >= 0) && (octet <= 0xFF)))
+                return `\\x${octet.toString(16).padStart(2, 0)}`;
+            return "\\x..";
+        }).join('');
+    }
+    else ip = "\\x..\\x..\\x..\\x..";
+
+    if (!isNaN(port = parseInt(port))) {
+        port = port.toString(16).padStart(4, 0);
+        port = port.match(/.{2}/g).map(b => `\\x${b}`).join('');
+    }
+    else port = "\\x..\\x..";
+
+    return {ip, port};
+}
+
 const rsg = {
     ip: (query.get('ip') || localStorage.getItem('ip') || '10.10.10.10').replace(/[^a-zA-Z0-9.\-]/g, ''),
     port: parsePortOrDefault(query.get('port') || localStorage.getItem('port')),
@@ -130,6 +160,7 @@ const rsg = {
         [CommandType.BindShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.BindShell })[0].name,
         [CommandType.MSFVenom]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.MSFVenom })[0].name,
         [CommandType.HoaxShell]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.HoaxShell })[0].name,
+        [CommandType.Assembled]: filterCommandData(rsgData.reverseShellCommands, { commandType: CommandType.Assembled })[0].name,
     },
     commandType: CommandType.ReverseShell,
     filterOperatingSystem: query.get('filterOperatingSystem') || localStorage.getItem('filterOperatingSystem') || FilterOperatingSystemType.All,
@@ -151,6 +182,10 @@ const rsg = {
         [CommandType.HoaxShell]: {
             listSelection: '#hoaxshell-selection',
             command: '#hoaxshell-command'
+        },
+        [CommandType.Assembled]: {
+            listSelection: '#assembled-selection',
+            command: '#assembled-command'
         }
     },
 
@@ -253,9 +288,6 @@ const rsg = {
             command = rsg.getReverseShellCommand()
         }
         
-
-
-
         const encoding = rsg.getEncoding();
         if (encoding === 'Base64') {
             command = rsg.insertParameters(command, (text) => text)
@@ -339,10 +371,21 @@ const rsg = {
     },
 
     insertParameters: (command, encoder) => {
+
+        let ip    = rsg.getIP();
+        let port  = rsg.getPort();
+        let shell = rsg.getShell();
+
+        if (rsg.commandType === CommandType.Assembled) {  
+            const {ip: _ip, port: _port} = toBytes(ip, port)
+            ip = _ip; port = _port
+        }
+
         return command
-            .replaceAll(encoder('{ip}'), encoder(rsg.getIP()))
-            .replaceAll(encoder('{port}'), encoder(String(rsg.getPort())))
-            .replaceAll(encoder('{shell}'), encoder(rsg.getShell()))
+            .replaceAll(encoder('{ip}'), encoder(ip))
+            .replaceAll(encoder('{port}'), encoder(String(port)))
+            .replaceAll(encoder('{shell}'), encoder(shell))
+
     },
 
     update: () => {
@@ -485,6 +528,8 @@ const rsg = {
             }
         }
 
+
+
         command = rsg.highlightParameters(command)
         command = command.replace('{port}', rsg.getPort())
         command = command.replace('{ip}', rsg.getIP())
@@ -615,6 +660,10 @@ document.querySelector('#copy-msfvenom-command').addEventListener('click', () =>
 
 document.querySelector('#copy-hoaxshell-command').addEventListener('click', () => {
     rsg.copyToClipboard(hoaxShellCommand.innerText)
+})
+
+document.querySelector('#copy-assembled-command').addEventListener('click', () => {
+    rsg.copyToClipboard(assembledCommand.innerText)
 })
 
 var downloadButton = document.querySelectorAll(".download-svg");

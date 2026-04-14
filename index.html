@@ -207,6 +207,10 @@
                 <a class="nav-link" id="hoaxshell-tab" data-toggle="tab" href="#hoaxshell" role="tab"
                     aria-controls="msfvenom" aria-selected="false">HoaxShell</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="assembled-tab" data-toggle="tab" href="#assembled" role="tab"
+                    aria-controls="assembled" aria-selected="false">Assembled</a>
+            </li>
             <!-- <li class="nav-item">
                 <a class="nav-link disabled" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
                     aria-controls="settings" aria-selected="false" aria-disabled="true">Settings</a>
@@ -503,6 +507,34 @@
                         </div>
                     </div>
                     <!-- /hoaxshell Tab -->
+
+                    <!-- Assembled Tab -->
+                    <div class="tab-pane" id="assembled" role="tabpanel" aria-labelledby="assembled-tab">
+                        <div class="card-text mt-4">
+                            <div class="row">
+                                <div class="col-12 col-md-3">
+                                    <div id="assembled-selection" class="list-group overflow-auto" style="max-height: 520px">
+                                        <!-- filled by init() -->
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-9 d-flex flex-column">
+                                    <div class="row flex-grow-1">
+                                        <div class="col position-relative">
+                                            <pre class="prompt-sign">🚀</pre>
+                                            <pre id="assembled-command" class="bg-dark border pre-wrap text-break p-4 pl-5"
+                                                spellcheck="false" style="outline: none; font-size:1em;" contenteditable="true"></pre>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-end mr-1">
+                                        <button id="copy-assembled-command" data-toggle="tooltip" title="Copy to clipboard"
+                                            type="button" class="btn btn-primary float-right">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Assembled Tab -->
+
                 </div>
             </div>
         </div>
