@@ -201,6 +201,45 @@ const rsg = {
         }
     },
 
+    downloadAllShells: () => {
+        const filteredItems = filterCommandData(
+            rsgData.reverseShellCommands,
+            {
+                filterOperatingSystem: rsg.filterOperatingSystem,
+                filterText: rsg.filterText,
+                commandType: rsg.commandType
+            }
+        );
+
+        if (filteredItems.length === 0) {
+            return;
+        }
+
+        let content = '';
+
+        filteredItems.forEach((item, index) => {
+            const tempSelectedValue = rsg.selectedValues[rsg.commandType];
+            rsg.selectedValues[rsg.commandType] = item.name;
+            const command = rsg.insertParameters(item.command, (text) => text);
+            rsg.selectedValues[rsg.commandType] = tempSelectedValue;
+            
+            content += command;
+            if (index < filteredItems.length - 1) {
+                content += '\n-----\n';
+            }
+        });
+
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `reverse-shells-${rsg.filterOperatingSystem}-${rsg.commandType}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    },
+
     escapeHTML: (text) => {
         let element = document.createElement('p');
         element.textContent = text;
@@ -688,6 +727,11 @@ for (const Dbutton of downloadButton) {
         });
     });
 }
+
+// Add event listener for download all shells button
+document.getElementById("download-all-shells").addEventListener("click", () => {
+    rsg.downloadAllShells();
+});
 
 // autoCopySwitch.addEventListener("change", () => {
 //     setLocalStorage(autoCopySwitch, "auto-copy", "checked");
